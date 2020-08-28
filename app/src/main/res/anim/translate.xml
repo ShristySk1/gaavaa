@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:fillAfter="true">
+
+    <!--    <translate-->
+    <!--        android:startOffset="5000"-->
+    <!--        android:fromXDelta="50%"-->
+    <!--        android:toXDelta="0%"-->
+    <!--        android:duration="8000" />-->
+    <!--//scale do that height 0 huna sakos-->
+    <!--    <scale-->
+    <!--        android:duration="500"-->
+    <!--        android:fromXScale="1.0"-->
+    <!--        android:fromYScale="1.0"-->
+    <!--        android:interpolator="@android:anim/linear_interpolator"-->
+    <!--        android:toXScale="1.0"-->
+    <!--        android:toYScale="0.0" />-->
+    <translate
+        android:duration="600"
+        android:fromXDelta="0%"
+        android:fromYDelta="0%p"
+        android:pivotX="50%p"
+        android:pivotY="50%p"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:toXDelta="0%"
+        android:toYDelta="-33%p" />
+    <!--//scale do that height 0 huna sakos-->
+    <!--        <scale-->
+    <!--            android:duration="500"-->
+    <!--            android:fromXScale="1.0"-->
+    <!--            android:fromYScale="1.0"-->
+    <!--            android:pivotY="50%"-->
+    <!--            android:pivotX="50%"-->
+    <!--            android:interpolator="@android:anim/linear_interpolator"-->
+    <!--            android:toXScale="0.9"-->
+    <!--            android:toYScale="0.9" />-->
+</set>
