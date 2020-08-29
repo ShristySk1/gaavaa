@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                     .replace(R.id.main_fragment, new FragmentShop())
-                    .addToBackStack(null).commit();
+                    .commit();
 
         }
 
@@ -162,5 +162,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             bottomnav.setVisibility(View.GONE);
         }
+    }
+
+    public void changeFragment(Fragment selectedFragment){
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                .replace(R.id.main_fragment, selectedFragment)
+                .addToBackStack(null).commit();
     }
 }

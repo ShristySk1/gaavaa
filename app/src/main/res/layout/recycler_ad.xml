@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="180dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp">
+
+    <RelativeLayout
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLime"
+        android:paddingStart="20dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_marginVertical="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Purva Mart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:id="@+id/text_discount"
+            android:layout_marginVertical="10dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="DISCOUNT 25% ALL FRUITS"
+            android:layout_below="@+id/text1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_below="@id/text_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check Now"
+            android:layout_marginVertical="10dp"
+            android:paddingHorizontal="25dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_orange"
+            />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/text_discount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/fruit_image"
+            android:scaleType="fitEnd"
+            />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

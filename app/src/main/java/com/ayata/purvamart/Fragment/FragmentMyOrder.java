@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 
 public class FragmentMyOrder extends Fragment implements View.OnClickListener {
@@ -27,6 +28,9 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_my_order, container, false);
 
+        //toolbar
+        ((MainActivity)getActivity()).setToolbarType3("My Order");
+
         initView();
 
         if(view.findViewById(R.id.fragment_order)!=null){
@@ -38,7 +42,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
             getChildFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                     .replace(R.id.fragment_order, new FragmentEmptyOrder())
-                    .addToBackStack(null).commit();
+                    .commit();
 
         }
 
