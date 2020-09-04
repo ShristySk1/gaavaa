@@ -2,4 +2,14 @@
     <string name="app_name">PurvaMart</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--    fragment product-->
+    <string name="product_title">Cabbage Savoy</string>
+    <string name="product_price_old">$1.20/kg</string>
+    <string name="product_price_new">$1.35</string>
+    <string name="product_detail_title">Product Details</string>
+    <string name="maybe_you_likes">Maybe You Likes</string>
+    <string name="product_description">making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</string>
+    <string name="add_to_cart">Add To Cart</string>
 </resources>

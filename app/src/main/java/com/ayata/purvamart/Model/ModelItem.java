@@ -1,10 +1,13 @@
 package com.ayata.purvamart.Model;
 
-public class ModelItem {
+import java.io.Serializable;
+
+public class ModelItem implements Serializable {
 
     private String name, price, prev_price, discount_percent, quantity;
     private int image;
     private Boolean discount;
+    private Double totalPrice;
 
     public ModelItem(String name, String price, String prev_price, int image,String quantity, Boolean discount, String discount_percent) {
         this.name = name;
@@ -70,5 +73,13 @@ public class ModelItem {
 
     public void setDiscount(Boolean discount) {
         this.discount = discount;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

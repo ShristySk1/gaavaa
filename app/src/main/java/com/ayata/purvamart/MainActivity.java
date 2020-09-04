@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.Fragment.FragmentAccount;
+import com.ayata.purvamart.Fragment.FragmentCart;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
 import com.ayata.purvamart.Fragment.FragmentShop;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.nav_cart:
                             setToolbarType3("Cart");
-                            selectedFragment = new FragmentShop();
+                            selectedFragment = new FragmentCart();
                             break;
 
                         case R.id.nav_order:
