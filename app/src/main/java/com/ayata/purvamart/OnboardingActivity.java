@@ -25,6 +25,14 @@ public class OnboardingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btn_LoginGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OnboardingActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

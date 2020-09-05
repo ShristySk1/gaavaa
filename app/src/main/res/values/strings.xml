@@ -3,6 +3,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--    account-->
+    <string name="acc_rv_text11">Profile Settings</string>
+    <string name="acc_rv_text12">Change Your Basic Profile</string>
+    <string name="acc_rv_text21">Promos</string>
+    <string name="acc_rv_text22">Latest Promo from us</string>
+    <string name="acc_rv_text31">My Delivery Address</string>
+    <string name="acc_rv_text32">Your Address for delivery</string>
+    <string name="acc_rv_text41">Terms, Privacy &amp; Policy</string>
+    <string name="acc_rv_text42">Things you need to know</string>
+    <string name="acc_rv_text51">Help &amp; Support</string>
+    <string name="acc_rv_text52">Get support from us</string>
+
 
     <!--    fragment product-->
     <string name="product_title">Cabbage Savoy</string>
@@ -12,4 +24,5 @@
     <string name="maybe_you_likes">Maybe You Likes</string>
     <string name="product_description">making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</string>
     <string name="add_to_cart">Add To Cart</string>
+
 </resources>

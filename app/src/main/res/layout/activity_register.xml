@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:clickable="false"
-                    app:srcCompat="@drawable/ic_google" />
+                    android:src="@drawable/ic_google" />
 
                 <TextView
                     android:id="@+id/pf_tv_edit"
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:clickable="false"
-                    app:srcCompat="@drawable/ic_facebook" />
+                    android:src="@drawable/ic_facebook" />
 
                 <TextView
                     android:layout_width="wrap_content"

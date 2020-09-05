@@ -29,7 +29,10 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
         view= inflater.inflate(R.layout.fragment_my_order, container, false);
 
         //toolbar
+        ((MainActivity)getActivity()).showToolbar();
         ((MainActivity)getActivity()).setToolbarType3("My Order");
+        //bottom nav bar
+        ((MainActivity)getActivity()).showBottomNavBar(true);
 
         initView();
 

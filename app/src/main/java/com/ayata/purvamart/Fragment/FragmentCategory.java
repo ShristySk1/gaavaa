@@ -35,6 +35,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         view= inflater.inflate(R.layout.fragment_category, container, false);
 
         //toolbar
+        ((MainActivity)getActivity()).showToolbar();
         Bundle bundle = this.getArguments();
         String toolbar_title="List";
         if(bundle!=null) {
@@ -42,6 +43,9 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         }
         ((MainActivity)getActivity()).setToolbarType2(toolbar_title,false);
         //toolbar end
+
+        //bottom nav bar
+        ((MainActivity)getActivity()).showBottomNavBar(true);
 
         listitem= new ArrayList<>();
         populateData();

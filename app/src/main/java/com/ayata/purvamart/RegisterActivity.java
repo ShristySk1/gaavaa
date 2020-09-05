@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -21,10 +22,10 @@ import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RegisterActivity extends AppCompatActivity{
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int COUNT_MIN = 6;
     private static final String TAG = "registeractivity";
-    Button btn_create_account;
+    Button btn_create_account, btn_google, btn_facebook;
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
     View toolbar;
     TextInputLayout textEmail, textPassword, textConfirmPassword;
@@ -41,16 +42,13 @@ public class RegisterActivity extends AppCompatActivity{
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
         btn_create_account = findViewById(R.id.btn_create_account);
         setToolbarType2("", false);
-        btn_create_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                if (!validateEmail() | !validatePassword()) {
-//                    return;
-//                }
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        btn_create_account.setOnClickListener(this);
+
+        btn_google= findViewById(R.id.btn_create_google);
+        btn_facebook= findViewById(R.id.btn_create_facebook);
+
+        btn_google.setOnClickListener(this);
+        btn_facebook.setOnClickListener(this);
     }
 
     public void setToolbarType2(String title, Boolean shareIcon) {
@@ -115,6 +113,27 @@ public class RegisterActivity extends AppCompatActivity{
         } else {
             textConfirmPassword.setError(null);
             return true;
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_create_account:
+//                if (!validateEmail() | !validatePassword()) {
+//                    return;
+//                }
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.btn_create_facebook:
+                Toast.makeText(this, "Facebook Register Clicked", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btn_create_google:
+                Toast.makeText(this, "Google Register Clicked", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 }

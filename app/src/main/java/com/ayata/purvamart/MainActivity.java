@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.ayata.purvamart.Fragment.FragmentAccount;
 import com.ayata.purvamart.Fragment.FragmentCart;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
+import com.ayata.purvamart.Fragment.FragmentPayment;
 import com.ayata.purvamart.Fragment.FragmentShop;
+import com.ayata.purvamart.Fragment.FragmentTrackMyOrder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         toolbarType2=toolbar.findViewById(R.id.appbar2);
         toolbarType3=toolbar.findViewById(R.id.appbar3);
 
+        showToolbar();
+
         setToolbarType1();
 
         if(findViewById(R.id.main_fragment)!=null){
@@ -52,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomnav = findViewById(R.id.main_bottom_navigation);
         bottomnav.setOnNavigationItemSelectedListener(navListener);
+
+        showBottomNavBar(true);
+
 
     }
 

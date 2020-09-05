@@ -40,7 +40,12 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
         //toolbar
-        ((MainActivity) getActivity()).setToolbarType2("", false);
+        ((MainActivity)getActivity()).showToolbar();
+        ((MainActivity) getActivity()).setToolbarType2("", true);
+
+        //bottom nav
+        ((MainActivity)getActivity()).showBottomNavBar(false);
+
         initView(view);
         return view;
     }

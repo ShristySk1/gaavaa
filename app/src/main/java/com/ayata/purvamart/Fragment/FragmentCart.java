@@ -41,7 +41,12 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        //toolbar
+        ((MainActivity)getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("Cart");
+        //bottom nav
+        ((MainActivity)getActivity()).showBottomNavBar(true);
+
         initView(view);
         dataPrepare();
         setUpRecyclerView();
@@ -49,6 +54,7 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
             @Override
             public void onClick(View view) {
                 //Intent
+                ((MainActivity)getActivity()).changeFragment(new FragmentPayment());
             }
         });
         return view;

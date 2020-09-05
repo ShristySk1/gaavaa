@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginBottom="4dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -82,7 +83,7 @@
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/text_cart_productPrice"
         app:layout_constraintEnd_toEndOf="@+id/text_cart_productDiscount"
-        app:srcCompat="@drawable/ic_plus" />
+        android:src="@drawable/ic_plus" />
 
     <ImageButton
         android:id="@+id/imageButton_minus"
@@ -93,7 +94,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageButton_add"
         app:layout_constraintEnd_toStartOf="@+id/text_cart_productQuantity"
         app:layout_constraintTop_toTopOf="@+id/imageButton_add"
-        app:srcCompat="@drawable/ic_minus" />
+        android:src="@drawable/ic_minus" />
 
     <TextView
         android:id="@+id/text_cart_productQuantity"
@@ -110,7 +111,7 @@
         android:id="@+id/view3"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:background="@color/colorGray"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintHorizontal_bias="0.0"
