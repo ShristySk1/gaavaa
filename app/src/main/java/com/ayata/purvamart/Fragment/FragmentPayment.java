@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
@@ -24,6 +25,8 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
     private LinearLayout pay_esewa, pay_khalti;
     private Button btn_payment;
 
+    private TextView price_text, total_text, delivery_text;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(false);
 
+        setPrice("200","Free","200");
+
         add_payment=view.findViewById(R.id.pay_add_payment);
         add_payment.setOnClickListener(this);
 
@@ -49,7 +54,19 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
         btn_payment=view.findViewById(R.id.pay_btn);
         btn_payment.setOnClickListener(this);
 
+
+
         return view;
+    }
+
+    private void setPrice(String price, String delivery, String total){
+        price_text= view.findViewById(R.id.pay_orderprice);
+        total_text= view.findViewById(R.id.pay_total);
+        delivery_text= view.findViewById(R.id.pay_delivery);
+
+        price_text.setText("Rs. "+price);
+        total_text.setText("Rs. "+total);
+        delivery_text.setText(delivery);
     }
 
     @Override

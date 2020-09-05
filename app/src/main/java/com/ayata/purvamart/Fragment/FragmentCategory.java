@@ -79,5 +79,10 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getContext(), "Item---"+listitem.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Bundle bundle= new Bundle();
+        bundle.putSerializable(FragmentProduct.MODEL_ITEM,listitem.get(position));
+        FragmentProduct fragmentProduct= new FragmentProduct();
+        fragmentProduct.setArguments(bundle);
+        ((MainActivity)getActivity()).changeFragment(fragmentProduct);
     }
 }

@@ -13,5 +13,14 @@
         <item name="colorPrimaryDark">@color/colorGray</item>
         <item name="colorAccent">@color/colorGray</item>
     </style>
-
+    <style name="CustomTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <!--        <item name="boxStrokeColor">@color/text_input_stroke</item>-->
+        <item name="colorControlNormal">@android:color/tertiary_text_dark</item>
+        <item name="colorControlActivated">@color/colorGreen</item>
+        <item name="android:textColorHint">#ccc</item>
+        <item name="errorTextColor">@color/colorYellow</item>
+    </style>
+    <style name="CustomButtonWhite" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_white</item>
+    </style>
 </resources>

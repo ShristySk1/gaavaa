@@ -141,10 +141,11 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onItemClick(int position) {
 
         Toast.makeText(getContext(), "Item--"+list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
-        getFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
-                .replace(R.id.main_fragment, new FragmentPayment())
-                .addToBackStack(null).commit();
+        Bundle bundle= new Bundle();
+        bundle.putSerializable(FragmentProduct.MODEL_ITEM,list_madeforyou.get(position));
+        FragmentProduct fragmentProduct= new FragmentProduct();
+        fragmentProduct.setArguments(bundle);
+        ((MainActivity)getActivity()).changeFragment(fragmentProduct);
 
     }
 
