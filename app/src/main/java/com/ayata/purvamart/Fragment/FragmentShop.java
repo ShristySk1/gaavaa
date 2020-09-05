@@ -52,7 +52,10 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         view= inflater.inflate(R.layout.fragment_shop, container, false);
 
         //toolbar
+        ((MainActivity)getActivity()).showToolbar();
         ((MainActivity)getActivity()).setToolbarType1();
+        //bottom nav bar
+        ((MainActivity)getActivity()).showBottomNavBar(true);
 
 
         initView();
@@ -138,6 +141,10 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onItemClick(int position) {
 
         Toast.makeText(getContext(), "Item--"+list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.main_fragment, new FragmentPayment())
+                .addToBackStack(null).commit();
 
     }
 
