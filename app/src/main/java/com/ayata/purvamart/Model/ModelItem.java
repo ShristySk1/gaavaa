@@ -8,6 +8,7 @@ public class ModelItem implements Serializable {
     private int image;
     private Boolean discount;
     private Double totalPrice;
+    private int count;
 
     public ModelItem(String name, String price, String prev_price, int image,String quantity, Boolean discount, String discount_percent) {
         this.name = name;
@@ -18,7 +19,16 @@ public class ModelItem implements Serializable {
         this.quantity = quantity;
         this.discount = discount;
     }
-
+    public ModelItem(String name, String price, String prev_price, int image,String quantity, Boolean discount, String discount_percent,int count) {
+        this.name = name;
+        this.price = price;
+        this.prev_price = prev_price;
+        this.image = image;
+        this.discount_percent = discount_percent;
+        this.quantity = quantity;
+        this.discount = discount;
+        this.count=count;
+    }
     public String getName() {
         return name;
     }
@@ -81,5 +91,13 @@ public class ModelItem implements Serializable {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

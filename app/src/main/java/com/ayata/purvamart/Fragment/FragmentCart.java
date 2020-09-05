@@ -14,6 +14,8 @@ import com.ayata.purvamart.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,11 +57,11 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     private void dataPrepare() {
         modelItemList = new ArrayList<>();
         modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "15%"));
+                R.drawable.spinach, "1 kg", true, "15%", 1));
         modelItemList.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-                R.drawable.tomato, "1 kg", false, "0%"));
+                R.drawable.tomato, "1 kg", false, "0%", 1));
         modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "15%"));
+                R.drawable.spinach, "1 kg", true, "10%", 2));
     }
 
     private void setUpRecyclerView() {
@@ -81,7 +83,44 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     }
 
     @Override
+    public void onAddClick(ModelItem modelItem, int position) {
+        Integer count = modelItem.getCount();
+        count++;
+        modelItem.setCount(count);
+        modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()) , modelItem.getCount()));
+        adapterCart.notifyItemChanged(position);
+
+    }
+
+    @Override
+    public void onMinusClick(ModelItem modelItem, int position) {
+        Integer count = modelItem.getCount();
+        if (count > 1) {
+            count--;
+            modelItem.setCount(count);
+            modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
+            adapterCart.notifyItemChanged(position);
+        } else {
+            modelItemList.remove(position);
+            adapterCart.notifyItemRemoved(position);
+        }
+    }
+
+    @Override
     public void onCartItemClick(int position) {
 
     }
+
+    Double getPriceOnly(String textPrice) {
+        Pattern PRICE_PATTERN = Pattern.compile("(\\d*\\.)?\\d+");
+        Matcher matcher = PRICE_PATTERN.matcher(textPrice);
+        while (matcher.find()) {
+            return Double.parseDouble(matcher.group());
+        }
+        return 1.00;
+    }
+    private double calculatePrice(Double price, int quantity) {
+        return price * quantity;
+    }
+
 }

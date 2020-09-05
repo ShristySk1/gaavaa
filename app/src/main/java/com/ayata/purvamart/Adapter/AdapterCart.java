@@ -1,7 +1,6 @@
 package com.ayata.purvamart.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,14 +45,17 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         ModelItem modelItem = listitem.get(position);
         String price = modelItem.getPrice();
         String discount = modelItem.getDiscount_percent();
-        String quantity = "" + 1;
         Double totalprice = modelItem.getTotalPrice();
+        Integer count=modelItem.getCount();
         String name = modelItem.getName();
+        //bind data
         holder.textName.setText(name);
         holder.textPrice.setText(price + "/kg");
-        holder.textQuantity.setText("" + 1);
+        holder.textCount.setText(count.toString());
         holder.textTotalPrice.setText("Rs. " + totalprice.toString());
+        //handle discount
         if (modelItem.getDiscount()) {
+            holder.textDiscount.setVisibility(View.VISIBLE);
             holder.textDiscount.setText(discount);
         } else {
             holder.textDiscount.setVisibility(View.GONE);
@@ -72,12 +73,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
 
         OnCartItemClickListener onCategoryClickListener;
         ImageView image;
-        TextView textName, textTotalPrice, textPrice, textQuantity, textDiscount;
+        TextView textName, textTotalPrice, textPrice, textCount, textDiscount;
         ImageButton add, minus;
-        int quantity;
-        Double price;
-        Double totalPrice;
-
         public modelViewHolder(@NonNull View itemView, OnCartItemClickListener onCategoryClickListener) {
             super(itemView);
             this.onCategoryClickListener = onCategoryClickListener;
@@ -85,7 +82,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             textName = itemView.findViewById(R.id.text_cart_productName);
             textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
             textPrice = itemView.findViewById(R.id.text_cart_pricePerKg);
-            textQuantity = itemView.findViewById(R.id.text_cart_productQuantity);
+            textCount = itemView.findViewById(R.id.text_cart_productQuantity);
             textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
             add = itemView.findViewById(R.id.imageButton_add);
             minus = itemView.findViewById(R.id.imageButton_minus);
@@ -93,39 +90,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    quantity = Integer.parseInt(textQuantity.getText().toString());
-                    quantity++;
-                    textQuantity.setText("" + quantity);
-                    try {
-                        price = getPriceOnly(textPrice.getText().toString());
-                        totalPrice = calculatePrice(price, quantity);
-                        textTotalPrice.setText("Rs. " + totalPrice);
-                        listitem.get(getAdapterPosition()).setTotalPrice(totalPrice);
-                        setTotalInFragment();
-                    } catch (Exception e) {
-                    }
+                    onCartClickListener.onAddClick(listitem.get(getAdapterPosition()),getAdapterPosition());
+                    setTotalInFragment();
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    quantity = Integer.parseInt(textQuantity.getText().toString());
-                    if (quantity > 1) {
-                        quantity--;
-                        textQuantity.setText("" + quantity);
-                        try {
-                            price = getPriceOnly(textPrice.getText().toString());
-                            totalPrice = calculatePrice(price, quantity);
-                            textTotalPrice.setText("Rs. " + totalPrice);
-                            listitem.get(getAdapterPosition()).setTotalPrice(totalPrice);
-                            setTotalInFragment();
-                        } catch (Exception e) {
-                        }
-                    } else {
-                        listitem.remove(getAdapterPosition());
-                        notifyItemRemoved(getAdapterPosition());
-                        setTotalInFragment();
-                    }
+                   onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()),getAdapterPosition());
+                   setTotalInFragment();
                 }
             });
 
@@ -137,12 +110,12 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         }
     }
 
-    private double calculatePrice(Double price, int quantity) {
-        return price * quantity;
-    }
-
     public interface OnCartItemClickListener {
         void onPriceTotalListener(Double total);
+
+        void onAddClick(ModelItem modelItem,int position);
+
+        void onMinusClick(ModelItem modelItem,int position);
 
         void onCartItemClick(int position);
     }
@@ -164,7 +137,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         }
         onCartClickListener.onPriceTotalListener(total);
     }
-    void setTotalPriceInModel(){
+
+    void setTotalPriceInModel() {
         for (int i = 0; i < listitem.size(); i++) {
             Double totalprice = getPriceOnly(listitem.get(i).getPrice());
             listitem.get(i).setTotalPrice(totalprice);
