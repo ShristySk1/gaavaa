@@ -48,26 +48,26 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
 
         switch (count){
             case 0:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorLime));
-                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_orange));
+                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorAd1));
+                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_yellow));
                 count=1;
                 break;
 
             case 1:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorOrange));
-                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_purple));
-                count=2;
-                break;
-
-            case 2:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPurple));
-                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_green));
+                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorAd2));
+                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_yellow));
                 count=0;
                 break;
 
+//            case 2:
+//                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPurple));
+//                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_green));
+//                count=0;
+//                break;
+
             default:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorGreen));
-                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_orange));
+                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorLightGreen));
+                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_yellow));
                 count=1;
                 break;
         }
@@ -82,7 +82,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
     public class modelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView image;
-        TextView title;
+        TextView title,top_text;
         Button button;
         RelativeLayout background;
 
@@ -93,6 +93,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
             title= itemView.findViewById(R.id.text_discount);
             button= itemView.findViewById(R.id.button);
             background= itemView.findViewById(R.id.background);
+            top_text= itemView.findViewById(R.id.text1);
 
             button.setOnClickListener(this);
         }

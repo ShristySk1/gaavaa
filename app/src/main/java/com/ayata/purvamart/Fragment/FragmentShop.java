@@ -35,7 +35,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     private AdapterAd adapterAd;
 
     private List<ModelCategory> list_category;
-    private GridLayoutManager gridLayoutManager_category;
+    private LinearLayoutManager LayoutManager_category;
     private AdapterCategory adapterCategory;
 
     private List<ModelItem> list_madeforyou;
@@ -91,9 +91,10 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         //recycler--categories grid
         list_category= new ArrayList<>();
         populateCategoryList();
-        gridLayoutManager_category= new GridLayoutManager(getContext(),4);
+        LayoutManager_category= new LinearLayoutManager(getContext());
+        LayoutManager_category.setOrientation(RecyclerView.HORIZONTAL);
         adapterCategory= new AdapterCategory(getContext(),list_category,this);
-        recyclerView_category.setLayoutManager(gridLayoutManager_category);
+        recyclerView_category.setLayoutManager(LayoutManager_category);
         recyclerView_category.setAdapter(adapterCategory);
 
         //recycler--made for you--list
@@ -109,32 +110,32 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
     private void populateAdList(){
 
-        list_ad.add(new ModelAd("DISCOUNT 25% ALL FRUITS",R.drawable.fruit_image));
-        list_ad.add(new ModelAd("DISCOUNT 25% ALL VEGETABLES",R.drawable.vegetable_image));
-        list_ad.add(new ModelAd("DISCOUNT 25% ALL FRUITS",R.drawable.fruit_image));
+        list_ad.add(new ModelAd("Fresh fruits","DISCOUNT 25% ALL FRUITS",R.drawable.fruit_image));
+        list_ad.add(new ModelAd("First Order","DISCOUNT 25% ALL VEGETABLES",R.drawable.vegetable_image));
+        list_ad.add(new ModelAd("Fresh fruits","DISCOUNT 25% ALL FRUITS",R.drawable.fruit_image));
     }
 
     private void populateCategoryList(){
 
-        list_category.add(new ModelCategory("SeaFoods", R.drawable.ic_fish));
-        list_category.add(new ModelCategory("Fruits",R.drawable.ic_fruits));
-        list_category.add(new ModelCategory("Vegetables", R.drawable.ic_veggie));
-        list_category.add(new ModelCategory("Bakery",R.drawable.ic_bread));
-        list_category.add(new ModelCategory("Dairy", R.drawable.ic_dairy));
-        list_category.add(new ModelCategory("Meat",R.drawable.ic_meat));
-        list_category.add(new ModelCategory("Frozen", R.drawable.ic_frozen_yogurt));
-        list_category.add(new ModelCategory("Herbs",R.drawable.ic_leaf));
+        list_category.add(new ModelCategory("Spices", R.drawable.spices1));
+        list_category.add(new ModelCategory("Herbs",R.drawable.spices2));
+        list_category.add(new ModelCategory("Tea", R.drawable.spices3));
+        list_category.add(new ModelCategory("Spices",R.drawable.spices1));
+//        list_category.add(new ModelCategory("Dairy", R.drawable.ic_dairy));
+//        list_category.add(new ModelCategory("Meat",R.drawable.ic_meat));
+//        list_category.add(new ModelCategory("Frozen", R.drawable.ic_frozen_yogurt));
+//        list_category.add(new ModelCategory("Herbs",R.drawable.ic_leaf));
 
     }
 
     private void populateMadeForYouList(){
 
         list_madeforyou.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
+                R.drawable.spinach,"1 kg",true,"15% Off"));
         list_madeforyou.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
-                R.drawable.tomato,"1 kg",false,"0%"));
+                R.drawable.tomato,"1 kg",false,"0% Off"));
         list_madeforyou.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
+                R.drawable.spinach,"1 kg",true,"15% Off"));
     }
 
     @Override

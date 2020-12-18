@@ -5,6 +5,10 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,6 +78,7 @@ public class AdapterItem extends RecyclerView.Adapter<AdapterItem.modelViewHolde
         ImageView image;
         TextView name,price,prev_price,discount,quantity;
 
+
         public modelViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             this.onItemClickListener= onItemClickListener;
@@ -84,6 +89,11 @@ public class AdapterItem extends RecyclerView.Adapter<AdapterItem.modelViewHolde
             discount= itemView.findViewById(R.id.button_discount);
             quantity= itemView.findViewById(R.id.text_quantity);
             image= itemView.findViewById(R.id.image);
+
+
+//            RotateAnimation rotate= (RotateAnimation) AnimationUtils.loadAnimation(context,R.anim.rotate_textview);
+//            discount.setAnimation(rotate);
+//            discount.animate().translationY(-215).setDuration(0);
 
             itemView.setOnClickListener(this);
         }

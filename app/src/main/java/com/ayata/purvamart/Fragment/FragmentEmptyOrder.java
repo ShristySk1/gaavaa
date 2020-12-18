@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
@@ -29,6 +30,12 @@ public class FragmentEmptyOrder extends Fragment {
         ((MainActivity)getActivity()).setToolbarType3("My Order");
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(true);
+
+        TextView title= view.findViewById(R.id.text);
+        Bundle bundle= getArguments();
+        if(bundle!=null){
+            title.setText(bundle.getString(FragmentMyOrder.empty_title));
+        }
 
         button= view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {

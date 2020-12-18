@@ -29,6 +29,9 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     TextView textTotal;
     LinearLayout layout_proceed;
 
+    private TextView price_text, total_text, delivery_text;
+    private View view;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,7 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+         view = inflater.inflate(R.layout.fragment_cart, container, false);
         //toolbar
         ((MainActivity)getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("Cart");
@@ -50,6 +53,9 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
         initView(view);
         dataPrepare();
         setUpRecyclerView();
+
+        setPrice("200","Free","200");
+
         layout_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,11 +69,11 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     private void dataPrepare() {
         modelItemList = new ArrayList<>();
         modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "15%", 1));
+                R.drawable.spinach, "1 kg", true, "15% Off", 1));
         modelItemList.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
                 R.drawable.tomato, "1 kg", false, "0%", 1));
         modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "10%", 2));
+                R.drawable.spinach, "1 kg", true, "10% Off", 2));
     }
 
     private void setUpRecyclerView() {
@@ -127,6 +133,17 @@ public class FragmentCart extends Fragment implements AdapterCart.OnCartItemClic
     }
     private double calculatePrice(Double price, int quantity) {
         return price * quantity;
+    }
+
+
+    private void setPrice(String price, String delivery, String total){
+        price_text= view.findViewById(R.id.pay_orderprice);
+        total_text= view.findViewById(R.id.pay_total);
+        delivery_text= view.findViewById(R.id.pay_delivery);
+
+        price_text.setText("Rs. "+price);
+        total_text.setText("Rs. "+total);
+        delivery_text.setText(delivery);
     }
 
 }

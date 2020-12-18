@@ -20,9 +20,18 @@
     <string name="product_title">Cabbage Savoy</string>
     <string name="product_price_old">$1.20/kg</string>
     <string name="product_price_new">$1.35</string>
-    <string name="product_detail_title">Product Details</string>
+    <string name="product_detail_title">About the product</string>
     <string name="maybe_you_likes">Maybe You Likes</string>
-    <string name="product_description">making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</string>
+    <string name="product_description">making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for.
+    making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</string>
     <string name="add_to_cart">Add To Cart</string>
+
+    <string name="eo_text1">You haven’t placed any orders yet.</string>
+    <string name="eo_text2">When you do, their status will appear here.</string>
+    <string name="eo_text3">No orders has been cancelled yet.</string>
+    <string name="ce_text1">Oops! Your cart is empty!</string>
+    <string name="ce_text2">Check our bestsellers and find something for you.</string>
+
+    <string name="shop_now_btn">Shop Now</string>
 
 </resources>

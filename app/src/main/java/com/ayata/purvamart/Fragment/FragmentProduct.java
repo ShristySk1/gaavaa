@@ -52,24 +52,25 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
-        textQuantity = view.findViewById(R.id.text_product_quantity);
-        btn_add = view.findViewById(R.id.imageButton_add);
-        btn_minus = view.findViewById(R.id.imageButton_minus);
+//        textQuantity = view.findViewById(R.id.text_product_quantity);
+//        btn_add = view.findViewById(R.id.imageButton_add);
+//        btn_minus = view.findViewById(R.id.imageButton_minus);
         image_product = view.findViewById(R.id.image_product);
         textProductNewPrice = view.findViewById(R.id.text_product_newPrice);
-        textProductOldPrice = view.findViewById(R.id.text_product_previousPrice);
+//        textProductOldPrice = view.findViewById(R.id.text_product_previousPrice);
         textProductTitle = view.findViewById(R.id.text_product_name);
         textWeight = view.findViewById(R.id.text_product_weight);
-        textDiscount = view.findViewById(R.id.text_product_discount);
-        btn_add.setOnClickListener(this);
-        btn_minus.setOnClickListener(this);
+//        textDiscount = view.findViewById(R.id.text_product_discount);
+//        btn_add.setOnClickListener(this);
+//        btn_minus.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
         //setData
-        textQuantity.setText("0");
+//        textQuantity.setText("0");
         image_product.setImageResource(modelItem.getImage());
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getPrice());
-        handleDiscount();
+        textWeight.setText(modelItem.getQuantity());
+//        handleDiscount();
     }
 
     private void handleDiscount() {
@@ -83,12 +84,12 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imageButton_add:
-                add();
-                break;
-            case R.id.imageButton_minus:
-                minus();
-                break;
+//            case R.id.imageButton_add:
+////                add();
+//                break;
+//            case R.id.imageButton_minus:
+//                minus();
+//                break;
             case R.id.btn_add_to_cart:
                 nextFragment();
                 break;
@@ -99,20 +100,20 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         FragmentCart fragmentCart = new FragmentCart();
         ((MainActivity) getActivity()).changeFragment(fragmentCart);
     }
-
-    private void minus() {
-        if (quantity == 0) {
-            textQuantity.setText("" + quantity);
-        } else {
-            quantity--;
-            textQuantity.setText("" + quantity);
-        }
-    }
-
-    private void add() {
-        quantity++;
-        textQuantity.setText("" + quantity);
-    }
+//
+//    private void minus() {
+//        if (quantity == 0) {
+//            textQuantity.setText("" + quantity);
+//        } else {
+//            quantity--;
+//            textQuantity.setText("" + quantity);
+//        }
+//    }
+//
+//    private void add() {
+//        quantity++;
+//        textQuantity.setText("" + quantity);
+//    }
     private void showDiscount(){
         textProductOldPrice.setVisibility(View.VISIBLE);
         textDiscount.setVisibility(View.VISIBLE);

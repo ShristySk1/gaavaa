@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
     private LinearLayout option1,option2,option3;
     private TextView textView1,textView2,textView3;
     private View line1,line2,line3;
+    public static final String empty_title="EMPTY_TITLE";
 
 
     @Override
@@ -44,7 +44,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
             getChildFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                    .replace(R.id.fragment_order, new FragmentEmptyOrder())
+                    .replace(R.id.fragment_order, new FragmentListOrder())
                     .commit();
 
         }
@@ -76,24 +76,29 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
         Fragment fragment= null;
+        Bundle bundle= new Bundle();
 
         switch (view.getId()){
             case R.id.layout_option1:
                 selectOption1();
-                fragment= new FragmentEmptyOrder();
+                fragment= new FragmentListOrder();
+                bundle.putString(empty_title,getString(R.string.eo_text1));
                 break;
 
             case R.id.layout_option2:
                 selectOption2();
                 fragment= new FragmentEmptyOrder();
+                bundle.putString(empty_title,getString(R.string.eo_text1));
                 break;
 
             case R.id.layout_option3:
                 selectOption3();
                 fragment= new FragmentEmptyOrder();
+                bundle.putString(empty_title,getString(R.string.eo_text3));
                 break;
         }
 
+        fragment.setArguments(bundle);
         getChildFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                 .replace(R.id.fragment_order, fragment)

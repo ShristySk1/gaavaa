@@ -1,270 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.FragmentPayment"
-    android:background="@color/colorWhite">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:background="@color/colorWhite"
+    android:weightSum="2"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pay_cardview"
-            android:layout_width="match_parent"
+
+
+        <TextView
+            android:id="@+id/header1"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            android:layout_margin="15dp">
+            android:text="Select your payment method"
+            android:textStyle="bold"
+            android:textColor="@color/colorGrayDark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <LinearLayout
             android:id="@+id/linear1"
+            android:layout_below="@+id/header1"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="30dp"
+            android:background="@drawable/bluebackground_light">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/esewa"
+                android:clickable="true"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@color/colorGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/esewa_logo"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/esewa_logo"/>
+
+                        <ImageView
+                            android:id="@+id/esewa_check"
+                            android:layout_alignParentEnd="true"
+                            android:visibility="gone"
+                            android:layout_marginEnd="-8dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_check_blue"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/esewa_name"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ayata Inc"/>
+                    <TextView
+                        android:id="@+id/esewa_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="9 8 * * * * 1 2 7"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/khalti"
+                android:clickable="true"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@color/colorPurple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/khalti_logo"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/khalti_logo"/>
+
+                        <ImageView
+                            android:id="@+id/khalti_check"
+                            android:layout_alignParentEnd="true"
+                            android:visibility="gone"
+                            android:layout_marginEnd="-8dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_check_blue"/>
+
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/khalti_name"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ayata Inc"/>
+                    <TextView
+                        android:id="@+id/khalti_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="9 8 * * * * 1 2 7"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_payment_method"
+            android:layout_below="@+id/linear1"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            app:cardElevation="0dp"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/colorGrayLight">
 
             <LinearLayout
                 android:id="@+id/linear2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="15dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/pay_title1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Order Total"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-                <TextView
-                    android:id="@+id/pay_orderprice"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rs. 200"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear3"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="10dp"
-                android:paddingHorizontal="15dp">
-
-                <TextView
-                    android:id="@+id/pay_title3"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery Fee"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-                <TextView
-                    android:id="@+id/pay_delivery"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Free"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear4"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorGrayLight"
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="15dp">
-
-                <TextView
-                    android:id="@+id/pay_title2"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total Payment"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-                <TextView
-                    android:id="@+id/pay_total"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rs. 200"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorGrayDark"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/pay_hearder1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pay_cardview"
-            android:layout_marginHorizontal="15dp"
-            android:text="Choose Payment Method"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pay_esewa"
-            android:layout_below="@+id/pay_hearder1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="10dp"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="10dp"
-           >
-
-        <LinearLayout
-            android:id="@+id/pay_esewa_background"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="12dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/outline_green">
-
-            <ImageView
-                android:id="@+id/pay_esewa_image"
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:src="@drawable/esewa_logo"/>
-
-            <TextView
-                android:id="@+id/pay_esewa_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Esewa Online"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"/>
-
-        </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pay_khalti"
-            android:layout_below="@+id/pay_esewa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="10dp"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="10dp"
-            >
-
-            <LinearLayout
-                android:id="@+id/pay_khalti_background"
-                android:clickable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="12dp"
+                android:paddingStart="25dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:gravity="center_vertical"
-                android:background="@drawable/outline_gray">
+                >
 
                 <ImageView
-                    android:id="@+id/pay_khalti_image"
-                    android:layout_width="80dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/khalti_logo"
-                    android:scaleType="centerCrop"/>
-
-                <TextView
-                    android:id="@+id/pay_khalti_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Khalti Online"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"/>
+                    app:srcCompat="@drawable/ic_add"/>
+
+                <TextView
+                    android:id="@+id/header2"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Payment Method"
+                    android:textColor="@color/colorGrayDark"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pay_add_payment"
-            android:clickable="true"
-            android:layout_below="@+id/pay_khalti"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp">
-
-            <TextView
-                android:layout_marginVertical="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Payment Method"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
-                />
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/pay_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Checkout"
-            android:textAllCaps="false"
-            android:layout_below="@+id/pay_add_payment"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/button_green"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorWhite"
-            android:elevation="5dp"
-            />
 
     </RelativeLayout>
 
-    </ScrollView>
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="@drawable/button_green"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

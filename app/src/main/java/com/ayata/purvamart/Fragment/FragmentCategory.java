@@ -61,19 +61,19 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
     private void populateData(){
         listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
+                R.drawable.spinach,"1 kg",true,"15% Off"));
+        listitem.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
+                R.drawable.tomato,"1 kg",false,"0% Off"));
+        listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
+                R.drawable.spinach,"1 kg",true,"15% Off"));
         listitem.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
                 R.drawable.tomato,"1 kg",false,"0%"));
         listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
+                R.drawable.spinach,"1 kg",true,"15% Off"));
         listitem.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
                 R.drawable.tomato,"1 kg",false,"0%"));
         listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
-        listitem.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
-                R.drawable.tomato,"1 kg",false,"0%"));
-        listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach,"1 kg",true,"15%"));
+                R.drawable.spinach,"1 kg",true,"15% Off"));
     }
 
     @Override
