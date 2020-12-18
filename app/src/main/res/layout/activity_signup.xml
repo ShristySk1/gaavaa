@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,11 +28,11 @@
             android:id="@+id/image_signUp"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/spinach_sign_up"
+            android:src="@drawable/signup"
             app:layout_constraintBottom_toTopOf="@+id/btn_signUp_facebook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_min="200dp"
+            android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_signUpLogo" />
 
@@ -41,14 +41,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/button_black"
-            android:drawableLeft="@drawable/ic_facebook"
+            android:background="@drawable/button_ripple_background"
+            app:drawableLeftCompat="@drawable/ic_facebook"
             android:drawablePadding="-48dp"
             android:paddingLeft="48dp"
             android:text="Sign Up with Facebook"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/btn_signUp_google"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -56,14 +56,16 @@
 
         <Button
             android:id="@+id/btn_signUp_google"
-            style="@style/CustomButtonWhite"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp"
-            android:drawableLeft="@drawable/ic_google"
+            app:drawableLeftCompat="@drawable/ic_google"
             android:drawablePadding="-48dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:paddingLeft="48dp"
+            android:background="@drawable/button_ripple_background"
             android:text="Sign Up with Google"
             android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@id/btn_signUp"
@@ -73,13 +75,14 @@
 
         <Button
             android:id="@+id/btn_signUp"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/button_green"
+            android:layout_marginBottom="32dp"
             android:text="Sign Up"
             android:textAllCaps="false"
+            android:background="@drawable/button_ripple_background_green"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/textView9"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"

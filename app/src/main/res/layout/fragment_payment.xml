@@ -257,7 +257,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/button_green"
+            style="@style/CustomButtonGreen"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorWhite"
             android:elevation="5dp"

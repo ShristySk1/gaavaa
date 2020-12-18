@@ -1,25 +1,23 @@
 package com.ayata.purvamart;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.Fragment.FragmentAccount;
-import com.ayata.purvamart.Fragment.FragmentCart;
+import com.ayata.purvamart.Fragment.FragmentCart1;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
-import com.ayata.purvamart.Fragment.FragmentPayment;
 import com.ayata.purvamart.Fragment.FragmentShop;
-import com.ayata.purvamart.Fragment.FragmentTrackMyOrder;
+import com.ayata.purvamart.Fragment.FragmentTrackOrder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,18 +30,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar= findViewById(R.id.appbar_main);
-        toolbarType1=toolbar.findViewById(R.id.appbar1);
-        toolbarType2=toolbar.findViewById(R.id.appbar2);
-        toolbarType3=toolbar.findViewById(R.id.appbar3);
+        toolbar = findViewById(R.id.appbar_main);
+        toolbarType1 = toolbar.findViewById(R.id.appbar1);
+        toolbarType2 = toolbar.findViewById(R.id.appbar2);
+        toolbarType3 = toolbar.findViewById(R.id.appbar3);
 
         showToolbar();
 
         setToolbarType1();
 
-        if(findViewById(R.id.main_fragment)!=null){
+        if (findViewById(R.id.main_fragment) != null) {
 
-            if(savedInstanceState!=null){
+            if (savedInstanceState != null) {
                 return;
             }
 
@@ -73,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_shop:
                             //samepagex
                             setToolbarType1();
-                            selectedFragment = new FragmentShop();
+                            selectedFragment = new FragmentTrackOrder();
                             break;
 
                         case R.id.nav_cart:
                             setToolbarType3("Cart");
-                            selectedFragment = new FragmentCart();
+                            selectedFragment = new FragmentCart1();
                             break;
 
                         case R.id.nav_order:
@@ -112,19 +110,19 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setVisibility(View.VISIBLE);
     }
 
-    public void setToolbarType1(){
+    public void setToolbarType1() {
 
         toolbarType1.setVisibility(View.VISIBLE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.GONE);
 
         ImageView notification, tag;
-        notification= toolbar.findViewById(R.id.notification);
-        tag= toolbar.findViewById(R.id.tag);
+        notification = toolbar.findViewById(R.id.notification);
+        tag = toolbar.findViewById(R.id.tag);
 
     }
 
-    public void setToolbarType2(String title, Boolean shareIcon){
+    public void setToolbarType2(String title, Boolean shareIcon) {
 
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.VISIBLE);
@@ -134,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
         ImageButton back;
         ImageView share;
 
-        text= toolbar.findViewById(R.id.text_header);
-        back= toolbar.findViewById(R.id.back);
-        share= toolbar.findViewById(R.id.share);
+        text = toolbar.findViewById(R.id.text_header);
+        back = toolbar.findViewById(R.id.back);
+        share = toolbar.findViewById(R.id.share);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(!shareIcon) {
+        if (!shareIcon) {
             share.setVisibility(View.GONE);
         }
 
@@ -153,13 +151,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setToolbarType3(String title){
+    public void setToolbarType3(String title) {
 
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.VISIBLE);
 
-        TextView text= toolbar.findViewById(R.id.title);
+        TextView text = toolbar.findViewById(R.id.title);
         text.setText(title);
 
     }
@@ -172,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void changeFragment(Fragment selectedFragment){
+    public void changeFragment(Fragment selectedFragment) {
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                 .replace(R.id.main_fragment, selectedFragment)

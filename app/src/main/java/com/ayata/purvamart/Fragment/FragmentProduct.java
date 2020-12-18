@@ -96,7 +96,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     }
 
     private void nextFragment() {
-        FragmentCart fragmentCart = new FragmentCart();
+        FragmentCart1 fragmentCart = new FragmentCart1();
         ((MainActivity) getActivity()).changeFragment(fragmentCart);
     }
 

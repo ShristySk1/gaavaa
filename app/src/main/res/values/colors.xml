@@ -8,6 +8,8 @@
     <color name="colorGreen">#0CC565</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#C4C4C4</color>
+    <color name="colorGrayBorder">#E5E5E5</color>
+    <color name="colorGrayText">#A6A6A6</color>
     <color name="colorGrayLight">#F2F2F2</color>
     <color name="colorGrayDark">#828282</color>
 
