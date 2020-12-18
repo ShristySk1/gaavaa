@@ -1,94 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FragmentAccount"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context=".Fragment.FragmentAccount">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/acc_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/hacker"
-            app:civ_border="true"
-            app:civ_border_width="0.5dp"
-            app:civ_border_color="@color/colorGrayLight"
-            />
-
-        <TextView
-            android:id="@+id/acc_name"
-            android:layout_below="@+id/acc_image"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorBlack"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/acc_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/acc_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="abc123@xyz.com"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"/>
-
-        <Button
-            android:id="@+id/acc_btn_edit"
-            android:layout_below="@+id/acc_email"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textAllCaps="false"
-            android:drawablePadding="15dp"
-            android:drawableStart="@drawable/ic_edit"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/button_green"
-            android:paddingHorizontal="25dp"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/acc_recycler"
-            android:layout_below="@+id/acc_btn_edit"
-            android:layout_marginTop="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/acc_btn_logout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textAllCaps="true"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/button_pink"
-            android:layout_below="@+id/acc_recycler"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp">
+
+            <FrameLayout
+                android:id="@+id/acc_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/background_green_border"
+                android:padding="10dp">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/hacker"
+
+                    app:civ_border="true"
+                    app:civ_border_color="@color/colorGrayLight"
+                    app:civ_border_width="0.5dp" />
+            </FrameLayout>
+            <!--<ImageView-->
+            <!--    android:layout_width="30dp"-->
+            <!--    android:layout_height="30dp"-->
+            <!--    android:padding="7dp"-->
+            <!--    android:layout_toRightOf="@id/acc_image"-->
+            <!--    android:background="@color/colorWhite"-->
+            <!--    android:src="@drawable/ic_edit"-->
+            <!--    app:tint="@color/colorBlack" />-->
+
+            <TextView
+                android:id="@+id/acc_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/acc_image"
+                android:text="Ronesh Shrestha"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/acc_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/acc_name"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@id/acc_image"
+                android:text="ronesh@ayata.com.np"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/acc_btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/acc_email"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_green"
+                android:drawableStart="@drawable/ic_edit"
+                android:drawablePadding="15dp"
+                android:paddingHorizontal="25dp"
+                android:text="Edit Profile"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/acc_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/acc_btn_edit"
+                android:layout_marginTop="40dp" />
+
+            <Button
+                android:id="@+id/acc_btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/acc_recycler"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_pink"
+                android:text="Logout"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
 
     </ScrollView>
 

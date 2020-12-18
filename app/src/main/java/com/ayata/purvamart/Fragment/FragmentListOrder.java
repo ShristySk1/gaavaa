@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterOrder;
+import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.R;
 
@@ -27,6 +28,8 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
     private AdapterOrder adapterOrder;
     private LinearLayoutManager layoutManager;
     private List<ModelOrderList> listitem;
+
+    public static final String order_item="ORDER_ITEM";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +64,14 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
 
     @Override
     public void onItemClick(int position, ModelOrderList modelOrderList) {
-        Toast.makeText(getContext(), "List Clicked Item--"+position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "List Clicked Item--"+position, Toast.LENGTH_SHORT).show();
+
+        Bundle bundle= new Bundle();
+        bundle.putSerializable(order_item,modelOrderList);
+        FragmentTrackOrder fragmentTrackOrder= new FragmentTrackOrder();
+        fragmentTrackOrder.setArguments(bundle);
+
+        ((MainActivity)getActivity()).changeFragment(fragmentTrackOrder);
+
     }
 }

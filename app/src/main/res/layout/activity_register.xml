@@ -140,7 +140,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/button_green"
+                style="@style/CustomButtonGreen"
                 android:text="Create Account"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:clickable="false"
-                    android:src="@drawable/ic_google" />
+                    app:srcCompat="@drawable/ic_google" />
 
                 <TextView
                     android:id="@+id/pf_tv_edit"

@@ -1,11 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +14,10 @@ import com.ayata.purvamart.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FragmentAccount extends Fragment implements View.OnClickListener, AdapterAccount.OnLayoutClickListener {
@@ -36,16 +35,16 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_account, container, false);
+        view = inflater.inflate(R.layout.fragment_account, container, false);
         //toolbar
-        ((MainActivity)getActivity()).showToolbar();
-        ((MainActivity)getActivity()).setToolbarType3("Account");
+        ((MainActivity) getActivity()).showToolbar();
+        ((MainActivity) getActivity()).setToolbarType3("Account");
         //bottom nav bar
-        ((MainActivity)getActivity()).showBottomNavBar(true);
+        ((MainActivity) getActivity()).showBottomNavBar(true);
 
-        btn_edit= view.findViewById(R.id.acc_btn_edit);
+        btn_edit = view.findViewById(R.id.acc_btn_edit);
         btn_edit.setOnClickListener(this);
-        btn_logout= view.findViewById(R.id.acc_btn_logout);
+        btn_logout = view.findViewById(R.id.acc_btn_logout);
         btn_logout.setOnClickListener(this);
 
         initView();
@@ -53,20 +52,20 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         return view;
     }
 
-    private void initView(){
-        recyclerView= view.findViewById(R.id.acc_recycler);
+    private void initView() {
+        recyclerView = view.findViewById(R.id.acc_recycler);
 
-        listitem= new ArrayList<>();
+        listitem = new ArrayList<>();
         prepareData();
-        adapterAccount= new AdapterAccount(getContext(),listitem,this);
-        linearLayoutManager= new LinearLayoutManager(getContext());
+        adapterAccount = new AdapterAccount(getContext(), listitem, this);
+        linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setAdapter(adapterAccount);
         recyclerView.setLayoutManager(linearLayoutManager);
 
     }
 
-    private void prepareData(){
+    private void prepareData() {
 
         listitem.add(new ModelAccount(getResources().getString(R.string.acc_rv_text11),
                 getResources().getString(R.string.acc_rv_text12)));
@@ -83,9 +82,10 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.acc_btn_edit:
-                Toast.makeText(getContext(), "Edit Profile Clicked", Toast.LENGTH_SHORT).show();
+                //Intent
+                ((MainActivity) getActivity()).changeFragment(new FragmentEditProfile());
                 break;
 
             case R.id.acc_btn_logout:
@@ -98,10 +98,10 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     @Override
     public void onLayoutClick(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 //profile setting
-                Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).changeFragment(new FragmentEditProfile());
                 break;
 
             case 1:
@@ -111,12 +111,12 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
             case 2:
                 //My Delivery Address
-                Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).changeFragment(new FragmentEditAddress());
                 break;
 
             case 3:
                 //Terms, Privacy & Policy
-                Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).changeFragment(new FragmentPrivacyPolicy());
                 break;
 
             case 4:

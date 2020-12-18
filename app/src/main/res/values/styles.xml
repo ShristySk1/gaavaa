@@ -21,6 +21,9 @@
         <item name="errorTextColor">@color/colorYellow</item>
     </style>
     <style name="CustomButtonWhite" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/button_white</item>
+        <item name="android:background">@drawable/button_white_gray_border</item>
+    </style>
+    <style name="CustomButtonGreen" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_green</item>
     </style>
 </resources>

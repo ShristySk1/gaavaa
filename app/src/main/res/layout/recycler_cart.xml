@@ -43,74 +43,74 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/image_cart_productImage">
 
-    <TextView
-        android:id="@+id/text_cart_productName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:text="Spinach"
-        android:textColor="@color/colorBlack"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        />
-
-    <TextView
-        android:id="@+id/text_cart_pricePerKg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Rs. 60/kg"
-        android:layout_below="@+id/text_cart_productName"
-        android:layout_alignStart="@+id/text_cart_productName"
-        android:textColor="@color/colorBlack"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        />
-
-
-
-
-
-
-    <LinearLayout
-        android:id="@+id/linear1"
-        android:orientation="horizontal"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/text_cart_pricePerKg"
-        android:layout_alignStart="@id/text_cart_productName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:id="@+id/imageButton_add"
+        <TextView
+            android:id="@+id/text_cart_productName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_plus"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:text="Spinach"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
+
+        <TextView
+            android:id="@+id/text_cart_pricePerKg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Rs. 60/kg"
+            android:layout_below="@+id/text_cart_productName"
+            android:layout_alignStart="@+id/text_cart_productName"
+            android:textColor="@color/colorBlack"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             />
 
 
 
-    <TextView
-        android:id="@+id/text_cart_productQuantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:text="4"
-        android:layout_gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorBlack" />
 
-        <ImageButton
-            android:id="@+id/imageButton_minus"
+
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/text_cart_pricePerKg"
+            android:layout_alignStart="@id/text_cart_productName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_minus" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/imageButton_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_plus"
+                />
+
+
+
+            <TextView
+                android:id="@+id/text_cart_productQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="4"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorBlack" />
+
+            <ImageButton
+                android:id="@+id/imageButton_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_minus" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

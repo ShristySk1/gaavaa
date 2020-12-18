@@ -52,14 +52,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         holder.textName.setText(name);
         holder.textPrice.setText(price + "/kg");
         holder.textCount.setText(count.toString());
-        holder.textTotalPrice.setText("Rs. " + totalprice.toString());
+//        holder.textTotalPrice.setText("Rs. " + totalprice.toString());
         //handle discount
-        if (modelItem.getDiscount()) {
-            holder.textDiscount.setVisibility(View.VISIBLE);
-            holder.textDiscount.setText(discount);
-        } else {
-            holder.textDiscount.setVisibility(View.GONE);
-        }
+//        if (modelItem.getDiscount()) {
+//            holder.textDiscount.setVisibility(View.VISIBLE);
+//            holder.textDiscount.setText(discount);
+//        } else {
+//            holder.textDiscount.setVisibility(View.GONE);
+//        }
         Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
 
     }
@@ -73,17 +73,17 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
 
         OnCartItemClickListener onCategoryClickListener;
         ImageView image;
-        TextView textName, textTotalPrice, textPrice, textCount, textDiscount;
+        TextView textName, textPrice, textCount;
         ImageButton add, minus;
         public modelViewHolder(@NonNull View itemView, OnCartItemClickListener onCategoryClickListener) {
             super(itemView);
             this.onCategoryClickListener = onCategoryClickListener;
             image = itemView.findViewById(R.id.image_cart_productImage);
             textName = itemView.findViewById(R.id.text_cart_productName);
-            textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
+//            textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
             textPrice = itemView.findViewById(R.id.text_cart_pricePerKg);
             textCount = itemView.findViewById(R.id.text_cart_productQuantity);
-            textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
+//            textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
             add = itemView.findViewById(R.id.imageButton_add);
             minus = itemView.findViewById(R.id.imageButton_minus);
             itemView.setOnClickListener(this);

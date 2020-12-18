@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="CustomButtonWhite" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/button_white_borderless</item>
+    <style name="CustomButtonWhite" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/button_ripple_background</item>
+    </style>
+    <style name="CustomButtonGreen" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/button_ripple_background_green</item>
     </style>
 </resources>

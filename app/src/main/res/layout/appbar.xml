@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
     android:minHeight="?actionBarSize"
     android:background="@color/colorWhite">
@@ -28,7 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/tag"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_notification"/>
+        app:srcCompat="@drawable/ic_notification"/>
 
     <ImageView
         android:id="@+id/tag"
@@ -36,7 +38,7 @@
         android:layout_height="22dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_tag"
+        app:srcCompat="@drawable/ic_tag"
         android:layout_marginEnd="15dp"/>
 
     </RelativeLayout>
@@ -57,7 +59,7 @@
             android:layout_marginStart="15dp"
             android:background="@color/colorWhite"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_left_arrow"/>
+            app:srcCompat="@drawable/ic_left_arrow"/>
 
         <TextView
             android:id="@+id/text_header"
@@ -76,7 +78,7 @@
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_share"
+            app:srcCompat="@drawable/ic_share"
             android:layout_marginEnd="15dp"/>
 
     </RelativeLayout>

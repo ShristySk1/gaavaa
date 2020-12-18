@@ -1,6 +1,8 @@
 package com.ayata.purvamart.Model;
 
-public class ModelOrderList {
+import java.io.Serializable;
+
+public class ModelOrderList implements Serializable {
 
     private int image;
     private String order_id;
