@@ -9,15 +9,29 @@
     <include layout="@layout/appbar"
         android:id="@+id/appbar_main"/>
 
-
-
-    <FrameLayout
-        android:id="@+id/main_fragment"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_main"
-       />
+        app:layout_constraintTop_toBottomOf="@+id/appbar_main">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior=".utils.OverScrollBehaviour">
+            <FrameLayout
+                android:id="@+id/main_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                />
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

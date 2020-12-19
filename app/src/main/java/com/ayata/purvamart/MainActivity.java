@@ -176,4 +176,22 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_fragment, selectedFragment)
                 .addToBackStack(null).commit();
     }
+
+    public void selectMyOrderFragment(){
+
+        bottomnav.setSelectedItemId(R.id.nav_order);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                .replace(R.id.main_fragment, new FragmentMyOrder())
+                .addToBackStack("myOrder").commit();
+    }
+
+    public void selectCartFragment(){
+
+        bottomnav.setSelectedItemId(R.id.nav_cart);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                .replace(R.id.main_fragment, new FragmentCart())
+                .addToBackStack("cart").commit();
+    }
 }

@@ -83,12 +83,11 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/imageButton_add"
+                android:id="@+id/imageButton_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_plus"
-                />
+                app:srcCompat="@drawable/ic_minus" />
 
 
 
@@ -103,12 +102,15 @@
                 android:textColor="@color/colorBlack" />
 
             <ImageButton
-                android:id="@+id/imageButton_minus"
+                android:id="@+id/imageButton_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_minus" />
+                app:srcCompat="@drawable/ic_plus"
+                />
+
+
 
         </LinearLayout>
 

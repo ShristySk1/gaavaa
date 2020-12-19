@@ -33,5 +33,12 @@
     <string name="ce_text2">Check our bestsellers and find something for you.</string>
 
     <string name="shop_now_btn">Shop Now</string>
+    <string name="confirm_btn">Confirm</string>
+    <string name="ayata">Ayata Inc.</string>
+
+    <string name="os_title">Order Summary</string>
+    <string name="os_text1">Order Details</string>
+    <string name="os_text2">Payment Method</string>
+    <string name="os_text3">Delivery Address</string>
 
 </resources>

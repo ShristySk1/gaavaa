@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterAccount;
@@ -28,7 +29,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     private List<ModelAccount> listitem;
     private LinearLayoutManager linearLayoutManager;
 
-    private Button btn_edit, btn_logout;
+    private Button btn_logout;
+    private ImageView imageBtn_edit;
 
 
     @Override
@@ -42,8 +44,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
 
-        btn_edit = view.findViewById(R.id.acc_btn_edit);
-        btn_edit.setOnClickListener(this);
+        imageBtn_edit = view.findViewById(R.id.acc_btn_edit);
+        imageBtn_edit.setOnClickListener(this);
         btn_logout = view.findViewById(R.id.acc_btn_logout);
         btn_logout.setOnClickListener(this);
 

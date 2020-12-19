@@ -45,8 +45,8 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
 
         address1_layout= view.findViewById(R.id.address1_layout);
         address2_layout= view.findViewById(R.id.address2_layout);
-        address2_check=view.findViewById(R.id.address1_check);
-        address1_check= view.findViewById(R.id.address2_check);
+        address2_check=view.findViewById(R.id.address2_check);
+        address1_check= view.findViewById(R.id.address1_check);
 
         address1_layout.setOnClickListener(this);
         address2_layout.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
             case R.id.btn_pay:
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                        .replace(R.id.main_fragment, new FragmentTrackMyOrder())
+                        .replace(R.id.main_fragment, new FragmentOrderSummary())
                         .addToBackStack(null).commit();
                 break;
         }
