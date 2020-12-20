@@ -67,7 +67,7 @@ public class FragmentEditProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Edit Profile", false);
+        ((MainActivity) getActivity()).setToolbarType2("Edit Profile", false,false);
         initView(view);
         save.setOnClickListener(new View.OnClickListener() {
             @Override

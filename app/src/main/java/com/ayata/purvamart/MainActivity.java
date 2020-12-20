@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ayata.purvamart.Fragment.FragmentAccount;
 import com.ayata.purvamart.Fragment.FragmentCart;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
+import com.ayata.purvamart.Fragment.FragmentPayment;
 import com.ayata.purvamart.Fragment.FragmentShop;
 import com.ayata.purvamart.Fragment.FragmentTrackOrder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         showToolbar();
 
-        setToolbarType1();
+        setToolbarType1(true);
 
         if (findViewById(R.id.main_fragment) != null) {
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()) {
                         case R.id.nav_shop:
                             //samepagex
-                            setToolbarType1();
+                            setToolbarType1(true);
                             selectedFragment = new FragmentShop();
                             break;
 
@@ -110,19 +111,25 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setVisibility(View.VISIBLE);
     }
 
-    public void setToolbarType1() {
+    public void setToolbarType1(Boolean notification_dot_visible) {
 
         toolbarType1.setVisibility(View.VISIBLE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.GONE);
 
-        ImageView notification, tag;
-        notification = toolbar.findViewById(R.id.notification);
-        tag = toolbar.findViewById(R.id.tag);
+        RelativeLayout notification_layout;
+        notification_layout = toolbar.findViewById(R.id.notification_layout);
+
+        View notification_dot;
+        notification_dot= toolbar.findViewById(R.id.notification_dot);
+
+        if(notification_dot_visible)
+        notification_dot.setVisibility(View.VISIBLE);
+        else notification_dot.setVisibility(View.GONE);
 
     }
 
-    public void setToolbarType2(String title, Boolean shareIcon) {
+    public void setToolbarType2(String title, Boolean likeIcon,Boolean filterIcon) {
 
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.VISIBLE);
@@ -130,11 +137,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView text;
         ImageButton back;
-        ImageView share;
+        ImageView like,filter;
 
         text = toolbar.findViewById(R.id.text_header);
         back = toolbar.findViewById(R.id.back);
-        share = toolbar.findViewById(R.id.share);
+        like = toolbar.findViewById(R.id.like);
+        filter= toolbar.findViewById(R.id.filter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,11 +151,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (!shareIcon) {
-            share.setVisibility(View.GONE);
-        }
+        if (!likeIcon) {
+            like.setVisibility(View.GONE);
+        }else{like.setVisibility(View.VISIBLE);}
+
+        if (!filterIcon) {
+            filter.setVisibility(View.GONE);
+        }else{filter.setVisibility(View.VISIBLE);}
 
         text.setText(title);
+
+        like.setTag(R.drawable.ic_like_outline);
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(like.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_like_filled).getConstantState()))
+                like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
+                else
+                    like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_filled));
+
+                //        <<sdk 21+ android5>>
+                if((int)like.getTag()== R.drawable.ic_like_outline){
+                    like.setTag(R.drawable.ic_like_filled);
+                    like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_filled));
+                }else{
+                    like.setTag(R.drawable.ic_like_outline);
+                    like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
+                }
+            }
+        });
+
+
 
     }
 
@@ -194,4 +229,13 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_fragment, new FragmentCart())
                 .addToBackStack("cart").commit();
     }
+
+    public void selectShopFragment(){
+
+        bottomnav.setSelectedItemId(R.id.nav_shop);
+        changeFragment(new FragmentShop());
+    }
+
+
+
 }

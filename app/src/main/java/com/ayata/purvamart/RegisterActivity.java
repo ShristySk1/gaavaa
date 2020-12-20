@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         toolbarType2 = toolbar.findViewById(R.id.appbar2);
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
         btn_create_account = findViewById(R.id.btn_create_account);
-        setToolbarType2("", false);
+        setToolbarType2("", false,false);
         btn_create_account.setOnClickListener(this);
 
         btn_google= findViewById(R.id.btn_create_google);
@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btn_facebook.setOnClickListener(this);
     }
 
-    public void setToolbarType2(String title, Boolean shareIcon) {
+    public void setToolbarType2(String title, Boolean likeIcon,Boolean filterIcon) {
 
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.VISIBLE);
@@ -59,11 +59,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         TextView text;
         ImageButton back;
-        ImageView share;
+        ImageView like,filter;
 
         text = toolbar.findViewById(R.id.text_header);
         back = toolbar.findViewById(R.id.back);
-        share = toolbar.findViewById(R.id.share);
+        like = toolbar.findViewById(R.id.like);
+        filter= toolbar.findViewById(R.id.filter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +73,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        if (!shareIcon) {
-            share.setVisibility(View.GONE);
-        }
+        if (!likeIcon) {
+            like.setVisibility(View.GONE);
+        }else{like.setVisibility(View.VISIBLE);}
+
+        if (!filterIcon) {
+            filter.setVisibility(View.GONE);
+        }else{filter.setVisibility(View.VISIBLE);}
 
         text.setText(title);
 

@@ -31,6 +31,7 @@ public class FragmentCartEmpty extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Shop Now", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).selectShopFragment();
             }
         });
         return view;

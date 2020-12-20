@@ -1,13 +1,19 @@
 package com.ayata.purvamart.Model;
 
-public class ModelCategory {
+import java.io.Serializable;
 
+public class ModelCategory implements Serializable {
+
+    private String category_id;
     private String name;
     private int image;
+    private Boolean isSelected;
 
-    public ModelCategory(String name, int image) {
+    public ModelCategory(String category_id, String name, int image, Boolean isSelected) {
+        this.category_id = category_id;
         this.name = name;
         this.image = image;
+        this.isSelected = isSelected;
     }
 
     public String getName() {
@@ -24,5 +30,21 @@ public class ModelCategory {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 }

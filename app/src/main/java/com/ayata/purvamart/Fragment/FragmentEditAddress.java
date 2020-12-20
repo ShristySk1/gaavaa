@@ -68,7 +68,7 @@ public class FragmentEditAddress extends Fragment {
         initView(view);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Edit Address", false);
+        ((MainActivity) getActivity()).setToolbarType2("Edit Address", false,false);
 
 //        //bottom nav bar
 //        ((MainActivity)getActivity()).showBottomNavBar(false);

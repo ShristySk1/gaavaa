@@ -33,7 +33,7 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
 
         //toolbar
         ((MainActivity)getActivity()).showToolbar();
-        ((MainActivity)getActivity()).setToolbarType2("Address Delivery",false);
+        ((MainActivity)getActivity()).setToolbarType2("Address Delivery",false,false);
 
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(false);

@@ -96,12 +96,12 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.modelV
 
         @Override
         public void onClick(View view) {
-            onCategoryClickListener.onCategoryClick(getAdapterPosition());
+            onCategoryClickListener.onCategoryClick(listitem.get(getAdapterPosition()));
         }
     }
 
     public interface OnCategoryClickListener{
 
-        void onCategoryClick(int position);
+        void onCategoryClick(ModelCategory selectedItem);
     }
 }

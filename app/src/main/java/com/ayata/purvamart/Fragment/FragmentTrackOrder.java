@@ -38,7 +38,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         list_orderTrack = new ArrayList<>();
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Track Orders", false);
+        ((MainActivity) getActivity()).setToolbarType2("Track Orders", false,false);
         ((MainActivity)getActivity()).showBottomNavBar(false);
 
         initOrderView(view);

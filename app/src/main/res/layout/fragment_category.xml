@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FragmentCategory">
+    tools:context=".Fragment.FragmentCategory"
+    android:background="@color/colorWhite">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_category"
+        android:nestedScrollingEnabled="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="5dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
+        android:layout_below="@+id/recycler_category"
         android:nestedScrollingEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,4 +28,4 @@
         android:layout_marginStart="5dp"
         />
 
-</FrameLayout>
+</RelativeLayout>

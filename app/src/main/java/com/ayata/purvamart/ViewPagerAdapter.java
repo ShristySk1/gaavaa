@@ -34,9 +34,6 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.myVi
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
             Log.d("ViewPageraapter", "onBindViewHolder: "+position);
             Glide.with(holder.ivImage).load(images[position]).into(holder.ivImage);
-
-
-
     }
 
     @Override

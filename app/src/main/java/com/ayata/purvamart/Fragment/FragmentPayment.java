@@ -2,9 +2,11 @@ package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,13 @@ import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.khalti.checkout.helper.Config;
+import com.khalti.checkout.helper.KhaltiCheckOut;
+import com.khalti.checkout.helper.OnCheckOutListener;
+import com.khalti.utils.Constant;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FragmentPayment extends Fragment implements View.OnClickListener{
@@ -37,7 +46,7 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
 
         //toolbar
         ((MainActivity)getActivity()).showToolbar();
-        ((MainActivity)getActivity()).setToolbarType2("Payment",false);
+        ((MainActivity)getActivity()).setToolbarType2("Payment",false,false);
 
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(false);
@@ -98,6 +107,38 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
     private void selectKhalti(){
         esewa_check.setVisibility(View.GONE);
         khalti_check.setVisibility(View.VISIBLE);
+        setForKhalti();
 
+    }
+
+    private void setForKhalti(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("merchant_extra", "This is extra data");
+
+        Config.Builder builder = new Config.Builder(Constant.pub, "Product ID", "Main", 1100L, new OnCheckOutListener() {
+            @Override
+            public void onError(@NonNull String action, @NonNull Map<String, String> errorMap) {
+                Log.i(action, errorMap.toString());
+            }
+
+            @Override
+            public void onSuccess(@NonNull Map<String, Object> data) {
+                Log.i("success", data.toString());
+            }
+        });
+//                .paymentPreferences(new ArrayList<PaymentPreference>() {{
+//                    add(PaymentPreference.KHALTI);
+//                    add(PaymentPreference.EBANKING);
+//                    add(PaymentPreference.MOBILE_BANKING);
+//                    add(PaymentPreference.CONNECT_IPS);
+//                    add(PaymentPreference.SCT);
+//                }})
+//                .additionalData(map)
+//                .productUrl("")
+//                .mobile("9800000000");
+
+        Config config = builder.build();
+        KhaltiCheckOut khaltiCheckOut = new KhaltiCheckOut(getContext(), config);
+        khaltiCheckOut.show();
     }
 }

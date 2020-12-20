@@ -52,7 +52,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
     private void initAppbar(){
         //toolbar
         ((MainActivity)getActivity()).showToolbar();
-        ((MainActivity)getActivity()).setToolbarType2(getString(R.string.os_title),false);
+        ((MainActivity)getActivity()).setToolbarType2(getString(R.string.os_title),false,false);
 
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(false);

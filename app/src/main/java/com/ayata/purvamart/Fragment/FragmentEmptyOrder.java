@@ -42,6 +42,7 @@ public class FragmentEmptyOrder extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).selectShopFragment();
             }
         });
 

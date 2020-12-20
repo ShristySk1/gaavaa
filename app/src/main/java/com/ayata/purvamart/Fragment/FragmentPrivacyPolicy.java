@@ -65,7 +65,7 @@ Button btn_continue;
         View view = inflater.inflate(R.layout.fragment_privacy_policy, container, false);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Privacy Policy", false);
+        ((MainActivity) getActivity()).setToolbarType2("Privacy Policy", false,false);
         initView(view);
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override

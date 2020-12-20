@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterAd;
@@ -22,12 +23,14 @@ import com.ayata.purvamart.Model.ModelCategory;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener,AdapterItem.OnItemClickListener {
 
+    public static final String SELECTED_CATEGORY="SelectCategory";
     private View view;
     private RecyclerView recyclerView_ad, recyclerView_category, recyclerView_madeforyou;
     private List<ModelAd> list_ad;
@@ -53,9 +56,10 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
         //toolbar
         ((MainActivity)getActivity()).showToolbar();
-        ((MainActivity)getActivity()).setToolbarType1();
+        ((MainActivity)getActivity()).setToolbarType1(true);
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(true);
+
 
 
         initView();
@@ -106,6 +110,16 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         recyclerView_madeforyou.setAdapter(adapterItem_madeforyou);
         recyclerView_madeforyou.setLayoutManager(linearLayoutManager_madeforyou);
 
+        //category seeall
+        TextView category_see_all= view.findViewById(R.id.category_see_all);
+        category_see_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ModelCategory modelCategory= new ModelCategory("0","All",1,true);
+                selectCategory(modelCategory);
+            }
+        });
+
     }
 
     private void populateAdList(){
@@ -117,14 +131,10 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
     private void populateCategoryList(){
 
-        list_category.add(new ModelCategory("Spices", R.drawable.spices1));
-        list_category.add(new ModelCategory("Herbs",R.drawable.spices2));
-        list_category.add(new ModelCategory("Tea", R.drawable.spices3));
-        list_category.add(new ModelCategory("Spices",R.drawable.spices1));
-//        list_category.add(new ModelCategory("Dairy", R.drawable.ic_dairy));
-//        list_category.add(new ModelCategory("Meat",R.drawable.ic_meat));
-//        list_category.add(new ModelCategory("Frozen", R.drawable.ic_frozen_yogurt));
-//        list_category.add(new ModelCategory("Herbs",R.drawable.ic_leaf));
+        list_category.add(new ModelCategory("1","Spices", R.drawable.spices1,false));
+        list_category.add(new ModelCategory("2","Herbs",R.drawable.spices2,false));
+        list_category.add(new ModelCategory("3","Tea", R.drawable.spices3,false));
+        list_category.add(new ModelCategory("4","Honey",R.drawable.spices1,false));
 
     }
 
@@ -151,14 +161,18 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     }
 
     @Override
-    public void onCategoryClick(int position) {
-        Toast.makeText(getContext(), "Item--"+list_category.get(position).getName(), Toast.LENGTH_SHORT).show();
+    public void onCategoryClick(ModelCategory selectedItem) {
+        Toast.makeText(getContext(), "Item--"+selectedItem.getName(), Toast.LENGTH_SHORT).show();
 
+      selectCategory(selectedItem);
+
+    }
+
+    public void selectCategory(ModelCategory modelCategory){
         Bundle bundle= new Bundle();
-        bundle.putString("title",list_category.get(position).getName());
+        bundle.putSerializable(SELECTED_CATEGORY,modelCategory);
         FragmentCategory fragmentCategory= new FragmentCategory();
         fragmentCategory.setArguments(bundle);
         ((MainActivity)getActivity()).changeFragment(fragmentCategory);
-
     }
 }
