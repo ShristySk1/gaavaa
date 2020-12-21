@@ -42,7 +42,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     private AdapterCategory adapterCategory;
 
     private List<ModelItem> list_madeforyou;
-    private LinearLayoutManager linearLayoutManager_madeforyou;
+    private GridLayoutManager linearLayoutManager_madeforyou;
     private AdapterItem adapterItem_madeforyou;
 
     private RelativeLayout search_layout;
@@ -104,8 +104,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         //recycler--made for you--list
         list_madeforyou= new ArrayList<>();
         populateMadeForYouList();
-        linearLayoutManager_madeforyou= new LinearLayoutManager(getContext());
-        linearLayoutManager_madeforyou.setOrientation(RecyclerView.HORIZONTAL);
+        linearLayoutManager_madeforyou= new GridLayoutManager(getContext(),2);
         adapterItem_madeforyou= new AdapterItem(getContext(),list_madeforyou,this);
         recyclerView_madeforyou.setAdapter(adapterItem_madeforyou);
         recyclerView_madeforyou.setLayoutManager(linearLayoutManager_madeforyou);

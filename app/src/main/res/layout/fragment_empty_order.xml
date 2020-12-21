@@ -53,7 +53,7 @@
         android:layout_marginVertical="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_green"
+        style="@style/CustomButtonGreen"
         android:text="Shop Now"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

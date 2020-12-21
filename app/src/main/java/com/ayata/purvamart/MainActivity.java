@@ -67,26 +67,31 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                     Fragment selectedFragment = null;
+                    String stack_text=null;
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_shop:
                             //samepagex
                             setToolbarType1(true);
+                            stack_text="shop";
                             selectedFragment = new FragmentShop();
                             break;
 
                         case R.id.nav_cart:
                             setToolbarType3("Cart");
+                            stack_text="cart";
                             selectedFragment = new FragmentCart();
                             break;
 
                         case R.id.nav_order:
                             setToolbarType3("My Order");
+                            stack_text="myOrder";
                             selectedFragment = new FragmentMyOrder();
                             break;
 
                         case R.id.nav_account:
                             setToolbarType3("Account");
+                            stack_text="account";
                             selectedFragment = new FragmentAccount();
                             break;
 
@@ -95,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                             .replace(R.id.main_fragment, selectedFragment)
-                            .addToBackStack(null).commit();
+                            .addToBackStack(stack_text).commit();
 
                     return true;
 
@@ -230,12 +235,10 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("cart").commit();
     }
 
-    public void selectShopFragment(){
+    public void selectShopFragment() {
 
         bottomnav.setSelectedItemId(R.id.nav_shop);
         changeFragment(new FragmentShop());
     }
-
-
 
 }

@@ -2,11 +2,13 @@ package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     private GridLayoutManager gridLayoutManager;
     private AdapterItem adapterItem;
     private List<ModelItem> listitem;
+
 
     private RecyclerView recyclerView_category;
     private LinearLayoutManager layoutManager_category;
@@ -76,6 +79,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapterItem);
+        adapterItem.notifyDataSetChanged();
 
         return view;
     }
@@ -95,6 +99,13 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                 R.drawable.tomato,"1 kg",false,"0%"));
         listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
                 R.drawable.spinach,"1 kg",true,"15% Off"));
+        listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
+                R.drawable.spinach,"1 kg",true,"15% Off"));
+        listitem.add(new ModelItem("Fresh Tomatoes","Rs. 150.00", "Rs. 00",
+                R.drawable.tomato,"1 kg",false,"0%"));
+        listitem.add(new ModelItem("Fresh Spinach","Rs. 100.00", "Rs. 120.35",
+                R.drawable.spinach,"1 kg",true,"15% Off"));
+
     }
 
     @Override
@@ -136,4 +147,6 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         adapterCategoryTop.notifyDataSetChanged();
     }
+
+
 }

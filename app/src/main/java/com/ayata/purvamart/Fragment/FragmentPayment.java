@@ -1,8 +1,11 @@
 package com.ayata.purvamart.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -12,12 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.esewa.android.sdk.payment.ESewaConfiguration;
+import com.esewa.android.sdk.payment.ESewaPayment;
+import com.esewa.android.sdk.payment.ESewaPaymentActivity;
 import com.khalti.checkout.helper.Config;
 import com.khalti.checkout.helper.KhaltiCheckOut;
 import com.khalti.checkout.helper.OnCheckOutListener;
@@ -29,12 +33,17 @@ import java.util.Map;
 
 public class FragmentPayment extends Fragment implements View.OnClickListener{
 
+    public static final int REQUEST_CODE_PAYMENT=3;
+    public static final String TAG="errors";
+
     ImageView khalti_check,esewa_check;
 
     private View view;
     private CardView add_payment;
     private CardView pay_esewa, pay_khalti;
     private Button btn_payment;
+
+    ESewaConfiguration eSewaConfiguration;
 
 
 
@@ -52,7 +61,20 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
         ((MainActivity)getActivity()).showBottomNavBar(false);
 
 
+        //esewa
+        String client_id="JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R";
+        String secret_key="BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==";
+        eSewaConfiguration = new ESewaConfiguration()
+                .clientId(client_id)
+                .secretKey(secret_key)
+                .environment(ESewaConfiguration.ENVIRONMENT_TEST);
 
+        initView();
+
+        return view;
+    }
+
+    private void initView(){
         add_payment=view.findViewById(R.id.add_payment_method);
         add_payment.setOnClickListener(this);
 
@@ -66,10 +88,6 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
 
         btn_payment=view.findViewById(R.id.btn_pay);
         btn_payment.setOnClickListener(this);
-
-
-
-        return view;
     }
 
 
@@ -102,6 +120,7 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
     private void selectEsewa(){
         esewa_check.setVisibility(View.VISIBLE);
         khalti_check.setVisibility(View.GONE);
+        setForEsewa();
     }
 
     private void selectKhalti(){
@@ -112,10 +131,17 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
     }
 
     private void setForKhalti(){
-        Map<String, Object> map = new HashMap<>();
-        map.put("merchant_extra", "This is extra data");
 
-        Config.Builder builder = new Config.Builder(Constant.pub, "Product ID", "Main", 1100L, new OnCheckOutListener() {
+        String productId="Product ID";
+        String product_name="Main";
+        long amount=100L;
+        String khalti_merchant_id="This is extra data";
+        String khalti_merchant_extra="merchant_extra";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(khalti_merchant_extra, khalti_merchant_id);
+
+        Config.Builder builder = new Config.Builder(Constant.pub, productId, product_name, amount, new OnCheckOutListener() {
             @Override
             public void onError(@NonNull String action, @NonNull Map<String, String> errorMap) {
                 Log.i(action, errorMap.toString());
@@ -140,5 +166,41 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
         Config config = builder.build();
         KhaltiCheckOut khaltiCheckOut = new KhaltiCheckOut(getContext(), config);
         khaltiCheckOut.show();
+    }
+
+    private void setForEsewa(){
+//        https://somecallbackurl.com/payment/confirmation
+            String  product_price="";
+            String productId="";
+            String product_name="";
+            String call_back_url="";
+            ESewaPayment eSewaPayment = new ESewaPayment(product_price,
+                    product_name, productId,call_back_url);
+
+            Intent intent = new Intent(getContext(), ESewaPaymentActivity.class);
+            intent.putExtra(ESewaConfiguration.ESEWA_CONFIGURATION, eSewaConfiguration);
+
+            intent.putExtra(ESewaPayment.ESEWA_PAYMENT, eSewaPayment);
+            startActivityForResult(intent, REQUEST_CODE_PAYMENT);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data == null) return;
+                String message = data.getStringExtra(ESewaPayment.EXTRA_RESULT_MESSAGE);
+                Log.i(TAG, "Proof of Payment " + message);
+                Toast.makeText(getContext(), "SUCCESSFUL PAYMENT", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getContext(), "Canceled By User", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == ESewaPayment.RESULT_EXTRAS_INVALID) {
+                if (data == null) return;
+                String message = data.getStringExtra(ESewaPayment.EXTRA_RESULT_MESSAGE);
+                Log.i(TAG, "Proof of Payment " + message);
+            }
+        }
     }
 }
