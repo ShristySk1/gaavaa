@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.rd.PageIndicatorView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,9 +49,18 @@ public class OnboardingActivity extends AppCompatActivity {
         tvGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OnboardingActivity.this, LoginActivity.class);
+                Intent intent = new Intent(OnboardingActivity.this, PortalActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(PreferenceHandler.isUserAlreadyLoggedIn(this)){
+            Intent intent = (new Intent(OnboardingActivity.this, MainActivity.class));
+            startActivity(intent);
+        }
     }
 }

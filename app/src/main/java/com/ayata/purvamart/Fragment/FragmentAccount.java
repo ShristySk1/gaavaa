@@ -12,6 +12,7 @@ import com.ayata.purvamart.Adapter.AdapterAccount;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelAccount;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +92,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                 break;
 
             case R.id.acc_btn_logout:
-                Toast.makeText(getContext(), "Logout Button Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "User logged out", Toast.LENGTH_SHORT).show();
+                PreferenceHandler.logout(getContext());
                 break;
         }
 

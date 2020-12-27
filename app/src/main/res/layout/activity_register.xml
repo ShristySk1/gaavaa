@@ -93,6 +93,25 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_register_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:theme="@style/CustomTextInputStyle"
+                    app:endIconDrawable="@drawable/ic_email"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/colorGreen"
+                    app:errorEnabled="false"
+                    app:hintEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Username"
+                        android:inputType="textPersonName"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_register_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -132,15 +151,34 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_register_mobileno"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:theme="@style/CustomTextInputStyle"
+                    app:endIconDrawable="@drawable/ic_phone"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/colorGreen"
+                    app:errorEnabled="false"
+                    app:hintEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mobile no."
+                        android:inputType="phone"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_create_account"
+                style="@style/CustomButtonGreen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                style="@style/CustomButtonGreen"
                 android:text="Create Account"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"

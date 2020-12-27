@@ -78,6 +78,8 @@
         android:textAlignment="textEnd"
         android:visibility="gone"
         tools:visibility="visible"
+        android:paddingLeft="16dp"
+        android:paddingVertical="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/colorGreen"
         android:textStyle="bold"

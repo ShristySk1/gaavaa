@@ -1,19 +1,37 @@
 package com.ayata.purvamart.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class ModelCategory implements Serializable {
-
-    private String category_id;
+    @SerializedName("id")
+    @Expose
+    private Integer category_id;
+    @SerializedName("title")
+    @Expose
     private String name;
-    private int image;
+    @SerializedName("image")
+    @Expose
+    private String image;
+    @SerializedName("is_selected")
+    @Expose
     private Boolean isSelected;
 
-    public ModelCategory(String category_id, String name, int image, Boolean isSelected) {
+    public ModelCategory(Integer category_id, String name, String image, Boolean isSelected) {
         this.category_id = category_id;
         this.name = name;
         this.image = image;
         this.isSelected = isSelected;
+    }
+
+    public Integer getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Integer category_id) {
+        this.category_id = category_id;
     }
 
     public String getName() {
@@ -24,20 +42,12 @@ public class ModelCategory implements Serializable {
         this.name = name;
     }
 
-    public int getImage() {
-        return image;
+    public String getImage() {
+        return "http://" + image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
     }
 
     public Boolean getSelected() {

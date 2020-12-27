@@ -22,8 +22,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginHorizontal="16dp"
-                android:background="@drawable/background_green_border"
-                >
+                android:background="@drawable/background_green_border">
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:layout_width="match_parent"
@@ -38,9 +37,9 @@
                     android:id="@+id/acc_btn_edit"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="7dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/background_blue_border"
+                    android:padding="7dp"
                     android:src="@drawable/ic_edit"
                     app:tint="@color/colorBlue" />
             </RelativeLayout>
@@ -72,23 +71,23 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/acc_recycler"
-                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/acc_email"
-                android:layout_marginTop="40dp" />
+                android:layout_marginTop="40dp"
+                android:nestedScrollingEnabled="false" />
 
             <Button
                 android:id="@+id/acc_btn_logout"
+                style="@style/CustomButtonGreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/acc_recycler"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                style="@style/CustomButtonGreen"
                 android:text="Logout"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
         </RelativeLayout>

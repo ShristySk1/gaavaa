@@ -27,7 +27,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     repositories {
-        flatDir {dirs "libs"}
+        flatDir { dirs "libs" }
     }
 
 
@@ -48,10 +48,15 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
     implementation 'com.github.vipulasri:timelineview:1.1.5'
-
-    implementation ('com.khalti:khalti-android:2.00.01') {
+    //khalti
+    implementation('com.khalti:khalti-android:2.00.01') {
         transitive = true
     }
-
-    implementation(name:"eSewaSdk", ext:"aar")
+     //esewa
+    implementation(name: "eSewaSdk", ext: "aar")
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //pinview
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
 }

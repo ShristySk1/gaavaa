@@ -5,23 +5,18 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
 
-import java.util.Calendar;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -43,7 +38,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false);
-            return new modelViewHolder(view,onItemClickListener);
+            return new modelViewHolder(view, onItemClickListener);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.recycler_load_progressbar, parent, false);
             return new LoadingViewHolder(view);
@@ -80,19 +75,19 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         OnItemClickListener onItemClickListener;
         ImageView image;
-        TextView name,price,prev_price,discount,quantity;
+        TextView name, price, prev_price, discount, quantity;
 
 
         public modelViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            this.onItemClickListener= onItemClickListener;
+            this.onItemClickListener = onItemClickListener;
 
-            name= itemView.findViewById(R.id.text_name);
-            price= itemView.findViewById(R.id.text_price);
-            prev_price= itemView.findViewById(R.id.text_price_previous);
-            discount= itemView.findViewById(R.id.button_discount);
-            quantity= itemView.findViewById(R.id.text_quantity);
-            image= itemView.findViewById(R.id.image);
+            name = itemView.findViewById(R.id.text_name);
+            price = itemView.findViewById(R.id.text_price);
+            prev_price = itemView.findViewById(R.id.text_price_previous);
+            discount = itemView.findViewById(R.id.button_discount);
+            quantity = itemView.findViewById(R.id.text_quantity);
+            image = itemView.findViewById(R.id.image);
 
 
 //            RotateAnimation rotate= (RotateAnimation) AnimationUtils.loadAnimation(context,R.anim.rotate_textview);
@@ -125,7 +120,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void populateItemRows(modelViewHolder holder, int position) {
 
-                holder.name.setText(listitem.get(position).getName());
+        holder.name.setText(listitem.get(position).getName());
         holder.quantity.setText(listitem.get(position).getQuantity());
         Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
         holder.price.setText(listitem.get(position).getPrice());
@@ -135,12 +130,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //strike through
         holder.prev_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        if(listitem.get(position).getDiscount()){
+        if (listitem.get(position).getDiscount()) {
             holder.discount.setVisibility(View.VISIBLE);
             holder.discount.setText(listitem.get(position).getDiscount_percent());
 
             holder.prev_price.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.discount.setVisibility(View.GONE);
             //holder.discount.setText(listitem.get(position).getDiscount_percent());
             holder.prev_price.setVisibility(View.GONE);
@@ -149,7 +144,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
