@@ -62,7 +62,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
             public void onClick(View view) {
                 //Intent
                 //get data accepted for checkout
-                Cart.setModelItems(adapterCart.getAllDataFromCart());
+                Cart.modelItems=adapterCart.getAllDataFromCart();
                 ((MainActivity) getActivity()).changeFragment(new FragmentPayment());
             }
         });

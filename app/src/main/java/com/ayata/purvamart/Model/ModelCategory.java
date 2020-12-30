@@ -17,7 +17,7 @@ public class ModelCategory implements Serializable {
     private String image;
     @SerializedName("is_selected")
     @Expose
-    private Boolean isSelected;
+    private Boolean isSelected=null;
 
     public ModelCategory(Integer category_id, String name, String image, Boolean isSelected) {
         this.category_id = category_id;

@@ -83,7 +83,7 @@ import java.util.List;
 //        this.totalPrice = totalPrice;
 //    }
 //}
-public class OrderDetail {
+public class UserCartDetail {
 
     @SerializedName("product_id")
     @Expose

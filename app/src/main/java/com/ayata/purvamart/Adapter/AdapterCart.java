@@ -61,7 +61,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         } else {
             holder.textDiscount.setVisibility(View.GONE);
         }
-        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load("http://"+listitem.get(position).getImage()).into(holder.image);
 
     }
 
@@ -95,6 +95,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
                     onCartClickListener.onAddClick(listitem.get(getAdapterPosition()), getAdapterPosition());
                     Double c = Double.valueOf(textCount.getText().toString());
                     textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+//                    listitem.get(getAdapterPosition()).setCount(Integer.valueOf(textCount.getText().toString()));
                     setTotalInFragment();
                 }
             });

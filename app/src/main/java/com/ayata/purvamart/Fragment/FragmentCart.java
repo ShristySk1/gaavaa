@@ -13,9 +13,10 @@ import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.MyOrderResponse;
-import com.ayata.purvamart.data.network.response.OrderDetail;
+import com.ayata.purvamart.data.network.response.UserCartDetail;
+import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.utils.AlertDialogHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -90,12 +91,13 @@ public class FragmentCart extends Fragment {
 //                R.drawable.tomato, "1 kg", false, "0%", 1));
 //        modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
 //                R.drawable.spinach, "1 kg", true, "10% Off", 2));
-
+        AlertDialogHelper.show(getContext());
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
         myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
+                    AlertDialogHelper.dismiss(getContext());
                     JsonObject jsonObject = response.body();
                     if (jsonObject.get("code").toString().equals("200")) {
                         Gson gson = new GsonBuilder().create();
@@ -104,11 +106,21 @@ public class FragmentCart extends Fragment {
                         if (empty.equals("empty cart")) {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         } else {
-                            MyOrderResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), MyOrderResponse.class);
+                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
+                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
-                                    modelItemList.add(new ModelItem(orderDetail.getProductId(), orderDetail.getProductName(), orderDetail.getPrice().toString(), String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()), orderDetail.getImage().get(0), orderDetail.getProductQuantity().toString(), true, orderDetail.getProductDiscount(), 1));
+//                                    Log.d(TAG, "onResponse: "+orderDetail.getImage().get(0));
+//                                    Log.d(TAG, "onResponse: "+orderDetail.getPrice().toString()+"quantity: "+orderDetail.getProductQuantity().toString());
+                                    String nullCheckImage = "";
+                                    if (orderDetail.getImage().size() > 0) {
+                                         nullCheckImage = orderDetail.getImage().get(0);
+                                    }
+                                    modelItemList.add(new ModelItem(orderDetail.getProductId(),
+                                            orderDetail.getProductName(), orderDetail.getPrice().toString(),
+                                            String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()),
+                                            nullCheckImage, orderDetail.getProductQuantity().toString(),
+                                            true, orderDetail.getProductDiscount(), 1));
                                 }
                             }
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
@@ -120,6 +132,7 @@ public class FragmentCart extends Fragment {
 
                     }
                 } else {
+                    AlertDialogHelper.dismiss(getContext());
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
                 checkForData();
@@ -127,7 +140,8 @@ public class FragmentCart extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                AlertDialogHelper.dismiss(getContext());
+                Toast.makeText(getContext(), t.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         });
 

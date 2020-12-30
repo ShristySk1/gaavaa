@@ -71,7 +71,7 @@
         android:textStyle="bold"
         android:layout_below="@id/recycler_ad"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="15dp"/>
 
         <TextView
             android:id="@+id/category_see_all"
@@ -83,7 +83,7 @@
             android:textStyle="bold"
             android:layout_below="@id/recycler_ad"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="9dp"
             android:paddingStart="15dp"
             android:paddingTop="5dp"
             android:layout_alignParentEnd="true"
@@ -93,7 +93,7 @@
         android:id="@+id/recycler_category"
         android:layout_marginHorizontal="10dp"
         android:nestedScrollingEnabled="false"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/text_category"
         android:layout_width="match_parent"
@@ -120,7 +120,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     </ScrollView>

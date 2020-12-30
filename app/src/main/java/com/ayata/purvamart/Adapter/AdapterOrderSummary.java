@@ -62,7 +62,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
 //        } else {
 //            holder.textDiscount.setVisibility(View.GONE);
 //        }
-        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load("http://"+listitem.get(position).getImage()).into(holder.image);
 
     }
 
@@ -89,11 +89,14 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
 //            textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
             add = itemView.findViewById(R.id.imageButton_add);
             minus = itemView.findViewById(R.id.imageButton_minus);
+            setTotalInFragment();
             itemView.setOnClickListener(this);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onAddClick(listitem.get(getAdapterPosition()),getAdapterPosition());
+                    Double c = Double.valueOf(textCount.getText().toString());
+                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
                     setTotalInFragment();
                 }
             });
@@ -101,6 +104,8 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
                 @Override
                 public void onClick(View view) {
                    onItemClickListener.onMinusClick(listitem.get(getAdapterPosition()),getAdapterPosition());
+                    Double c = Double.valueOf(textCount.getText().toString());
+                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
                    setTotalInFragment();
                 }
             });

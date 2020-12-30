@@ -123,13 +123,17 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         holder.name.setText(listitem.get(position).getName());
         holder.quantity.setText(listitem.get(position).getUnit());
-        Glide.with(context).load(listitem.get(position).getProductImage()).into(holder.image);
-        Log.d("checkimage", "populateItemRows: " + listitem.get(position).getProductImage());
+        if (listitem.get(position).getProductImage().size() > 0) {
+            Glide.with(context).load("http://" + listitem.get(position).getProductImage().get(0)).into(holder.image);
+        }else{
+            Glide.with(context).load("").into(holder.image);
+        }
+        Log.d("checkimage", "populateItemRows: " + "http://" + listitem.get(position).getProductImage());
         holder.price.setText(listitem.get(position).getProductPrice().toString());
         holder.prev_price.setText(listitem.get(position).getOldPrice().toString());
         //strike through
         holder.prev_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
+        Log.d("checkifdiscounted", "populateItemRows: " + listitem.get(position).getDiscounted());
         if (listitem.get(position).getDiscounted()) {
             holder.discount.setVisibility(View.VISIBLE);
             holder.discount.setText(listitem.get(position).getProductDiscount());

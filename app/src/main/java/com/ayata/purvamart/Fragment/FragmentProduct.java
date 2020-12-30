@@ -49,6 +49,10 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     ImageButton btn_add, btn_minus;
     ImageView image_product;
 
+    //like
+    ImageView thumb_image;
+    TextView thumb_text;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +74,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 //        btn_add = view.findViewById(R.id.imageButton_add);
 //        btn_minus = view.findViewById(R.id.imageButton_minus);
         image_product = view.findViewById(R.id.image_product);
+        thumb_image = view.findViewById(R.id.thumb_image);
+        thumb_text = view.findViewById(R.id.thumb_text);
         textProductNewPrice = view.findViewById(R.id.text_product_newPrice);
         textProductDescription = view.findViewById(R.id.text_product_description);
         textProductTitle = view.findViewById(R.id.text_product_name);
@@ -81,13 +87,17 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         //setData
 //        textQuantity.setText("0");
 //        image_product.setImageResource(modelItem.getImage());
-        Glide.with(getContext()).load(modelItem.getProductImage()).into(image_product);
-        Log.d(TAG, "initView: " + modelItem.getProductImage());
+        if (modelItem.getProductImage().size() > 0) {
+            Glide.with(getContext()).load("http://" + modelItem.getProductImage().get(0)).into(image_product);
+            Log.d(TAG, "initView: " + "http://" + modelItem.getProductImage().get(0));
+        }
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
         textWeight.setText(modelItem.getUnit());
         textProductDescription.setText(modelItem.getDescription());
+//        thumb_text.setText(modelItem.getProductLikes().toString());
 //        handleDiscount();
+        thumb_image.setOnClickListener(this);
     }
 
     private void handleDiscount() {
@@ -110,6 +120,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             case R.id.btn_add_to_cart:
                 nextFragment();
                 break;
+            case R.id.thumb_image:
+                break;
         }
     }
 
@@ -119,18 +131,19 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         List<MyCart> carts = new ArrayList<>();
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         MyCart myCart = new MyCart();
+        Log.d(TAG, "nextFragment: " + modelItem.getId());
         myCart.setProductId(modelItem.getId());
-        myCart.setProductQuantity(modelItem.getQuantity());
+        myCart.setProductQuantity(1);
         carts.add(myCart);
         apiService.addToCart(PreferenceHandler.getToken(getContext()), "application/json", carts).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
-                    if (response.body().get("code").getAsString() == "200") {
+                    if (response.body().get("code").getAsString().equals("200")) {
                         Toast.makeText(getContext(), "Successfully Added To Cart", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), response.body().get("message").toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), response.body().get("details").toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -138,7 +151,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d(TAG, "onResponse: " + t.getMessage());
-
             }
         });
 //        ((MainActivity) getActivity()).changeFragment(fragmentCart);

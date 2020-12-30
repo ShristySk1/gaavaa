@@ -1,12 +1,10 @@
 package com.ayata.purvamart.data.network.response;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class ProductListResponse2 {
-
+public class HomeResponse {
 
     @SerializedName("code")
     @Expose
@@ -19,7 +17,7 @@ public class ProductListResponse2 {
     private String message;
     @SerializedName("details")
     @Expose
-    private List<ProductDetail2> details = null;
+    private List<HomeDetail> details = null;
 
     public Integer getCode() {
         return code;
@@ -45,11 +43,11 @@ public class ProductListResponse2 {
         this.message = message;
     }
 
-    public List<ProductDetail2> getDetails() {
+    public List<HomeDetail> getDetails() {
         return details;
     }
 
-    public void setDetails(List<ProductDetail2> details) {
+    public void setDetails(List<HomeDetail> details) {
         this.details = details;
     }
 

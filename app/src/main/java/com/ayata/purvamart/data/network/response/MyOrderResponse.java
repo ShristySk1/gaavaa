@@ -3,97 +3,105 @@ package com.ayata.purvamart.data.network.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class MyOrderResponse {
-    //    @SerializedName("code")
-//    @Expose
-//    private Integer code;
-//    @SerializedName("status")
-//    @Expose
-//    private String status;
-//    @SerializedName("message")
-//    @Expose
-//    private String message;
-//    @SerializedName("details")
-//    @Expose
-//    private List<OrderDetail> details = null;
-//
-//    public Integer getCode() {
-//        return code;
-//    }
-//
-//    public void setCode(Integer code) {
-//        this.code = code;
-//    }
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
-//
-//    public String getMessage() {
-//        return message;
-//    }
-//
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
-//
-//    public List<OrderDetail> getDetails() {
-//        return details;
-//    }
-//
-//    public void setDetails(List<OrderDetail> details) {
-//        this.details = details;
-//    }
-//
-//}
-    @SerializedName("code")
+
+    @SerializedName("id")
     @Expose
-    private Integer code;
-    @SerializedName("status")
+    private Integer id;
+    @SerializedName("created_at")
     @Expose
-    private String status;
-    @SerializedName("message")
+    private String createdAt;
+    @SerializedName("updated_at")
     @Expose
-    private String message;
-    @SerializedName("details")
+    private String updatedAt;
+    @SerializedName("deleted_at")
     @Expose
-    private List<OrderDetail> details = null;
+    private Object deletedAt;
+    @SerializedName("user_id")
+    @Expose
+    private Integer userId;
+    @SerializedName("products_id")
+    @Expose
+    private Integer productsId;
+    @SerializedName("is_ordered")
+    @Expose
+    private Boolean isOrdered;
+    @SerializedName("is_cancelled")
+    @Expose
+    private Boolean isCancelled;
+    @SerializedName("is_completed")
+    @Expose
+    private Boolean isCompleted;
 
-    public Integer getCode() {
-        return code;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getMessage() {
-        return message;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public List<OrderDetail> getDetails() {
-        return details;
+    public Object getDeletedAt() {
+        return deletedAt;
     }
 
-    public void setDetails(List<OrderDetail> details) {
-        this.details = details;
+    public void setDeletedAt(Object deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getProductsId() {
+        return productsId;
+    }
+
+    public void setProductsId(Integer productsId) {
+        this.productsId = productsId;
+    }
+
+    public Boolean getIsOrdered() {
+        return isOrdered;
+    }
+
+    public void setIsOrdered(Boolean isOrdered) {
+        this.isOrdered = isOrdered;
+    }
+
+    public Boolean getIsCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public Boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(Boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 }

@@ -2,6 +2,7 @@ package com.ayata.purvamart.data.network;
 
 
 import com.ayata.purvamart.data.network.response.CategoryListResponse;
+import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductListResponse;
 import com.ayata.purvamart.data.network.response.ProductListResponse2;
 import com.ayata.purvamart.data.network.response.ProfileDetail;
@@ -17,7 +18,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -43,14 +43,22 @@ public interface ApiService {
     @FormUrlEncoded
     Call<ProductListResponse2> getProductsListSpecific(@Field("category_title") String category_title);
 
+    @GET("home/")
+    Call<HomeResponse> getAllHome();
+
+    /**
+     * authentication needed
+     */
+
     @POST("profile-edit/")
     Call<JsonObject> updateProfile(@Header("Authorization") String header, @Body ProfileDetail profileDetail);
 
     @GET("usercart-list/")
     Call<JsonObject> getMyOrder(@Header("Authorization") String header);
 
+    @GET("myorders-list/")
+    Call<RegisterResponse> getMyOrderList(@Header("Authorization") String header);
+
     @POST("addto-cart/")
-    Call<JsonObject> addToCart(@Header("Authorization") String header,@Header("Content-Type") String content_type, @Body List<MyCart> myCarts);
-
-
+    Call<JsonObject> addToCart(@Header("Authorization") String header, @Header("Content-Type") String content_type, @Body List<MyCart> myCarts);
 }

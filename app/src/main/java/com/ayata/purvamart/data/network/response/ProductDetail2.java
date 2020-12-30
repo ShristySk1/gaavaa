@@ -6,60 +6,82 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ProductDetail2 {
-    @SerializedName("category_id")
+    @SerializedName("id")
     @Expose
-    private Integer categoryId;
-    @SerializedName("category_title")
+    private Integer id;
+    @SerializedName("name")
     @Expose
-    private String categoryTitle;
-    @SerializedName("category_image")
+    private String name;
+    @SerializedName("description")
     @Expose
-    private String categoryImage;
-    @SerializedName("product_details")
+    private String description;
+    @SerializedName("image")
     @Expose
-    private List<ProductDetail3> productDetails = null;
-    @SerializedName("product_image")
+    private List<String> image = null;
+    @SerializedName("discount_percent")
     @Expose
-    private List<String> productImage = null;
+    private Double discountPercent;
+    @SerializedName("price")
+    @Expose
+    private Double price;
+    @SerializedName("quantity")
+    @Expose
+    private String quantity;
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getCategoryTitle() {
-        return categoryTitle;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryTitle(String categoryTitle) {
-        this.categoryTitle = categoryTitle;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCategoryImage() {
-        return categoryImage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategoryImage(String categoryImage) {
-        this.categoryImage = categoryImage;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public List<ProductDetail3> getProductDetails() {
-        return productDetails;
+    public List<String> getImage() {
+        return image;
     }
 
-    public void setProductDetails(List<ProductDetail3> productDetails) {
-        this.productDetails = productDetails;
+    public void setImage(List<String> image) {
+        this.image = image;
     }
 
-    public String getProductImage() {
-        return "http://142.93.221.85"+productImage.get(0);
+    public Double getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setProductImage(List<String> productImage) {
-        this.productImage = productImage;
+    public void setDiscountPercent(Double discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
 }

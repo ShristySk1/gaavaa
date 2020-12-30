@@ -162,9 +162,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Gson gson = new GsonBuilder().create();
                                 LoginResponse loginResponse = gson.fromJson(gson.toJson(jsonObject), LoginResponse.class);
                                 Toast.makeText(LoginActivity.this, "User is logged in", Toast.LENGTH_SHORT).show();
-                                String token = loginResponse.getDetails().getToken().getKey();
+                                String token = loginResponse.getDetails().getToken();
                                 //TODO RESPONSE
-                                String username = "username";
+                                String username = loginResponse.getDetails().getUsername();
                                 String email = loginResponse.getDetails().getEmail();
                                 String phoneno = loginResponse.getDetails().getMobileNumber().toString();
                                 saveUser(token, email, username, phoneno);

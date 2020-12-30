@@ -7,15 +7,18 @@ public class LoginDetail {
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("username")
+    @Expose
+    private String username;
     @SerializedName("email")
     @Expose
     private String email;
     @SerializedName("mobile_number")
     @Expose
-    private Long mobileNumber;
+    private String mobileNumber;
     @SerializedName("token")
     @Expose
-    private Token token;
+    private String token;
 
     public Integer getId() {
         return id;
@@ -23,6 +26,14 @@ public class LoginDetail {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -33,19 +44,19 @@ public class LoginDetail {
         this.email = email;
     }
 
-    public Long getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(Long mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
-    public Token getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

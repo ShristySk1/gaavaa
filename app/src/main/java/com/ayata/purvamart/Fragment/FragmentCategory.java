@@ -1,6 +1,7 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,9 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.CategoryListResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.data.network.response.ProductDetail2;
-import com.ayata.purvamart.data.network.response.ProductDetail3;
 import com.ayata.purvamart.data.network.response.ProductListResponse;
-import com.ayata.purvamart.data.network.response.ProductListResponse2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
@@ -34,7 +31,7 @@ import retrofit2.Response;
 
 
 public class FragmentCategory extends Fragment implements AdapterItem.OnItemClickListener, AdapterCategoryTop.OnCategoryClickListener {
-
+    private String TAG = "FragmentCategory";
     private View view;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
@@ -48,6 +45,8 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     private AdapterCategoryTop adapterCategoryTop;
     Bundle bundle;
     String toolbar_title = "";
+    List<ProductDetail> filterlist;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,109 +82,76 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         //bottom recycler
         listitem = new ArrayList<>();
-        populateData(toolbar_title);
+        filterlist=new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        adapterItem = new AdapterItem(getContext(), listitem, this);
-
+        adapterItem = new AdapterItem(getContext(), filterlist, this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapterItem);
-        adapterItem.notifyDataSetChanged();
-
+        //allproduct
+        allProduct();
         return view;
     }
 
-    private void populateData(String categoryname) {
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        listitem.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0% Off"));
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        listitem.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%"));
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        listitem.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%"));
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        listitem.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%"));
-//        listitem.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
-//            @Override
-//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                if (response.isSuccessful()) {
-//                    ProductListResponse productListResresponse = response.body();
-//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
-//                                listitem.add(productDetail);
-//                                adapterItem.notifyDataSetChanged();
-//
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-//            }
-//        });
-        listitem.clear();
+    private void allProduct() {
+        Log.d(TAG, "allProduct: called");
         ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-        if(categoryname!="All"){
-        productListapi.getProductsListSpecific(categoryname).enqueue(new Callback<ProductListResponse2>() {
-            @Override
-            public void onResponse(Call<ProductListResponse2> call, Response<ProductListResponse2> response) {
-                if (response.isSuccessful()) {
-                    // TODO 2 types of product being created due to different response
-                    ProductListResponse2 productListResresponse = response.body();
-                    for (ProductDetail2 productDetail : productListResresponse.getDetails()) {
-                        Integer cat = productDetail.getCategoryId();
-                        List<String> image = Arrays.asList(productDetail.getProductImage());
-                        for (ProductDetail3 detail : productDetail.getProductDetails()) {
-                            listitem.add(new ProductDetail(detail.getName(), cat, image,detail.getUnit(), detail.getDescription(),
-                                   detail.getDiscountAmount().toString(), detail.getOldPrice(), detail.getPrice()));
-                        }
-                    }
-                    adapterItem.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ProductListResponse2> call, Throwable t) {
-            }
-        });}else{
-                    productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
                 if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: " + response.body().getDetails().size());
                     ProductListResponse productListResresponse = response.body();
                     for (ProductDetail productDetail : productListResresponse.getDetails()) {
-                                listitem.add(productDetail);
-                                adapterItem.notifyDataSetChanged();
+                        listitem.add(productDetail);
+                        Log.d(TAG, "onResponse: "+productDetail.getProductImage());
 
                     }
+
+                } else {
+                    Log.d(TAG, "onResponse: " + response.body().getMessage().toString());
                 }
+                //
+                populateData(toolbar_title);
+                adapterItem.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<ProductListResponse> call, Throwable t) {
+                Log.d(TAG, "onResponse:failed " + t.getMessage());
             }
         });
+    }
+
+    private void populateData(String categoryname) {
+        Log.d(TAG, "populateData: ");
+        Log.d(TAG, "populateData: listitemsize "+listitem.size());
+        filterlist.clear();
+        if (categoryname != "All") {
+            for (ProductDetail productDetail : listitem) {
+                if (productDetail.getTitle().equals(categoryname)) {
+                    Log.d(TAG, "populateData: filtering on process");
+                    filterlist.add(productDetail);
+                }
+            }
+            adapterItem.notifyDataSetChanged();
+
+        } else {
+            filterlist.addAll(listitem);
+            adapterItem.notifyDataSetChanged();
         }
 
+        Log.d(TAG, "populateData: filtering size" + filterlist.size());
 
     }
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getContext(), "Item---" + listitem.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(FragmentProduct.MODEL_ITEM, listitem.get(position));
+        bundle.putSerializable(FragmentProduct.MODEL_ITEM, filterlist.get(position));
+            Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
+
         FragmentProduct fragmentProduct = new FragmentProduct();
         fragmentProduct.setArguments(bundle);
         ((MainActivity) getActivity()).changeFragment(fragmentProduct);
@@ -254,6 +220,4 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         }
         ((MainActivity) getActivity()).setToolbarType2(toolbar_title, false, true);
     }
-
-
 }

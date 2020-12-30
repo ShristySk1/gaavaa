@@ -1,6 +1,7 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,15 @@ import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.MyOrderResponse;
-import com.ayata.purvamart.data.network.response.OrderDetail;
+import com.ayata.purvamart.data.network.response.RegisterDetail;
+import com.ayata.purvamart.data.network.response.RegisterResponse;
+import com.ayata.purvamart.data.network.response.UserCartResponse;
+import com.ayata.purvamart.data.network.response.UserCartDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,11 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.provider.Settings.System.DATE_FORMAT;
-
 public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
+    public   String TAG = "FRAGMENT_MY_ORDER";
     private LinearLayout option1, option2, option3;
     private TextView textView1, textView2, textView3;
     private View line1, line2, line3;
@@ -136,17 +139,17 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         } else {
                             Gson gson = new GsonBuilder().create();
-                            MyOrderResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), MyOrderResponse.class);
+                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
+                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsOrdered()) {
 //                                    listitem.add(new ModelOrderList(R.drawable.spinach, "22574", "20-Dec-2019", "3:00 PM", "22 Dec"));
                                 }
                             }
-                            //navigate to next fragment
-                            nextFragment(new FragmentListOrder(), getString(R.string.eo_text3));
-                        }
 
+                        }
+                        //navigate to next fragment
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text3));
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
@@ -176,21 +179,21 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                     JsonObject jsonObject = response.body();
                     if (jsonObject.get("code").toString().equals("200")) {
                         if (jsonObject.get("message").getAsString().equals("empty cart")) {
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), jsonObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         } else {
                             Gson gson = new GsonBuilder().create();
-                            MyOrderResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), MyOrderResponse.class);
+                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
+                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsOrdered()) {
 
                                     listitem.add(new ModelOrderList(R.drawable.spinach, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
                                 }
                             }
-                            //navigate to next fragment
-                            nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
-                        }
 
+                        }
+                        //navigate to next fragment
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
@@ -221,16 +224,17 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         } else {
                             Gson gson = new GsonBuilder().create();
-                            MyOrderResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), MyOrderResponse.class);
+                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
+                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
                                     listitem.add(new ModelOrderList(R.drawable.spinach, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
                                 }
                             }
-                            //navigate to next fragment
-                            nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
+
                         }
+                        //navigate to next fragment
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
 
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
@@ -249,12 +253,15 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
         });
     }
 
+
     private void nextFragment(Fragment fragment, String title) {
         if (listitem != null && listitem.size() != 0) {
             bundle.putSerializable(FRAGMENT_MY_ORDER, (Serializable) listitem);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);
+            Log.d("checkcart", "nextFragment: "+"not emptycart"+listitem.size());
         } else {
+            Log.d("checkcart", "nextFragment: "+"emptycart");
             fragment = new FragmentEmptyOrder();
             bundle.putString(empty_title, title);
         }
