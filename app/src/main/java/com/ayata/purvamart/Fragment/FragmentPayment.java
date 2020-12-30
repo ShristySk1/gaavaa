@@ -111,7 +111,7 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
             case R.id.btn_pay:
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                        .replace(R.id.main_fragment, new FragmentAddressDelivery())
+                        .replace(R.id.main_fragment, new FragmentAddAddress())
                         .addToBackStack(null).commit();
                 break;
         }

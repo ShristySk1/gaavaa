@@ -1,5 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.MyCart;
@@ -143,7 +145,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
                     if (response.body().get("code").getAsString().equals("200")) {
                         Toast.makeText(getContext(), "Successfully Added To Cart", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), response.body().get("details").toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getContext(), SignupActivity.class));
                     }
                 }
             }

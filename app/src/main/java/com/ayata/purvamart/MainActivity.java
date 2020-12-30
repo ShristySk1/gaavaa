@@ -1,6 +1,7 @@
 package com.ayata.purvamart;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,6 +14,7 @@ import com.ayata.purvamart.Fragment.FragmentAccount;
 import com.ayata.purvamart.Fragment.FragmentCart;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
 import com.ayata.purvamart.Fragment.FragmentShop;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         showToolbar();
 
         setToolbarType1(true);
+        Log.d("checkpreference", "onCreate: " + PreferenceHandler.getEmail(this));
+        Log.d("checkpreference", "onCreate: " + PreferenceHandler.getPhone(this));
+        Log.d("checkpreference", "onCreate: " + PreferenceHandler.getToken(this));
+
 
         if (findViewById(R.id.main_fragment) != null) {
 
@@ -224,19 +230,19 @@ public class MainActivity extends AppCompatActivity {
     public void selectMyOrderFragment() {
 
         bottomnav.setSelectedItemId(R.id.nav_order);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.main_fragment, new FragmentMyOrder())
-                .addToBackStack("myOrder").commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                .replace(R.id.main_fragment, new FragmentMyOrder())
+//                .addToBackStack("myOrder").commit();
     }
 
     public void selectCartFragment() {
 
-        bottomnav.setSelectedItemId(R.id.nav_cart);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.main_fragment, new FragmentCart())
-                .addToBackStack("cart").commit();
+        bottomnav.setSelectedItemId(R.id.nav_shop);
+//        getSupportFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                .replace(R.id.main_fragment, new FragmentCart())
+//                .addToBackStack("cart").commit();
     }
 
     public void selectShopFragment() {
@@ -249,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-   public void hideProgressBar() {
+    public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
 }

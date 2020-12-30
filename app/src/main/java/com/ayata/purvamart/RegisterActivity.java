@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Button btn_create_account, btn_google, btn_facebook;
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
     View toolbar;
-    TextInputLayout textEmail, textPassword, textConfirmPassword, textMobileNumber, textUsername;
+    TextInputLayout textEmail, textPassword, textConfirmPassword, textMobileNumber;
     DialogFragment dialogFragment;
 
     @Override
@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         textEmail = findViewById(R.id.input_register_email);
         textPassword = findViewById(R.id.input_register_password);
         textConfirmPassword = findViewById(R.id.input_register_confirmPassword);
-        textUsername = findViewById(R.id.input_register_username);
+
         textMobileNumber = findViewById(R.id.input_register_mobileno);
         toolbar = findViewById(R.id.toolbar_layout);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
@@ -119,16 +119,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public boolean validateUsername() {
-        String usernameInput = textUsername.getEditText().getText().toString().trim();
-        if (usernameInput.isEmpty()) {
-            textUsername.setError("Field can't be empty");
-            return false;
-        } else {
-            textUsername.setError(null);
-            return true;
-        }
-    }
+
 
     public boolean validatePassword() {
         String passwordInput = textPassword.getEditText().getText().toString().trim();
@@ -170,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_create_account:
-                if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateUsername()|!validateConfirmPassword()) {
+                if (!validateEmail() | !validatePassword() | !validateMobileNumber()|!validateConfirmPassword()) {
                     return;
                 }
                 RegisterDetail details = new RegisterDetail();
@@ -178,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 details.setPassword(textPassword.getEditText().getText().toString().trim());
                 details.setConfirmPassword(textConfirmPassword.getEditText().getText().toString().trim());
                 details.setMobileNumber(textMobileNumber.getEditText().getText().toString().trim());
-                details.setUsername(textUsername.getEditText().getText().toString().trim());
+
 
 //                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 //                startActivity(intent);

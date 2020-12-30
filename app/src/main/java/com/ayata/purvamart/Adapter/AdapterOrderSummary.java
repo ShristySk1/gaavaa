@@ -96,7 +96,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
                 public void onClick(View view) {
                     onItemClickListener.onAddClick(listitem.get(getAdapterPosition()),getAdapterPosition());
                     Double c = Double.valueOf(textCount.getText().toString());
-                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+//                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
                     setTotalInFragment();
                 }
             });
@@ -105,7 +105,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
                 public void onClick(View view) {
                    onItemClickListener.onMinusClick(listitem.get(getAdapterPosition()),getAdapterPosition());
                     Double c = Double.valueOf(textCount.getText().toString());
-                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+//                    textPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
                    setTotalInFragment();
                 }
             });

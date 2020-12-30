@@ -1,5 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.UserCartDetail;
@@ -129,6 +131,7 @@ public class FragmentCart extends Fragment {
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue".toString(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getContext(), SignupActivity.class));
 
                     }
                 } else {
@@ -161,7 +164,6 @@ public class FragmentCart extends Fragment {
     }
 
     private void changeFragment(Fragment fragment) {
-
         getChildFragmentManager().beginTransaction().add(R.id.fragment_cart, fragment).addToBackStack("cart").commit();
     }
 

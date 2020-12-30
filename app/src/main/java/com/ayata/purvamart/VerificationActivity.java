@@ -37,7 +37,6 @@ import retrofit2.Response;
 
 public class VerificationActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "VerificationFragment";
-    private String phoneNo;
     DialogFragment dialogFragment;
 
     //view
@@ -49,7 +48,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
     View toolbar;
     //token
-    String token;
+    String tokenwithBearer,tokenWithoutBearer;
     String username;
     String email, phoenno;
 
@@ -84,17 +83,19 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
     private void getIntentArguments() {
         Intent intent = getIntent();
-        token = "bearer"+intent.getStringExtra(Constants.AUTH_TOKEN);
+        tokenwithBearer = "bearer"+intent.getStringExtra(Constants.AUTH_TOKEN);
+        tokenWithoutBearer = intent.getStringExtra(Constants.AUTH_TOKEN);
         username = intent.getStringExtra(Constants.USER_NAME);
         email = intent.getStringExtra(Constants.USER_EMAIL);
         phoenno = intent.getStringExtra(Constants.USER_PHONE_NUMBER);
+        phone_no.setText("We sent it to the number +977 "+phoenno);
     }
 
     private void verifyOtp(String otp) {
         ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
         try {
 
-            restloginapiinterface.verifyOtp(token, otp).enqueue(new Callback<JsonObject>() {
+            restloginapiinterface.verifyOtp(tokenwithBearer, otp).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     hideDialog();
@@ -108,7 +109,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
                             Gson gson = new GsonBuilder().create();
                             VerificationResponse verificationResponse = gson.fromJson(gson.toJson(jsonObject), VerificationResponse.class);
                             Toast.makeText(VerificationActivity.this, "Otp successfully verified", Toast.LENGTH_SHORT).show();
-                            saveUser(token, email, username, phoenno);
+                            saveUser(tokenWithoutBearer, email, username, phoenno);
                             Log.d(TAG, "onResponse: " + verificationResponse.getDetails());
                             Intent intent = (new Intent(VerificationActivity.this, MainActivity.class));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

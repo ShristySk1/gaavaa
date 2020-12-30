@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.ayata.purvamart.PortalActivity;
 
@@ -25,6 +26,7 @@ public class PreferenceHandler {
         editor.putString("email", email);
         editor.putString("phone", phone);
         editor.putString("username", username);
+
         editor.apply();
     }
 

@@ -150,7 +150,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, filterlist.get(position));
-            Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
+        Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
 
         FragmentProduct fragmentProduct = new FragmentProduct();
         fragmentProduct.setArguments(bundle);

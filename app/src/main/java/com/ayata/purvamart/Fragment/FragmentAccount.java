@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterAccount;
@@ -32,6 +33,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
     private Button btn_logout;
     private ImageView imageBtn_edit;
+    private TextView acc_email,acc_name;
 
 
     @Override
@@ -44,7 +46,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         ((MainActivity) getActivity()).setToolbarType3("Account");
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
-
+        acc_email = view.findViewById(R.id.acc_email);
+        acc_name=view.findViewById(R.id.acc_name);
         imageBtn_edit = view.findViewById(R.id.acc_btn_edit);
         imageBtn_edit.setOnClickListener(this);
         btn_logout = view.findViewById(R.id.acc_btn_logout);
@@ -57,6 +60,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
     private void initView() {
         recyclerView = view.findViewById(R.id.acc_recycler);
+        acc_email.setText(PreferenceHandler.getEmail(getContext()));
+        acc_name.setText(PreferenceHandler.getUsername(getContext()));
 
         listitem = new ArrayList<>();
         prepareData();

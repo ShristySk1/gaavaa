@@ -33,7 +33,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
     private LinearLayoutManager layoutManager;
     private Button btn_confirm;
     private TextView pay_total;
-    private TextView pay_orderPrice;
+    private TextView pay_orderPrice, text_address;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +44,9 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
         initAppbar();
         pay_orderPrice = view.findViewById(R.id.pay_orderprice);
         pay_total = view.findViewById(R.id.pay_total);
+        text_address = view.findViewById(R.id.text_address);
 
         initRecycler(view);
-
         btn_confirm = view.findViewById(R.id.btn_confirm);
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +102,11 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
 //            listitem.addAll((ArrayList<ModelItem>) bundle.getSerializable(FragmentAddressDelivery.FRAGMENT_ADDRESS_DELIVERY));
             Log.d(TAG, "dataPrepare: " + listitem.size());
             //test
+            String total_address = bundle.getString(FragmentAddressDelivery.FRAGMENT_ADDRESS_DELIVERY);
+            text_address.setText(total_address);
             listitem.addAll(Cart.getModelItems());
-            adapterOrderSummary.notifyDataSetChanged();
+            if (listitem != null)
+                adapterOrderSummary.notifyDataSetChanged();
         }
     }
 

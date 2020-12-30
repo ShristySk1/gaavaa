@@ -1,5 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
@@ -186,8 +188,11 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsOrdered()) {
-
-                                    listitem.add(new ModelOrderList(R.drawable.spinach, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
+                                    String image="";
+                                    if(orderDetail.getImage().size()>0){
+                                        image=orderDetail.getImage().get(0);
+                                    }
+                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
                                 }
                             }
 
@@ -197,6 +202,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getContext(), SignupActivity.class));
 
                     }
                 } else {
@@ -228,7 +234,11 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
-                                    listitem.add(new ModelOrderList(R.drawable.spinach, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
+                                    String image="";
+                                    if(orderDetail.getImage().size()>0){
+                                        image=orderDetail.getImage().get(0);
+                                    }
+                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
                                 }
                             }
 
@@ -268,8 +278,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
         fragment.setArguments(bundle);
         getChildFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.fragment_order, fragment)
-                .addToBackStack(null).commit();
+                .replace(R.id.fragment_order, fragment).addToBackStack(null).commit();
     }
 
     private void selectOption1() {

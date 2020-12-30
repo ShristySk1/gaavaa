@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class ModelOrderList implements Serializable {
 
-    private int image;
+    private String image;
     private String order_id;
     private String date;
     private String time;
     private String delivery_date;
 
-    public ModelOrderList(int image, String order_id, String date, String time, String delivery_date) {
+    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date) {
         this.image = image;
         this.order_id = order_id;
         this.date = date;
@@ -18,11 +18,11 @@ public class ModelOrderList implements Serializable {
         this.delivery_date = delivery_date;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

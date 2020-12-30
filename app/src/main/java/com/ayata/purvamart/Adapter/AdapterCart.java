@@ -92,20 +92,23 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onCartClickListener.onAddClick(listitem.get(getAdapterPosition()), getAdapterPosition());
-                    Double c = Double.valueOf(textCount.getText().toString());
-                    textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
-//                    listitem.get(getAdapterPosition()).setCount(Integer.valueOf(textCount.getText().toString()));
-                    setTotalInFragment();
+                    if (getAdapterPosition() != -1) {
+                        onCartClickListener.onAddClick(listitem.get(getAdapterPosition()), getAdapterPosition());
+                        Double c = Double.valueOf(textCount.getText().toString());
+//                        textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+                        setTotalInFragment();
+                    }
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()), getAdapterPosition());
-                    Double c = Double.valueOf(textCount.getText().toString());
-                    textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
-                    setTotalInFragment();
+                    if(getAdapterPosition()!=-1) {
+                        onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()), getAdapterPosition());
+                        Double c = Double.valueOf(textCount.getText().toString());
+//                        textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+                        setTotalInFragment();
+                    }
                 }
             });
 
