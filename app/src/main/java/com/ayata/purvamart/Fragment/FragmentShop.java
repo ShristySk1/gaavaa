@@ -14,11 +14,14 @@ import com.ayata.purvamart.Adapter.AdapterItem;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelAd;
 import com.ayata.purvamart.Model.ModelCategory;
-import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.CategoryListResponse;
+import com.ayata.purvamart.data.network.response.ProductDetail;
+import com.ayata.purvamart.data.network.response.ProductListResponse;
+import com.ayata.purvamart.utils.AlertDialogHelper;
+import com.ayata.purvamart.utils.RetrofitCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     private LinearLayoutManager LayoutManager_category;
     private AdapterCategory adapterCategory;
 
-    private List<ModelItem> list_madeforyou;
+    private List<ProductDetail> list_madeforyou;
     private GridLayoutManager linearLayoutManager_madeforyou;
     private AdapterItem adapterItem_madeforyou;
 
@@ -117,7 +120,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         category_see_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ModelCategory modelCategory = new ModelCategory(1, "All", "", true);
+                ModelCategory modelCategory = new ModelCategory(0, "All", "", true);
                 selectCategory(modelCategory);
             }
         });
@@ -163,12 +166,51 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
     private void populateMadeForYouList() {
 
-        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "15% Off"));
-        list_madeforyou.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-                R.drawable.tomato, "1 kg", false, "0% Off"));
-        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-                R.drawable.spinach, "1 kg", true, "15% Off"));
+//        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
+//                R.drawable.spinach, "1 kg", true, "15% Off"));
+//        list_madeforyou.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
+//                R.drawable.tomato, "1 kg", false, "0% Off"));
+//        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
+//                R.drawable.spinach, "1 kg", true, "15% Off"));
+        //test
+        AlertDialogHelper.show(getContext());
+        Callback<ProductListResponse> productListResponseCallback = new Callback<ProductListResponse>() {
+            @Override
+            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+                // Handle response data
+                ProductListResponse productListResresponse = response.body();
+                for (ProductDetail productDetail : productListResresponse.getDetails()) {
+                    list_madeforyou.add(productDetail);
+                    adapterItem_madeforyou.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+// i don't think that would be required right now as the Error is already handled in Custom Callback
+            }
+        };
+        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
+        productListapi.getProductsList().enqueue(new RetrofitCallback<ProductListResponse>(getContext(), productListResponseCallback));
+
+//main
+//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+//            @Override
+//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+//                if (response.isSuccessful()) {
+//                    ProductListResponse productListResresponse = response.body();
+//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
+//                        list_madeforyou.add(productDetail);
+//                        adapterItem_madeforyou.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+//
+//            }
+//        });
     }
 
     @Override

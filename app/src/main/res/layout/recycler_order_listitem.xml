@@ -28,14 +28,17 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/text_date_time"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="20-Dec-2019, 3:00 PM"
+                app:layout_constraintEnd_toStartOf="@+id/linear1"
                 app:layout_constraintStart_toStartOf="@+id/text_order"
                 app:layout_constraintTop_toBottomOf="@+id/text_order" />
+
             <TextView
                 android:id="@+id/text_delivery"
                 android:layout_width="wrap_content"
@@ -44,6 +47,8 @@
                 android:text="Estimated Delivery on 22 Dec"
                 android:textColor="@color/colorGreen"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linear1"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/text_date_time"
                 app:layout_constraintTop_toBottomOf="@+id/text_date_time" />
 
@@ -51,20 +56,19 @@
                 android:id="@+id/linear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/text_delivery"
-                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/background_grey"
                 android:paddingHorizontal="5dp"
                 android:paddingVertical="5dp"
-                android:background="@drawable/background_grey">
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/spinach" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/spinach" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,14 +45,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         ModelItem modelItem = listitem.get(position);
         String price = modelItem.getPrice();
         String discount = modelItem.getDiscount_percent();
-        Double totalprice = modelItem.getTotalPrice();
-        Integer count=modelItem.getCount();
+        Double pri = Double.valueOf(price);
+        Integer count = modelItem.getCount();
         String name = modelItem.getName();
+        Double totalprice = pri * Double.valueOf(count);
         //bind data
         holder.textName.setText(name);
         holder.textPrice.setText(price + "/kg");
         holder.textCount.setText(count.toString());
-//        holder.textTotalPrice.setText("Rs. " + totalprice.toString());
+        holder.textTotalPrice.setText(totalprice.toString());
         //handle discount
 //        if (modelItem.getDiscount()) {
 //            holder.textDiscount.setVisibility(View.VISIBLE);
@@ -73,14 +74,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
 
         OnCartItemClickListener onCategoryClickListener;
         ImageView image;
-        TextView textName, textPrice, textCount;
+        TextView textName, textPrice, textCount, textTotalPrice;
         ImageButton add, minus;
+
         public modelViewHolder(@NonNull View itemView, OnCartItemClickListener onCategoryClickListener) {
             super(itemView);
             this.onCategoryClickListener = onCategoryClickListener;
             image = itemView.findViewById(R.id.image_cart_productImage);
             textName = itemView.findViewById(R.id.text_cart_productName);
-//            textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
+            textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
             textPrice = itemView.findViewById(R.id.text_cart_pricePerKg);
             textCount = itemView.findViewById(R.id.text_cart_productQuantity);
 //            textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
@@ -90,15 +92,19 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onCartClickListener.onAddClick(listitem.get(getAdapterPosition()),getAdapterPosition());
+                    onCartClickListener.onAddClick(listitem.get(getAdapterPosition()), getAdapterPosition());
+                    Double c = Double.valueOf(textCount.getText().toString());
+                    textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
                     setTotalInFragment();
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()),getAdapterPosition());
-                   setTotalInFragment();
+                    onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()), getAdapterPosition());
+                    Double c = Double.valueOf(textCount.getText().toString());
+                    textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
+                    setTotalInFragment();
                 }
             });
 
@@ -113,9 +119,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
     public interface OnCartItemClickListener {
         void onPriceTotalListener(Double total);
 
-        void onAddClick(ModelItem modelItem,int position);
+        void onAddClick(ModelItem modelItem, int position);
 
-        void onMinusClick(ModelItem modelItem,int position);
+        void onMinusClick(ModelItem modelItem, int position);
 
         void onCartItemClick(int position);
     }
@@ -143,5 +149,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             Double totalprice = getPriceOnly(listitem.get(i).getPrice());
             listitem.get(i).setTotalPrice(totalprice);
         }
+    }
+
+    public List<ModelItem> getAllDataFromCart() {
+        return listitem;
     }
 }

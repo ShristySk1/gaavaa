@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.Details;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
 import com.ayata.purvamart.data.network.response.RegisterDetailError;
 import com.ayata.purvamart.data.network.response.RegisterResponse;
@@ -174,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateUsername()) {
                     return;
                 }
-                Details details = new Details();
+                RegisterDetail details = new RegisterDetail();
                 details.setEmail(textEmail.getEditText().getText().toString().trim());
                 details.setPassword(textPassword.getEditText().getText().toString().trim());
                 details.setConfirmPassword(textConfirmPassword.getEditText().getText().toString().trim());
@@ -198,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void registerUser(Details details) {
+    private void registerUser(RegisterDetail details) {
         Log.d(TAG, "registerUser: " + details.getEmail());
         ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
         try {

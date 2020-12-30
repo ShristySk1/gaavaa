@@ -17,11 +17,25 @@ public class PreferenceHandler {
     }
 
     //after successful login
-    public static void saveUser(String details, Context context) {
+    public static void saveUser(String details, String email, String phone, String username, Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("Registered", true);
-        editor.putString("Token", details);
+        editor.putString("Token", "bearer" + details);
+        editor.putString("email", email);
+        editor.putString("phone", phone);
+        editor.putString("username", username);
+        editor.apply();
+    }
+
+    public static void updateUser(String details, String email, String phone, String username, Context context) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("Registered", true);
+        editor.putString("Token",details);
+        editor.putString("email", email);
+        editor.putString("phone", phone);
+        editor.putString("username", username);
         editor.apply();
     }
 
@@ -42,5 +56,20 @@ public class PreferenceHandler {
     public static String getToken(Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getString("Token", "");
+    }
+
+    public static String getEmail(Context context) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getString("email", "");
+    }
+
+    public static String getUsername(Context context) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getString("username", "");
+    }
+
+    public static String getPhone(Context context) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getString("phone", "");
     }
 }

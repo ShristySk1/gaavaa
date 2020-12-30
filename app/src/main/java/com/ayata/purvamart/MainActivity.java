@@ -5,15 +5,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.Fragment.FragmentAccount;
 import com.ayata.purvamart.Fragment.FragmentCart;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
-import com.ayata.purvamart.Fragment.FragmentPayment;
 import com.ayata.purvamart.Fragment.FragmentShop;
-import com.ayata.purvamart.Fragment.FragmentTrackOrder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomnav;
     View toolbar;
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         toolbarType2 = toolbar.findViewById(R.id.appbar2);
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
-
+        progressBar = findViewById(R.id.main_progressbar);
         showToolbar();
 
         setToolbarType1(true);
@@ -43,13 +43,14 @@ public class MainActivity extends AppCompatActivity {
         if (findViewById(R.id.main_fragment) != null) {
 
             if (savedInstanceState != null) {
-                return;
+
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                        .add(R.id.main_fragment, new FragmentShop())
+                        .commit();
             }
 
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                    .replace(R.id.main_fragment, new FragmentShop())
-                    .commit();
 
         }
 
@@ -67,31 +68,31 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                     Fragment selectedFragment = null;
-                    String stack_text=null;
+                    String stack_text = null;
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_shop:
                             //samepagex
                             setToolbarType1(true);
-                            stack_text="shop";
+                            stack_text = "shop";
                             selectedFragment = new FragmentShop();
                             break;
 
                         case R.id.nav_cart:
                             setToolbarType3("Cart");
-                            stack_text="cart";
+                            stack_text = "cart";
                             selectedFragment = new FragmentCart();
                             break;
 
                         case R.id.nav_order:
                             setToolbarType3("My Order");
-                            stack_text="myOrder";
+                            stack_text = "myOrder";
                             selectedFragment = new FragmentMyOrder();
                             break;
 
                         case R.id.nav_account:
                             setToolbarType3("Account");
-                            stack_text="account";
+                            stack_text = "account";
                             selectedFragment = new FragmentAccount();
                             break;
 
@@ -126,15 +127,15 @@ public class MainActivity extends AppCompatActivity {
         notification_layout = toolbar.findViewById(R.id.notification_layout);
 
         View notification_dot;
-        notification_dot= toolbar.findViewById(R.id.notification_dot);
+        notification_dot = toolbar.findViewById(R.id.notification_dot);
 
-        if(notification_dot_visible)
-        notification_dot.setVisibility(View.VISIBLE);
+        if (notification_dot_visible)
+            notification_dot.setVisibility(View.VISIBLE);
         else notification_dot.setVisibility(View.GONE);
 
     }
 
-    public void setToolbarType2(String title, Boolean likeIcon,Boolean filterIcon) {
+    public void setToolbarType2(String title, Boolean likeIcon, Boolean filterIcon) {
 
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.VISIBLE);
@@ -142,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView text;
         ImageButton back;
-        ImageView like,filter;
+        ImageView like, filter;
 
         text = toolbar.findViewById(R.id.text_header);
         back = toolbar.findViewById(R.id.back);
         like = toolbar.findViewById(R.id.like);
-        filter= toolbar.findViewById(R.id.filter);
+        filter = toolbar.findViewById(R.id.filter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,11 +159,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (!likeIcon) {
             like.setVisibility(View.GONE);
-        }else{like.setVisibility(View.VISIBLE);}
+        } else {
+            like.setVisibility(View.VISIBLE);
+        }
 
         if (!filterIcon) {
             filter.setVisibility(View.GONE);
-        }else{filter.setVisibility(View.VISIBLE);}
+        } else {
+            filter.setVisibility(View.VISIBLE);
+        }
 
         text.setText(title);
 
@@ -171,22 +176,21 @@ public class MainActivity extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(like.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_like_filled).getConstantState()))
-                like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
+                if (like.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_like_filled).getConstantState()))
+                    like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
                 else
                     like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_filled));
 
                 //        <<sdk 21+ android5>>
-                if((int)like.getTag()== R.drawable.ic_like_outline){
+                if ((int) like.getTag() == R.drawable.ic_like_outline) {
                     like.setTag(R.drawable.ic_like_filled);
                     like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_filled));
-                }else{
+                } else {
                     like.setTag(R.drawable.ic_like_outline);
                     like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
                 }
             }
         });
-
 
 
     }
@@ -217,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null).commit();
     }
 
-    public void selectMyOrderFragment(){
+    public void selectMyOrderFragment() {
 
         bottomnav.setSelectedItemId(R.id.nav_order);
         getSupportFragmentManager().beginTransaction()
@@ -226,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("myOrder").commit();
     }
 
-    public void selectCartFragment(){
+    public void selectCartFragment() {
 
         bottomnav.setSelectedItemId(R.id.nav_cart);
         getSupportFragmentManager().beginTransaction()
@@ -241,4 +245,11 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new FragmentShop());
     }
 
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+   public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 }

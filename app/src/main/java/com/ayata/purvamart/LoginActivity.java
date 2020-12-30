@@ -159,13 +159,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String s = code.getAsString();
                             if (s.equals("200")) {
                                 Toast.makeText(LoginActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "onResponse: success");
                                 Gson gson = new GsonBuilder().create();
                                 LoginResponse loginResponse = gson.fromJson(gson.toJson(jsonObject), LoginResponse.class);
                                 Toast.makeText(LoginActivity.this, "User is logged in", Toast.LENGTH_SHORT).show();
-                                String token = loginResponse.getDetails().get(0).getKey();
-                                saveUser(token);
-                                Log.d(TAG, "onResponse: " + loginResponse.getDetails().get(0).getKey());
+                                String token = loginResponse.getDetails().getToken().getKey();
+                                //TODO RESPONSE
+                                String username = "username";
+                                String email = loginResponse.getDetails().getEmail();
+                                String phoneno = loginResponse.getDetails().getMobileNumber().toString();
+                                saveUser(token, email, username, phoneno);
+                                Log.d(TAG, "onResponse: " + token);
                                 Intent intent = (new Intent(LoginActivity.this, MainActivity.class));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -174,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 //do process with data
                                 Log.d(TAG, "onResponse: " + jsonObject.get("message"));
                                 Log.d(TAG, "onResponse: " + jsonObject.get("status"));
-                                Toast.makeText(LoginActivity.this, jsonObject.get("details").toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                             }
                         } catch (Exception e) {
                             Log.d(TAG, "onResponse: " + e.getMessage());
@@ -216,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialogFragment.dismiss();
     }
 
-    private void saveUser(String token) {
-        PreferenceHandler.saveUser(token, this);
+    private void saveUser(String token, String email, String username, String phone) {
+        PreferenceHandler.saveUser(token, email, phone, username, this);
     }
 }

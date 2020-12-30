@@ -1,6 +1,7 @@
 package com.ayata.purvamart.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,9 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         this.context = context;
         this.listitem = listitem;
         this.onItemClickListener = onItemClickListener;
-        setTotalPriceInModel();
-        setTotalInFragment();
+            setTotalPriceInModel();
+            setTotalInFragment();
+
     }
 
     @NonNull
@@ -66,6 +68,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
 
     @Override
     public int getItemCount() {
+        Log.d("adaptertest", "getItemCount: "+listitem.size());
         return listitem.size();
     }
 

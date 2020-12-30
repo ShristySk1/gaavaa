@@ -3,32 +3,54 @@ package com.ayata.purvamart.Model;
 import java.io.Serializable;
 
 public class ModelItem implements Serializable {
-
+    private Integer id;
     private String name, price, prev_price, discount_percent, quantity;
     private int image;
     private Boolean discount;
     private Double totalPrice;
     private int count;
+    //cart
+    private Double basePrice;
 
-    public ModelItem(String name, String price, String prev_price, int image,String quantity, Boolean discount, String discount_percent) {
+    public Double getBasePrice() {
+        return basePrice;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    //    public ModelItem(String name, String price, String prev_price, int image, String quantity, Boolean discount, String discount_percent) {
+//        this.name = name;
+//        this.price = price;
+//        this.prev_price = prev_price;
+//        this.image = image;
+//        this.discount_percent = discount_percent;
+//        this.quantity = quantity;
+//        this.basePrice=Double.valueOf(price);
+//        this.discount = discount;
+//    }
+    public ModelItem(Integer id,String name, String price, String prev_price, int image, String quantity, Boolean discount, String discount_percent, int count) {
         this.name = name;
         this.price = price;
+        this.id=id;
         this.prev_price = prev_price;
         this.image = image;
         this.discount_percent = discount_percent;
         this.quantity = quantity;
+        this.basePrice = Double.valueOf(price);
         this.discount = discount;
+        this.count = count;
     }
-    public ModelItem(String name, String price, String prev_price, int image,String quantity, Boolean discount, String discount_percent,int count) {
-        this.name = name;
-        this.price = price;
-        this.prev_price = prev_price;
-        this.image = image;
-        this.discount_percent = discount_percent;
-        this.quantity = quantity;
-        this.discount = discount;
-        this.count=count;
-    }
+
     public String getName() {
         return name;
     }

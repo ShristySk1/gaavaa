@@ -103,9 +103,9 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
                             Gson gson = new GsonBuilder().create();
                             VerificationResponse verificationResponse = gson.fromJson(gson.toJson(jsonObject), VerificationResponse.class);
                             Toast.makeText(VerificationActivity.this, "Otp successfully verified", Toast.LENGTH_SHORT).show();
-                            saveUser(token);
+//                            saveUser(token);
                             Log.d(TAG, "onResponse: " + verificationResponse.getDetails());
-                            Intent intent = (new Intent(VerificationActivity.this, MainActivity.class));
+                            Intent intent = (new Intent(VerificationActivity.this, LoginActivity.class));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             return;
@@ -208,7 +208,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void saveUser(String token) {
-        PreferenceHandler.saveUser(token, this);
-    }
+//    private void saveUser(String token) {
+//        PreferenceHandler.saveUser(token, this);
+//    }
 }

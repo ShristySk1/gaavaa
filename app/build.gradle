@@ -52,7 +52,7 @@ dependencies {
     implementation('com.khalti:khalti-android:2.00.01') {
         transitive = true
     }
-     //esewa
+    //esewa
     implementation(name: "eSewaSdk", ext: "aar")
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'

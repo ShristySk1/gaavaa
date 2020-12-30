@@ -3,10 +3,7 @@ package com.ayata.purvamart.data.network.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class LoginResponse {
-
+public class ProfileUpdateResponse {
     @SerializedName("code")
     @Expose
     private Integer code;
@@ -18,7 +15,7 @@ public class LoginResponse {
     private String message;
     @SerializedName("details")
     @Expose
-    private LoginDetail details;
+    private ProfileDetail details;
 
     public Integer getCode() {
         return code;
@@ -44,21 +41,12 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public LoginDetail getDetails() {
+    public ProfileDetail getDetails() {
         return details;
     }
 
-    public void setDetails(LoginDetail details) {
+    public void setDetails(ProfileDetail details) {
         this.details = details;
     }
 
-    @Override
-    public String toString() {
-        return "LoginResponse{" +
-                "code=" + code +
-                ", status='" + status + '\'' +
-                ", message='" + message + '\'' +
-                ", details=" + details +
-                '}';
-    }
 }

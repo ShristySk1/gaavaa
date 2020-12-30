@@ -2,6 +2,7 @@ package com.ayata.purvamart.Adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -24,10 +25,10 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_LOADING = 1;
 
     private Context context;
-    private List<ModelItem> listitem;
+    private List<ProductDetail> listitem;
     private OnItemClickListener onItemClickListener;
 
-    public AdapterItem(Context context, List<ModelItem> listitem, OnItemClickListener onItemClickListener) {
+    public AdapterItem(Context context, List<ProductDetail> listitem, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.listitem = listitem;
         this.onItemClickListener = onItemClickListener;
@@ -121,18 +122,17 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void populateItemRows(modelViewHolder holder, int position) {
 
         holder.name.setText(listitem.get(position).getName());
-        holder.quantity.setText(listitem.get(position).getQuantity());
-        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
-        holder.price.setText(listitem.get(position).getPrice());
-
-        holder.prev_price.setText(listitem.get(position).getPrice());
-
+        holder.quantity.setText(listitem.get(position).getUnit());
+        Glide.with(context).load(listitem.get(position).getProductImage()).into(holder.image);
+        Log.d("checkimage", "populateItemRows: " + listitem.get(position).getProductImage());
+        holder.price.setText(listitem.get(position).getProductPrice().toString());
+        holder.prev_price.setText(listitem.get(position).getOldPrice().toString());
         //strike through
         holder.prev_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        if (listitem.get(position).getDiscount()) {
+        if (listitem.get(position).getDiscounted()) {
             holder.discount.setVisibility(View.VISIBLE);
-            holder.discount.setText(listitem.get(position).getDiscount_percent());
+            holder.discount.setText(listitem.get(position).getProductDiscount());
 
             holder.prev_price.setVisibility(View.VISIBLE);
         } else {

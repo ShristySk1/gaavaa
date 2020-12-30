@@ -5,11 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.network.ApiClient;
+import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.response.ProfileDetail;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import androidx.fragment.app.Fragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +59,8 @@ public class FragmentEditProfile extends Fragment {
         return fragment;
     }
 
+    TextInputLayout textEmail, textPassword, textConfirmPassword, textMobileNumber, textUsername;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +79,75 @@ public class FragmentEditProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Edit Profile", false,false);
+        ((MainActivity) getActivity()).setToolbarType2("Edit Profile", false, false);
         initView(view);
+        getDataFromPreference();
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             getFragmentManager().popBackStackImmediate();
+                //profile-edit
+                updateProfile();
+
+            }
+
+            private void updateProfile() {
+                boolean test = false;
+                String email = textEmail.getEditText().getText().toString();
+                String phone = textMobileNumber.getEditText().getText().toString();
+                String username = textUsername.getEditText().getText().toString();
+                ApiService apiService = ApiClient.getClient().create(ApiService.class);
+                ProfileDetail profileDetail = new ProfileDetail();
+                profileDetail.setAddressLine1("address");
+                profileDetail.setContactNo1(phone);
+                profileDetail.setFirstName(username);
+                profileDetail.setLastName("lastsname");
+                profileDetail.setShippingAddr(test);
+                profileDetail.setGender("Male");
+                String token = PreferenceHandler.getToken(getContext());
+                apiService.updateProfile(token, profileDetail).enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.isSuccessful()) {
+                            JsonObject jsonObject = response.body();
+                            if (jsonObject.get("code").toString().equals("200")) {
+                                saveUser(token, "test@gmail.com", "testusername", profileDetail.getContactNo1());
+                                Toast.makeText(getContext(), "" + "Profile Updated Successfully", Toast.LENGTH_LONG).show();
+                                getFragmentManager().popBackStackImmediate();
+                            } else {
+                                Toast.makeText(getContext(), "" + jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         return view;
     }
 
+    private void saveUser(String token, String email, String username, String phone) {
+        PreferenceHandler.updateUser(token, email, phone, username, getContext());
+    }
+
+    private void getDataFromPreference() {
+        String email = PreferenceHandler.getEmail(getContext());
+        String username = PreferenceHandler.getUsername(getContext());
+        String phone = PreferenceHandler.getPhone(getContext());
+        textEmail.getEditText().setText(email);
+        textUsername.getEditText().setText(username);
+        textMobileNumber.getEditText().setText(phone);
+    }
+
     private void initView(View view) {
         save = view.findViewById(R.id.btn_save);
+        textEmail = view.findViewById(R.id.input_register_email);
+        textUsername = view.findViewById(R.id.input_register_username);
+        textMobileNumber = view.findViewById(R.id.input_register_phone);
     }
 }
