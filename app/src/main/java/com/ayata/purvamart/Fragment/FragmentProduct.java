@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
@@ -126,7 +127,11 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
-
+                    if (response.body().get("code").getAsString() == "200") {
+                        Toast.makeText(getContext(), "Successfully Added To Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), response.body().get("message").toString(), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 

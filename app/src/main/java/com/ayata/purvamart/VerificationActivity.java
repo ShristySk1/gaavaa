@@ -50,6 +50,8 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
     View toolbar;
     //token
     String token;
+    String username;
+    String email, phoenno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,10 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
     private void getIntentArguments() {
         Intent intent = getIntent();
-        token = "bearer" + intent.getStringExtra(Constants.AUTH_TOKEN);
+        token = "bearer"+intent.getStringExtra(Constants.AUTH_TOKEN);
+        username = intent.getStringExtra(Constants.USER_NAME);
+        email = intent.getStringExtra(Constants.USER_EMAIL);
+        phoenno = intent.getStringExtra(Constants.USER_PHONE_NUMBER);
     }
 
     private void verifyOtp(String otp) {
@@ -103,16 +108,16 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
                             Gson gson = new GsonBuilder().create();
                             VerificationResponse verificationResponse = gson.fromJson(gson.toJson(jsonObject), VerificationResponse.class);
                             Toast.makeText(VerificationActivity.this, "Otp successfully verified", Toast.LENGTH_SHORT).show();
-//                            saveUser(token);
+                            saveUser(token, email, username, phoenno);
                             Log.d(TAG, "onResponse: " + verificationResponse.getDetails());
-                            Intent intent = (new Intent(VerificationActivity.this, LoginActivity.class));
+                            Intent intent = (new Intent(VerificationActivity.this, MainActivity.class));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             return;
                         } else {
                             Log.d(TAG, "onResponse: " + jsonObject.get("message"));
                             Log.d(TAG, "onResponse: " + jsonObject.get("code"));
-                            Toast.makeText(VerificationActivity.this, jsonObject.get("details").toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VerificationActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(VerificationActivity.this, "Otp verfication failed", Toast.LENGTH_SHORT).show();
@@ -208,7 +213,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-//    private void saveUser(String token) {
-//        PreferenceHandler.saveUser(token, this);
-//    }
+    private void saveUser(String token, String email, String username, String phone) {
+        PreferenceHandler.saveUser(token, email, phone, username, this);
+    }
 }

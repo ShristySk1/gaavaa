@@ -1,8 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.Cart;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.MyOrderResponse;
@@ -111,8 +108,7 @@ public class FragmentCart extends Fragment {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
-                                    modelItemList.add(new ModelItem(orderDetail.getProductId(),orderDetail.getProductId().toString(), orderDetail.getPrice().toString(), String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()),
-                                            R.drawable.spinach, orderDetail.getProductQuantity().toString(), true, "15% Off", 1));
+                                    modelItemList.add(new ModelItem(orderDetail.getProductId(), orderDetail.getProductName(), orderDetail.getPrice().toString(), String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()), orderDetail.getImage().get(0), orderDetail.getProductQuantity().toString(), true, orderDetail.getProductDiscount(), 1));
                                 }
                             }
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
@@ -139,7 +135,7 @@ public class FragmentCart extends Fragment {
 
     private void checkForData() {
 
-        if (modelItemList != null&&modelItemList.size()!=0) {
+        if (modelItemList != null && modelItemList.size() != 0) {
             bundle.putSerializable(FRAGMENT_CART, (Serializable) modelItemList);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);

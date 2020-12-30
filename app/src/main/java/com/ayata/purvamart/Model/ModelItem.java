@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ModelItem implements Serializable {
     private Integer id;
     private String name, price, prev_price, discount_percent, quantity;
-    private int image;
+    private String image;
     private Boolean discount;
     private Double totalPrice;
     private int count;
@@ -28,7 +28,7 @@ public class ModelItem implements Serializable {
         this.basePrice = basePrice;
     }
 
-    //    public ModelItem(String name, String price, String prev_price, int image, String quantity, Boolean discount, String discount_percent) {
+    //        public ModelItem(String name, String price, String prev_price, int image, String quantity, Boolean discount, String discount_percent) {
 //        this.name = name;
 //        this.price = price;
 //        this.prev_price = prev_price;
@@ -38,10 +38,10 @@ public class ModelItem implements Serializable {
 //        this.basePrice=Double.valueOf(price);
 //        this.discount = discount;
 //    }
-    public ModelItem(Integer id,String name, String price, String prev_price, int image, String quantity, Boolean discount, String discount_percent, int count) {
+    public ModelItem(Integer id, String name, String price, String prev_price, String image, String quantity, Boolean discount, String discount_percent, int count) {
         this.name = name;
         this.price = price;
-        this.id=id;
+        this.id = id;
         this.prev_price = prev_price;
         this.image = image;
         this.discount_percent = discount_percent;
@@ -75,11 +75,11 @@ public class ModelItem implements Serializable {
         this.prev_price = prev_price;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -100,7 +100,11 @@ public class ModelItem implements Serializable {
     }
 
     public Boolean getDiscount() {
-        return discount;
+        if (discount_percent.equals("0.0%")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void setDiscount(Boolean discount) {

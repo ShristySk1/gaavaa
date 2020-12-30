@@ -146,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (passwordInput.isEmpty()) {
             textConfirmPassword.setError("Field can't be empty");
             return false;
-        } else if (textConfirmPassword.getEditText().getText().toString().trim() != textPassword.getEditText().getText().toString().trim()) {
+        } else if (!textConfirmPassword.getEditText().getText().toString().trim().equals(textPassword.getEditText().getText().toString().trim())) {
             textConfirmPassword.setError("Password do not match");
             return false;
         } else {
@@ -170,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_create_account:
-                if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateUsername()) {
+                if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateUsername()|!validateConfirmPassword()) {
                     return;
                 }
                 RegisterDetail details = new RegisterDetail();
@@ -212,13 +212,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             TypeToken<List<RegisterDetail>> responseTypeToken = new TypeToken<List<RegisterDetail>>() {
                             };
                             List<RegisterDetail> detail = gson.fromJson(gson.toJson(defaultResponse.getDetails()), responseTypeToken.getType());
-                            //                        passing Bearer token
+                            // passing Bearer token
                             Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
                             String token = detail.get(0).getToken();
                             String otp = detail.get(0).getOtpCode();
+                            String username = detail.get(0).getUsername();
+                            String email = detail.get(0).getEmail();
+                            String number = detail.get(0).getMobileNumber();
                             intent.putExtra(Constants.AUTH_TOKEN, token);
                             intent.putExtra(Constants.OTP, otp);
-                            Log.d(TAG, "onResponse: " + token + " " + otp);
+                            intent.putExtra(Constants.USER_NAME, username);
+                            intent.putExtra(Constants.USER_EMAIL, email);
+                            intent.putExtra(Constants.USER_PHONE_NUMBER, number);
+                            Log.d(TAG, "onResponse: " + token + " " + otp + "phone: " + number);
                             startActivity(intent);
                         } else {
                             //If for everyOther Status the response is Object of ResponseError which contains msg.

@@ -165,7 +165,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     }
 
     private void populateMadeForYouList() {
-
+        AlertDialogHelper.dismiss(getContext());
 //        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
 //                R.drawable.spinach, "1 kg", true, "15% Off"));
 //        list_madeforyou.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
@@ -173,44 +173,44 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 //        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
 //                R.drawable.spinach, "1 kg", true, "15% Off"));
         //test
-        AlertDialogHelper.show(getContext());
-        Callback<ProductListResponse> productListResponseCallback = new Callback<ProductListResponse>() {
-            @Override
-            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-                // Handle response data
-                ProductListResponse productListResresponse = response.body();
-                for (ProductDetail productDetail : productListResresponse.getDetails()) {
-                    list_madeforyou.add(productDetail);
-                    adapterItem_madeforyou.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-// i don't think that would be required right now as the Error is already handled in Custom Callback
-            }
-        };
-        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-        productListapi.getProductsList().enqueue(new RetrofitCallback<ProductListResponse>(getContext(), productListResponseCallback));
-
-//main
-//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+//        AlertDialogHelper.show(getContext());
+//        Callback<ProductListResponse> productListResponseCallback = new Callback<ProductListResponse>() {
 //            @Override
 //            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                if (response.isSuccessful()) {
-//                    ProductListResponse productListResresponse = response.body();
-//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
-//                        list_madeforyou.add(productDetail);
-//                        adapterItem_madeforyou.notifyDataSetChanged();
-//                    }
+//                // Handle response data
+//                ProductListResponse productListResresponse = response.body();
+//                for (ProductDetail productDetail : productListResresponse.getDetails()) {
+//                    list_madeforyou.add(productDetail);
+//                    adapterItem_madeforyou.notifyDataSetChanged();
 //                }
 //            }
 //
 //            @Override
 //            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-//
+//// i don't think that would be required right now as the Error is already handled in Custom Callback
 //            }
-//        });
+//        };
+        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
+//        productListapi.getProductsList().enqueue(new RetrofitCallback<ProductListResponse>(getContext(), productListResponseCallback));
+
+//main
+        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+            @Override
+            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+                if (response.isSuccessful()) {
+                    ProductListResponse productListResresponse = response.body();
+                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
+                        list_madeforyou.add(productDetail);
+                        adapterItem_madeforyou.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -228,9 +228,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     @Override
     public void onCategoryClick(ModelCategory selectedItem) {
         Toast.makeText(getContext(), "Item--" + selectedItem.getName(), Toast.LENGTH_SHORT).show();
-
         selectCategory(selectedItem);
-
     }
 
     public void selectCategory(ModelCategory modelCategory) {

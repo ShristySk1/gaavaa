@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class FragmentAddressDelivery extends Fragment implements View.OnClickListener {
 
     public static final String FRAGMENT_ADDRESS_DELIVERY = "FRAGMENT_ADDRESS_DELIVERY";
-    private static  String TAG = "FRAGMENT_ADDRESS_DELIVERY";
+    private static String TAG = "FRAGMENT_ADDRESS_DELIVERY";
 
     ImageView address2_check, address1_check;
 
@@ -102,7 +102,7 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
     }
 
     private void getMyOrderList() {
-        modelItems=new ArrayList<>();
+        modelItems = new ArrayList<>();
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
         myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
             @Override
@@ -118,13 +118,13 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (OrderDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
-                                    modelItems.add(new ModelItem(orderDetail.getProductId(),orderDetail.getProductId().toString(), orderDetail.getPrice().toString(), String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()),
-                                            R.drawable.spinach, orderDetail.getProductQuantity().toString(), true, "15% Off", 1));
+                                    modelItems.add(new ModelItem(orderDetail.getProductId(), orderDetail.getProductName(), orderDetail.getPrice().toString(), String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()),
+                                            orderDetail.getImage().get(0), orderDetail.getProductQuantity().toString(), true, orderDetail.getProductDiscount(), 1));
                                 }
                             }
                             //navigate to next fragment
                             Bundle bundle = new Bundle();
-                            Log.d(TAG, "onResponse: "+modelItems.size());
+                            Log.d(TAG, "onResponse: " + modelItems.size());
                             bundle.putSerializable(FRAGMENT_ADDRESS_DELIVERY, (Serializable) modelItems);
                             FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
                             fragmentOrderSummary.setArguments(bundle);

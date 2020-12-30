@@ -10,7 +10,6 @@ public class Cart {
     public static List<ModelItem> getModelItems() {
         return modelItems;
     }
-
     public static void setModelItems(List<ModelItem> modelItems) {
         Cart.modelItems = modelItems;
     }

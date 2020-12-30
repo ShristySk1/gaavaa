@@ -55,7 +55,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         dataPrepare();
         setUpRecyclerView();
 
-        setPrice("200", "Free", "200");
+//        setPrice("200", "Free", "200");
 
         layout_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +108,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         modelItem.setCount(count);
         modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
         adapterCart.notifyItemChanged(position);
-
     }
 
     @Override
@@ -144,13 +143,12 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
 
-    private void setPrice(String price, String delivery, String total) {
-        price_text = view.findViewById(R.id.pay_orderprice);
-        total_text = view.findViewById(R.id.pay_total);
-        delivery_text = view.findViewById(R.id.pay_delivery);
-        price_text.setText("Rs. " + price);
-        total_text.setText("Rs. " + total);
-        delivery_text.setText(delivery);
-    }
-
+//    private void setPrice(String price, String delivery, String total) {
+//        price_text = view.findViewById(R.id.pay_orderprice);
+//        total_text = view.findViewById(R.id.pay_total);
+//        delivery_text = view.findViewById(R.id.pay_delivery);
+//        price_text.setText("Rs. " + price);
+//        total_text.setText("Rs. " + total);
+//        delivery_text.setText(delivery);
+//    }
 }
