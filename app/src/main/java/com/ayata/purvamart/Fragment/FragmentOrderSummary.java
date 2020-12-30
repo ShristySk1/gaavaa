@@ -16,6 +16,8 @@ import com.ayata.purvamart.data.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -113,16 +115,42 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
 
     @Override
     public void onAddClick(ModelItem modelItem, int position) {
-
+        Integer count = modelItem.getCount();
+        count++;
+        modelItem.setCount(count);
+        modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
+        adapterOrderSummary.notifyItemChanged(position);
     }
 
     @Override
     public void onMinusClick(ModelItem modelItem, int position) {
-
+        Integer count = modelItem.getCount();
+        if (count > 1) {
+            count--;
+            modelItem.setCount(count);
+            modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
+            adapterOrderSummary.notifyItemChanged(position);
+        } else {
+            listitem.remove(position);
+            adapterOrderSummary.notifyItemRemoved(position);
+        }
     }
 
     @Override
     public void onCartItemClick(int position) {
 
+    }
+
+    private double calculatePrice(Double price, int quantity) {
+        return price * quantity;
+    }
+
+    Double getPriceOnly(String textPrice) {
+        Pattern PRICE_PATTERN = Pattern.compile("(\\d*\\.)?\\d+");
+        Matcher matcher = PRICE_PATTERN.matcher(textPrice);
+        while (matcher.find()) {
+            return Double.parseDouble(matcher.group());
+        }
+        return 1.00;
     }
 }

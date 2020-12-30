@@ -178,6 +178,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
                 // Handle response data
+                AlertDialogHelper.dismiss(getContext());
                 ProductListResponse productListResresponse = response.body();
                 for (ProductDetail productDetail : productListResresponse.getDetails()) {
                     list_madeforyou.add(productDetail);
@@ -187,6 +188,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
             @Override
             public void onFailure(Call<ProductListResponse> call, Throwable t) {
+                AlertDialogHelper.dismiss(getContext());
 // i don't think that would be required right now as the Error is already handled in Custom Callback
             }
         };
