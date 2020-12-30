@@ -30,4 +30,7 @@
     <color name="colorCat_text3">#848484</color>
 
     <color name="colorBlue">#3B97D3</color>
+
+    <color name="whiteTransparent">#D9FFFFFF</color>
+
 </resources>

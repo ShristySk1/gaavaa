@@ -146,6 +146,9 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                     for (ProductDetail2 productDetail : productListResresponse.getDetails()) {
                         Integer cat = productDetail.getCategoryId();
                         List<String> image = Arrays.asList(productDetail.getProductImage());
+                        if(productDetail.getProductDetails()==null){
+                            return;
+                        }
                         for (ProductDetail3 detail : productDetail.getProductDetails()) {
                             listitem.add(new ProductDetail(detail.getName(), cat, image,detail.getUnit(), detail.getDescription(),
                                    detail.getDiscountAmount().toString(), detail.getOldPrice(), detail.getPrice()));

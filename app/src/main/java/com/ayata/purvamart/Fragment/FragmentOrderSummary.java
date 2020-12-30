@@ -103,6 +103,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
             Log.d(TAG, "dataPrepare: " + listitem.size());
             //test
             listitem.addAll(Cart.getModelItems());
+            if(listitem!=null)
             adapterOrderSummary.notifyDataSetChanged();
         }
     }

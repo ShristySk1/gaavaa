@@ -55,7 +55,7 @@ public class ProductDetail2 {
     }
 
     public String getProductImage() {
-        if(productImage.size()>0)
+        if(productImage!=null)
         return "http://142.93.221.85"+productImage.get(0);
         else
             return "";
