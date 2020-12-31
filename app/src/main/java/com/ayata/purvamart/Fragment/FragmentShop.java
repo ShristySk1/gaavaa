@@ -100,8 +100,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
         //recycler--categories grid
         list_category = new ArrayList<>();
-        //TODO
-//        populateCategoryList();
         LayoutManager_category = new LinearLayoutManager(getContext());
         LayoutManager_category.setOrientation(RecyclerView.HORIZONTAL);
         adapterCategory = new AdapterCategory(getContext(), list_category, this);
@@ -110,8 +108,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
         //recycler--made for you--list
         list_madeforyou = new ArrayList<>();
-        //TODO
-//        populateMadeForYouList();
         linearLayoutManager_madeforyou = new GridLayoutManager(getContext(), 2);
         adapterItem_madeforyou = new AdapterItem(getContext(), list_madeforyou, this);
         recyclerView_madeforyou.setAdapter(adapterItem_madeforyou);
@@ -166,72 +162,17 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     }
 
     private void populateCategoryList(List<ModelCategory> modelCategoryList) {
-
-//        list_category.add(new ModelCategory("1","Spices", R.drawable.spices1,false));
-//        list_category.add(new ModelCategory("2","Herbs",R.drawable.spices2,false));
-//        list_category.add(new ModelCategory("3","Tea", R.drawable.spices3,false));
-//        list_category.add(new ModelCategory("4","Honey",R.drawable.spices1,false));
-
         list_category.addAll(modelCategoryList);
         adapterCategory.notifyDataSetChanged();
     }
 
     private void populateMadeForYouList(List<ProductDetail> productDetailList) {
-//        AlertDialogHelper.dismiss(getContext());
-//        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
-//        list_madeforyou.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0% Off"));
-//        list_madeforyou.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off"));
         list_madeforyou.addAll(productDetailList);
         adapterItem_madeforyou.notifyDataSetChanged();
-
-//        //test
-//        AlertDialogHelper.show(getContext());
-//        Callback<ProductListResponse> productListResponseCallback = new Callback<ProductListResponse>() {
-//            @Override
-//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                // Handle response data
-//                AlertDialogHelper.dismiss(getContext());
-//                ProductListResponse productListResresponse = response.body();
-//                for (ProductDetail productDetail : productListResresponse.getDetails()) {
-//                    list_madeforyou.add(productDetail);
-//                    adapterItem_madeforyou.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-//                AlertDialogHelper.dismiss(getContext());
-//// i don't think that would be required right now as the Error is already handled in Custom Callback
-//            }
-//        };
-        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-//        productListapi.getProductsList().enqueue(new RetrofitCallback<ProductListResponse>(getContext(), productListResponseCallback));
-//main
-//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
-//            @Override
-//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                if (response.isSuccessful()) {
-//                    ProductListResponse productListResresponse = response.body();
-//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
-//                        list_madeforyou.add(productDetail);
-//                        adapterItem_madeforyou.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     @Override
     public void onItemClick(int position) {
-
         Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, list_madeforyou.get(position));

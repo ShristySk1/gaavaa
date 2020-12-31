@@ -16,15 +16,12 @@ import com.ayata.purvamart.R;
 import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.RegisterDetail;
-import com.ayata.purvamart.data.network.response.RegisterResponse;
-import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.network.response.UserCartDetail;
+import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ import retrofit2.Response;
 public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
-    public   String TAG = "FRAGMENT_MY_ORDER";
+    public String TAG = "FRAGMENT_MY_ORDER";
     private LinearLayout option1, option2, option3;
     private TextView textView1, textView2, textView3;
     private View line1, line2, line3;
@@ -170,7 +167,6 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
     }
 
 
-
     private void getCompletedOrder() {
         listitem = new ArrayList<>();
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
@@ -188,11 +184,11 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsOrdered()) {
-                                    String image="";
-                                    if(orderDetail.getImage().size()>0){
-                                        image=orderDetail.getImage().get(0);
+                                    String image = "";
+                                    if (orderDetail.getImage().size() > 0) {
+                                        image = orderDetail.getImage().get(0);
                                     }
-                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
+                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
                                 }
                             }
 
@@ -234,11 +230,11 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                             for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                                 if (orderDetail.getIsTaken()) {
-                                    String image="";
-                                    if(orderDetail.getImage().size()>0){
-                                        image=orderDetail.getImage().get(0);
+                                    String image = "";
+                                    if (orderDetail.getImage().size() > 0) {
+                                        image = orderDetail.getImage().get(0);
                                     }
-                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "3:00 PM", "22 Dec"));
+                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
                                 }
                             }
 
@@ -269,9 +265,9 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
             bundle.putSerializable(FRAGMENT_MY_ORDER, (Serializable) listitem);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);
-            Log.d("checkcart", "nextFragment: "+"not emptycart"+listitem.size());
+            Log.d("checkcart", "nextFragment: " + "not emptycart" + listitem.size());
         } else {
-            Log.d("checkcart", "nextFragment: "+"emptycart");
+            Log.d("checkcart", "nextFragment: " + "emptycart");
             fragment = new FragmentEmptyOrder();
             bundle.putString(empty_title, title);
         }

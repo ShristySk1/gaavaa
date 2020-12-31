@@ -34,6 +34,7 @@
             android:minLines="3"
             android:layout_above="@id/button"
             android:text="DISCOUNT 25% ALL FRUITS"
+            android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="16sp" />
 
