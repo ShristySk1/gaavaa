@@ -60,5 +60,9 @@ public interface ApiService {
     Call<RegisterResponse> getMyOrderList(@Header("Authorization") String header);
 
     @POST("addto-cart/")
-    Call<JsonObject> addToCart(@Header("Authorization") String header, @Header("Content-Type") String content_type, @Body List<MyCart> myCarts);
+    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Header("Content-Type") String content_type, @Body List<MyCart> myCarts);
+
+    @POST("addproductto-cart/")
+    @FormUrlEncoded
+    Call<JsonObject> addToCart(@Header("Authorization") String header, @Field("product_id") Integer productId);
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.Adapter.AdapterItem;
 import com.ayata.purvamart.Adapter.AdapterOrderTracker;
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.Model.ModelOrderTrack;
@@ -24,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemClickListener, AdapterOrderTracker.OnCategoryClickListener {
-
+    public static String TAG = "FragmentTrackOrder";
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private AdapterOrderTracker adapterItem;
@@ -68,7 +69,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
             text_delivery.setText("Estimated Delivery on"+" "+listitem.getDelivery_date());
             text_datetime.setText(listitem.getDate()+", "+listitem.getTime());
             text_orderid.setText("Order#:"+" "+listitem.getOrder_id());
-            Glide.with(getContext()).load(listitem.getImage()).into(image_item);
+            Glide.with(getContext()).load(listitem.getImage()).placeholder(Constants.PLACEHOLDER).into(image_item);
         }
 
     }

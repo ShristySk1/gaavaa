@@ -13,19 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.MyCart;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
@@ -33,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FragmentProduct extends Fragment implements View.OnClickListener {
-    public static final String TAG = "FRAGMENT_PRODUCT";
+    public static String TAG = "FragmentProduct";
     public static final String MODEL_ITEM = "param1";
     private ProductDetail modelItem;
 
@@ -47,7 +44,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 
     Button btnAddToCart;
     private static int quantity = 0;
-    TextView textQuantity, textProductTitle, textProductNewPrice, textProductOldPrice, textWeight, textDiscount, textProductDescription;
+    TextView textQuantity, textProductTitle, textProductNewPrice, textProductOldPrice, textWeight, textDiscount, textProductDescription, text_product_from;
     ImageButton btn_add, btn_minus;
     ImageView image_product;
 
@@ -74,7 +71,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
 //        textQuantity = view.findViewById(R.id.text_product_quantity);
 //        btn_add = view.findViewById(R.id.imageButton_add);
-//        btn_minus = view.findViewById(R.id.imageButton_minus);
+        text_product_from = view.findViewById(R.id.text_product_from);
         image_product = view.findViewById(R.id.image_product);
         thumb_image = view.findViewById(R.id.thumb_image);
         thumb_text = view.findViewById(R.id.thumb_text);
@@ -90,14 +87,18 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 //        textQuantity.setText("0");
 //        image_product.setImageResource(modelItem.getImage());
         if (modelItem.getProductImage().size() > 0) {
-            Glide.with(getContext()).load("http://" + modelItem.getProductImage().get(0)).into(image_product);
-            Log.d(TAG, "initView: " + "http://" + modelItem.getProductImage().get(0));
+            Glide.with(getContext()).load(modelItem.getProductImage().get(0)).into(image_product);
+            Log.d(TAG, "initView: " + modelItem.getProductImage().get(0));
+        } else {
+            Glide.with(getContext()).asDrawable().load(Constants.PLACEHOLDER).into(image_product);
         }
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
         textWeight.setText(modelItem.getUnit());
         textProductDescription.setText(modelItem.getDescription());
-//        thumb_text.setText(modelItem.getProductLikes().toString());
+        thumb_text.setText(modelItem.getProductLikes().toString());
+        text_product_from.setText(modelItem.getFrom());
+        Log.d(TAG, "initView: " + modelItem.getFrom());
 //        handleDiscount();
         thumb_image.setOnClickListener(this);
     }
@@ -130,24 +131,25 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     private void nextFragment() {
         FragmentCart fragmentCart = new FragmentCart();
         //TODO JSON DATA POST
-        List<MyCart> carts = new ArrayList<>();
+        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
+            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getContext(), SignupActivity.class));
+            return;
+        }
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        MyCart myCart = new MyCart();
-        Log.d(TAG, "nextFragment: " + modelItem.getId());
-        myCart.setProductId(modelItem.getId());
-        myCart.setProductQuantity(1);
-        carts.add(myCart);
-        apiService.addToCart(PreferenceHandler.getToken(getContext()), "application/json", carts).enqueue(new Callback<JsonObject>() {
+        apiService.addToCart(PreferenceHandler.getToken(getContext()), modelItem.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
                     if (response.body().get("code").getAsString().equals("200")) {
-                        Toast.makeText(getContext(), "Successfully Added To Cart", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), SignupActivity.class));
+                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
+
                     }
+                } else {
+                    Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                 }
             }
 

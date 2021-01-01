@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class FragmentAddressDelivery extends Fragment implements View.OnClickListener {
 
     public static final String FRAGMENT_ADDRESS_DELIVERY = "FRAGMENT_ADDRESS_DELIVERY";
-    private static String TAG = "FRAGMENT_ADDRESS_DELIVERY";
+    private String TAG = "FragmentAddressDelivery";
 
     ImageView address2_check, address1_check;
 
@@ -128,10 +128,10 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
                             bundle.putSerializable(FRAGMENT_ADDRESS_DELIVERY, (Serializable) modelItems);
                             FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
                             fragmentOrderSummary.setArguments(bundle);
-                            getFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                                    .replace(R.id.main_fragment, fragmentOrderSummary)
-                                    .addToBackStack(null).commit();
+//                            getFragmentManager().beginTransaction()
+//                                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                                    .replace(R.id.main_fragment, fragmentOrderSummary)
+//                                    .addToBackStack(null).commit();
 //                        }
 //
 //                    } else {

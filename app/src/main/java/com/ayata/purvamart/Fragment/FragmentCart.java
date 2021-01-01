@@ -34,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FragmentCart extends Fragment {
-    public static final String TAG = "FRAGMENT_CART";
+    public static String TAG = "FragmentCart";
     public static final String FRAGMENT_CART = "FRAGMENT_CART";
     List<ModelItem> modelItemList;
 
@@ -116,7 +116,7 @@ public class FragmentCart extends Fragment {
 //                                    Log.d(TAG, "onResponse: "+orderDetail.getPrice().toString()+"quantity: "+orderDetail.getProductQuantity().toString());
                                     String nullCheckImage = "";
                                     if (orderDetail.getImage().size() > 0) {
-                                         nullCheckImage = orderDetail.getImage().get(0);
+                                        nullCheckImage = orderDetail.getImage().get(0);
                                     }
                                     modelItemList.add(new ModelItem(orderDetail.getProductId(),
                                             orderDetail.getProductName(), orderDetail.getPrice().toString(),
@@ -156,15 +156,16 @@ public class FragmentCart extends Fragment {
             bundle.putSerializable(FRAGMENT_CART, (Serializable) modelItemList);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);
-            changeFragment(fragmentCartFilled);
+            changeFragment(fragmentCartFilled,FragmentCartFilled.TAG);
+            Log.d(TAG, "checkForData: " + modelItemList.size());
 
         } else {
-            changeFragment(new FragmentCartEmpty());
+            changeFragment(new FragmentCartEmpty(),FragmentCartEmpty.TAG);
         }
     }
 
-    private void changeFragment(Fragment fragment) {
-        getChildFragmentManager().beginTransaction().add(R.id.fragment_cart, fragment).addToBackStack("cart").commit();
+    private void changeFragment(Fragment fragment,String tag) {
+        getChildFragmentManager().beginTransaction().add(R.id.fragment_cart, fragment).addToBackStack(tag).commit();
     }
 
 

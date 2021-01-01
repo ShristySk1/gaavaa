@@ -17,7 +17,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 
 public class FragmentThankyou extends Fragment {
-
+    public static String TAG = "FragmentThankyou";
     ImageView tick;
 
     AnimatedVectorDrawableCompat animatedVectorDrawableCompat;

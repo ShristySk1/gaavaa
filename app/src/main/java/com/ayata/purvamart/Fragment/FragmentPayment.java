@@ -32,9 +32,8 @@ import java.util.Map;
 
 
 public class FragmentPayment extends Fragment implements View.OnClickListener{
-
+    public static String TAG = "FragmentPayment";
     public static final int REQUEST_CODE_PAYMENT=3;
-    public static final String TAG="errors";
 
     ImageView khalti_check,esewa_check;
 
@@ -109,10 +108,10 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.btn_pay:
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                        .replace(R.id.main_fragment, new FragmentAddAddress())
-                        .addToBackStack(null).commit();
+//                getFragmentManager().beginTransaction()
+//                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                        .replace(R.id.main_fragment, new FragmentAddAddress())
+//                        .addToBackStack(null).commit();
                 break;
         }
     }

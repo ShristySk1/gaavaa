@@ -19,6 +19,7 @@ import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.UserCartDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.utils.AlertDialogHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
-    public String TAG = "FRAGMENT_MY_ORDER";
+    public static String TAG = "FragmentMyOrder";
     private LinearLayout option1, option2, option3;
     private TextView textView1, textView2, textView3;
     private View line1, line2, line3;
@@ -126,11 +127,18 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
     }
 
     private void getCancelledOrder() {
+        AlertDialogHelper.show(getContext());
         listitem = new ArrayList<>();
+        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
+            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getContext(), SignupActivity.class));
+            return;
+        }
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
         myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                AlertDialogHelper.dismiss(getContext());
                 if (response.isSuccessful()) {
                     JsonObject jsonObject = response.body();
                     if (jsonObject.get("code").toString().equals("200")) {
@@ -148,7 +156,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
                         }
                         //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text3));
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text3),FragmentListOrder.TAG);
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
@@ -161,19 +169,22 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                AlertDialogHelper.dismiss(getContext());
             }
         });
     }
 
 
     private void getCompletedOrder() {
+        AlertDialogHelper.show(getContext());
         listitem = new ArrayList<>();
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
         myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                AlertDialogHelper.dismiss(getContext());
                 if (response.isSuccessful()) {
+
                     JsonObject jsonObject = response.body();
                     if (jsonObject.get("code").toString().equals("200")) {
                         if (jsonObject.get("message").getAsString().equals("empty cart")) {
@@ -194,7 +205,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
                         }
                         //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1),FragmentListOrder.TAG);
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
@@ -208,17 +219,19 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                AlertDialogHelper.dismiss(getContext());
             }
         });
     }
 
     private void getOnProgressOrder() {
+        AlertDialogHelper.show(getContext());
         listitem = new ArrayList<>();
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
         myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                AlertDialogHelper.dismiss(getContext());
                 if (response.isSuccessful()) {
                     JsonObject jsonObject = response.body();
                     if (jsonObject.get("code").toString().equals("200")) {
@@ -240,7 +253,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
                         }
                         //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1));
+                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1),FragmentListOrder.TAG);
 
                     } else {
 //                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
@@ -254,13 +267,13 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                AlertDialogHelper.dismiss(getContext());
             }
         });
     }
 
 
-    private void nextFragment(Fragment fragment, String title) {
+    private void nextFragment(Fragment fragment, String title,String tag) {
         if (listitem != null && listitem.size() != 0) {
             bundle.putSerializable(FRAGMENT_MY_ORDER, (Serializable) listitem);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
@@ -274,7 +287,7 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
         fragment.setArguments(bundle);
         getChildFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.fragment_order, fragment).addToBackStack(null).commit();
+                .replace(R.id.fragment_order, fragment).commitAllowingStateLoss();
     }
 
     private void selectOption1() {

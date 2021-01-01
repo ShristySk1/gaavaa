@@ -16,7 +16,7 @@ import com.ayata.purvamart.R;
 
 
 public class FragmentEmptyOrder extends Fragment {
-
+    public String TAG = "FragmentEmptyOrder";
     private Button button;
 
     @Override

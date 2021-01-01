@@ -15,7 +15,7 @@ import com.ayata.purvamart.R;
 
 
 public class FragmentCartEmpty extends Fragment {
-
+    public static final String TAG ="FragmentCartEmpty" ;
     private View view;
 
     @Override

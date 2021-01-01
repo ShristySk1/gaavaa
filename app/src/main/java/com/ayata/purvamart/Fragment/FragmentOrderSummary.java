@@ -1,5 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,12 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterOrderSummary;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.Cart;
+import com.ayata.purvamart.data.network.ApiClient;
+import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.MyCart;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +30,33 @@ import java.util.regex.Pattern;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+/**
+ *         fragmentList.add(new FragmentShop());//0
+ *         fragmentList.add(new FragmentCart());//1
+ *         fragmentList.add(new FragmentMyOrder());//2
+ *         fragmentList.add(new FragmentListOrder());//3
+ *         fragmentList.add(new FragmentEmptyOrder());//4
+ *         fragmentList.add(new FragmentCart());//5
+ *         fragmentList.add(new FragmentCartEmpty());//6
+ *         fragmentList.add(new FragmentCartFilled());//7
+ *         fragmentList.add(new FragmentProduct());//8
+ *         fragmentList.add(new FragmentCategory());//9
+ *         fragmentList.add(new FragmentTrackOrder());//10
+ *         fragmentList.add(new FragmentAccount());//11
+ *         fragmentList.add(new FragmentEditAddress());//12
+ *         fragmentList.add(new FragmentEditProfile());//13
+ *         fragmentList.add(new FragmentPrivacyPolicy());//14
+ *         fragmentList.add(new FragmentPayment());//15
+ *         fragmentList.add(new FragmentThankyou());//16
+ */
 
 public class FragmentOrderSummary extends Fragment implements AdapterOrderSummary.OnItemClickListener {
-    private static final String TAG = "FragmentOrderSummary";
+    public String TAG = "FragmentOrderSummary";
+
     private View view;
     private RecyclerView recyclerView;
     private AdapterOrderSummary adapterOrderSummary;
@@ -51,11 +82,54 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).changeFragment(new FragmentThankyou());
+                //save to server
+                saveOrderListToServer();
+
             }
         });
 
         return view;
+    }
+
+    private void saveOrderListToServer() {
+        //TODO JSON DATA POST
+//        List<MyCart> carts = new ArrayList<>();
+//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+//        MyCart myCart = new MyCart();
+//        Log.d(TAG, "nextFragment: " + modelItem.getId());
+//        myCart.setProductId(modelItem.getId());
+//        carts.add(myCart);
+        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
+            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getContext(), SignupActivity.class));
+            return;
+        }
+        List<MyCart> myCarts = new ArrayList<>();
+        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
+            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
+        }
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        apiService.addToOrder(PreferenceHandler.getToken(getContext()), "application/json", myCarts).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: " + response.body().get("message"));
+                    if (response.body().get("code").getAsString().equals("200")) {
+                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
+                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
+                    } else {
+                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getContext(), SignupActivity.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d(TAG, "onResponse: " + t.getMessage());
+            }
+        });
     }
 
     private void initAppbar() {

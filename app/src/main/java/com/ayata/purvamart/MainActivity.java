@@ -1,5 +1,6 @@
 package com.ayata.purvamart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,21 +13,43 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.Fragment.FragmentAccount;
 import com.ayata.purvamart.Fragment.FragmentCart;
+import com.ayata.purvamart.Fragment.FragmentCartEmpty;
+import com.ayata.purvamart.Fragment.FragmentCartFilled;
+import com.ayata.purvamart.Fragment.FragmentCategory;
+import com.ayata.purvamart.Fragment.FragmentEditAddress;
+import com.ayata.purvamart.Fragment.FragmentEditProfile;
+import com.ayata.purvamart.Fragment.FragmentEmptyOrder;
+import com.ayata.purvamart.Fragment.FragmentListOrder;
 import com.ayata.purvamart.Fragment.FragmentMyOrder;
+import com.ayata.purvamart.Fragment.FragmentPayment;
+import com.ayata.purvamart.Fragment.FragmentPrivacyPolicy;
+import com.ayata.purvamart.Fragment.FragmentProduct;
 import com.ayata.purvamart.Fragment.FragmentShop;
+import com.ayata.purvamart.Fragment.FragmentThankyou;
+import com.ayata.purvamart.Fragment.FragmentTrackOrder;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
+    private String TAG = "MainActivity";
     BottomNavigationView bottomnav;
     View toolbar;
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
     ProgressBar progressBar;
+    FragmentManager manager;
+    List<Fragment> fragmentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,75 +68,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d("checkpreference", "onCreate: " + PreferenceHandler.getPhone(this));
         Log.d("checkpreference", "onCreate: " + PreferenceHandler.getToken(this));
 
-
-        if (findViewById(R.id.main_fragment) != null) {
-
-            if (savedInstanceState != null) {
-
-            } else {
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                        .add(R.id.main_fragment, new FragmentShop())
-                        .commit();
-            }
-
-
-        }
-
+        manager = getSupportFragmentManager();
+        manager.addOnBackStackChangedListener(this);
         bottomnav = findViewById(R.id.main_bottom_navigation);
-        bottomnav.setOnNavigationItemSelectedListener(navListener);
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_main);
+//        NavigationUI.setupWithNavController(bottomnav, navController);
+        NavController navController ;
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_main);
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(bottomnav,navController);
 
         showBottomNavBar(true);
+        }
 
-
+    public Fragment getFragmentForBundle(int fragamentIndex) {
+        return fragmentList.get(fragamentIndex);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                    Fragment selectedFragment = null;
-                    String stack_text = null;
-
-                    switch (menuItem.getItemId()) {
-                        case R.id.nav_shop:
-                            //samepagex
-                            setToolbarType1(true);
-                            stack_text = "shop";
-                            selectedFragment = new FragmentShop();
-                            break;
-
-                        case R.id.nav_cart:
-                            setToolbarType3("Cart");
-                            stack_text = "cart";
-                            selectedFragment = new FragmentCart();
-                            break;
-
-                        case R.id.nav_order:
-                            setToolbarType3("My Order");
-                            stack_text = "myOrder";
-                            selectedFragment = new FragmentMyOrder();
-                            break;
-
-                        case R.id.nav_account:
-                            setToolbarType3("Account");
-                            stack_text = "account";
-                            selectedFragment = new FragmentAccount();
-                            break;
-
-                    }
-
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                            .replace(R.id.main_fragment, selectedFragment)
-                            .addToBackStack(stack_text).commit();
-
-                    return true;
-
-                }
-
-            };
 
     public void hideToolbar() {
         toolbar.setVisibility(View.GONE);
@@ -202,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setToolbarType3(String title) {
-
         toolbarType1.setVisibility(View.GONE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.VISIBLE);
@@ -220,25 +191,52 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void changeFragment(Fragment selectedFragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.main_fragment, selectedFragment)
-                .addToBackStack(null).commit();
+    public void changeFragment(int fragmentIndex, String tag, Bundle bundle) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        Fragment oldFragment = fragmentManager.findFragmentByTag(tag);
+//        //if oldFragment already exits in fragmentManager use it
+//        if (oldFragment != null) {
+//            selectedFragment = oldFragment;
+//            Log.d(TAG, "changeFragment: old fragment detcted");
+//        }else {
+//            Log.d(TAG, "changeFragment: new fragment not  detcted");
+//        }
+//
+
+
+//        if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 11) {
+//            if (bundle != null) {
+//                getFragmentForBundle(fragmentIndex).setArguments(bundle);
+//            }
+//            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).commit();
+//        } else {
+//            if (bundle != null) {
+//                getFragmentForBundle(fragmentIndex).setArguments(bundle);
+//            }
+//            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).addToBackStack(tag).commit();
+//        }
+
+
+
+//        manager.beginTransaction()
+//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                .replace(R.id.main_fragment, selectedFragment)
+//                .addToBackStack(tag).commit();
     }
 
     public void selectMyOrderFragment() {
+//        getSupportFragmentManager().popBackStack(FragmentPayment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//        changeFragment(2, FragmentMyOrder.TAG, null);
+//        bottomnav.setSelectedItemId(R.id.nav_order);
 
-        bottomnav.setSelectedItemId(R.id.nav_order);
-//        getSupportFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-//                .replace(R.id.main_fragment, new FragmentMyOrder())
-//                .addToBackStack("myOrder").commit();
     }
 
     public void selectCartFragment() {
-
-        bottomnav.setSelectedItemId(R.id.nav_shop);
+        Intent i = new Intent(this, MainActivity.class);
+// set the new task and clear flags
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+//        bottomnav.setSelectedItemId(R.id.nav_shop);
 //        getSupportFragmentManager().beginTransaction()
 //                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
 //                .replace(R.id.main_fragment, new FragmentCart())
@@ -246,9 +244,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void selectShopFragment() {
-
-        bottomnav.setSelectedItemId(R.id.nav_shop);
-        changeFragment(new FragmentShop());
+//        bottomnav.setSelectedItemId(R.id.nav_shop);
+//        changeFragment(0, FragmentShop.TAG, null);
     }
 
     public void showProgressBar() {
@@ -258,4 +255,26 @@ public class MainActivity extends AppCompatActivity {
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onBackStackChanged() {
+        int count = manager.getBackStackEntryCount();
+        for (int i = count - 1; i >= 0; i--) {
+            Log.d(TAG, "onBackStackChanged: " + manager.getBackStackEntryAt(i).getName());
+        }
+        Log.d(TAG, "onBackStackChanged: " + count);
+
+    }
+
+//    @Override
+//    public void onBackPressed() {
+////        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+////        if (fragments == 1) {
+//////            this.finish();
+////        } else {
+////            super.onBackPressed();
+////        }
+//                    super.onBackPressed();
+//
+//    }
 }

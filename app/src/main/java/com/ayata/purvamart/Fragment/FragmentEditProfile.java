@@ -30,6 +30,7 @@ import retrofit2.Response;
  */
 public class FragmentEditProfile extends Fragment {
 
+    public static final String TAG = "FragmentEditProfile";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -93,6 +94,11 @@ public class FragmentEditProfile extends Fragment {
             }
 
             private void updateProfile() {
+                if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
+                    Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getContext(), SignupActivity.class));
+                    return;
+                }
                 boolean test = false;
                 String email = textEmail.getEditText().getText().toString();
                 String phone = textMobileNumber.getEditText().getText().toString();

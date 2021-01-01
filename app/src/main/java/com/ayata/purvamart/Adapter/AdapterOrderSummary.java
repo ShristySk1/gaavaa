@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
@@ -62,7 +63,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
 //        } else {
 //            holder.textDiscount.setVisibility(View.GONE);
 //        }
-        Glide.with(context).load("http://"+listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
 
     }
 
@@ -151,5 +152,8 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
             Double totalprice = getPriceOnly(listitem.get(i).getPrice());
             listitem.get(i).setTotalPrice(totalprice);
         }
+    }
+    public List<ModelItem> getOrderList(){
+        return listitem;
     }
 }

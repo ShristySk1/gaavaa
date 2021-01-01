@@ -1,10 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,56 +12,47 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.MyOrderResponse;
-import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import androidx.fragment.app.Fragment;
 
 
 public class FragmentAddAddress extends Fragment {
 
 
     public static final String FRAGMENT_ADDRESS_DELIVERY = "FRAGMENT_ADDRESS_DELIVERY";
-    private static  String TAG = "FRAGMENT_ADDRESS_DELIVERY";
+    private String TAG = "FragmentAddAddress";
     //list of cart data
     List<ModelItem> modelItems;
 
     private View view;
 
-    private TextInputLayout country_layout,tole_layout,detail_layout;
+    private TextInputLayout country_layout, tole_layout, detail_layout;
     private LinearLayout address_all;
     private TextView address_text;
     private Spinner spinner_city;
 
-    private String tole,country,detail,total_address,city;
+    private String tole, country, detail, total_address, city;
 
     private Button btn_save;
 
     private RelativeLayout progress_layout;
-    Bundle bundle=new Bundle();
+    Bundle bundle = new Bundle();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_add_address, container, false);
+        view = inflater.inflate(R.layout.fragment_add_address, container, false);
 
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
@@ -74,19 +61,19 @@ public class FragmentAddAddress extends Fragment {
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(false);
 
-        progress_layout=view.findViewById(R.id.progress_view);
+        progress_layout = view.findViewById(R.id.progress_view);
         progress_layout.setVisibility(View.GONE);
 
-        country="Nepal";
-        country_layout= view.findViewById(R.id.country_layout);
-        tole_layout= view.findViewById(R.id.tole_layout);
-        detail_layout= view.findViewById(R.id.details_layout);
-        address_all= view.findViewById(R.id.layout_address);
-        address_text=view.findViewById(R.id.address_all);
-        spinner_city= view.findViewById(R.id.spinner_city);
-        btn_save= view.findViewById(R.id.btn_save);
+        country = "Nepal";
+        country_layout = view.findViewById(R.id.country_layout);
+        tole_layout = view.findViewById(R.id.tole_layout);
+        detail_layout = view.findViewById(R.id.details_layout);
+        address_all = view.findViewById(R.id.layout_address);
+        address_text = view.findViewById(R.id.address_all);
+        spinner_city = view.findViewById(R.id.spinner_city);
+        btn_save = view.findViewById(R.id.btn_save);
 
-        String[] cities= new String[]{"Kathmandu", "Bhaktapur","Lalitpur","Dharan","Pokhara","Chitwan","Hetauda","Jhapa","Surkhet"};
+        String[] cities = new String[]{"Kathmandu", "Bhaktapur", "Lalitpur", "Dharan", "Pokhara", "Chitwan", "Hetauda", "Jhapa", "Surkhet"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, cities);
@@ -96,7 +83,7 @@ public class FragmentAddAddress extends Fragment {
         spinner_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                city=cities[i];
+                city = cities[i];
             }
 
             @Override
@@ -115,14 +102,14 @@ public class FragmentAddAddress extends Fragment {
         return view;
     }
 
-    private void saveData(){
+    private void saveData() {
 
-        if(!validateTole() | !validateDetails() | city.isEmpty() | country.isEmpty()){
+        if (!validateTole() | !validateDetails() | city.isEmpty() | country.isEmpty()) {
             return;
         }
 
 
-        total_address= detail+", "+tole+", "+city+", "+country;
+        total_address = detail + ", " + tole + ", " + city + ", " + country;
 //        address_text.setText(total_address);
 //        address_all.setVisibility(View.VISIBLE);
 
@@ -150,7 +137,7 @@ public class FragmentAddAddress extends Fragment {
     private void getMyOrderList() {
 
         progress_layout.setVisibility(View.VISIBLE);
-        modelItems=new ArrayList<>();
+        modelItems = new ArrayList<>();
         ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
 //        myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
 //            @Override
@@ -171,12 +158,12 @@ public class FragmentAddAddress extends Fragment {
 //                                            R.drawable.spinach, orderDetail.getProductQuantity().toString(), true, "15% Off", 1));
 //                                }
 //                            }
-                            //navigate to next fragment
-                            bundle = new Bundle();
-                            Log.d(TAG, "onResponse: "+modelItems.size());
+        //navigate to next fragment
+        bundle = new Bundle();
+        Log.d(TAG, "onResponse: " + modelItems.size());
 //                            bundle.putSerializable(FRAGMENT_ADDRESS_DELIVERY, (Serializable) modelItems);
-        bundle.putString(FRAGMENT_ADDRESS_DELIVERY,total_address);
-                            nextFragment();
+        bundle.putString(FRAGMENT_ADDRESS_DELIVERY, total_address);
+        nextFragment();
 //                        }
 
 //                    } else {
@@ -197,22 +184,23 @@ public class FragmentAddAddress extends Fragment {
 //        });
     }
 
-    private void nextFragment(){
-        FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
-        fragmentOrderSummary.setArguments(bundle);
-        getFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.main_fragment, fragmentOrderSummary)
-                .addToBackStack(null).commit();
+    private void nextFragment() {
+//        FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
+//        fragmentOrderSummary.setArguments(bundle);
+//        getFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+//                .replace(R.id.main_fragment, fragmentOrderSummary)
+//                .addToBackStack(null).commit();
 
     }
+
     private Boolean validateTole() {
-        tole=tole_layout.getEditText().getText().toString();
+        tole = tole_layout.getEditText().getText().toString();
         return validate(tole_layout, 100, "Tole");
     }
 
     private Boolean validateDetails() {
-        detail=detail_layout.getEditText().getText().toString();
+        detail = detail_layout.getEditText().getText().toString();
         return validate(detail_layout, 100, "Details");
     }
 

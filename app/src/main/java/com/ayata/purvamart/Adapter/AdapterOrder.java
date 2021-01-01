@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
@@ -41,7 +42,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
         holder.text_delivery.setText("Estimated Delivery on"+" "+listitem.get(position).getDelivery_date());
         holder.text_date.setText(listitem.get(position).getDate()+", "+listitem.get(position).getTime());
         holder.text_order_id.setText("Order#:"+" "+listitem.get(position).getOrder_id());
-        Glide.with(context).load("http://"+listitem.get(position).getImage()).into(holder.imageView);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.imageView);
     }
 
     @Override

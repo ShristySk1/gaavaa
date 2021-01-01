@@ -48,6 +48,7 @@
             android:background="@drawable/button_yellow"
             android:minHeight="32dp"
             android:paddingHorizontal="25dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="Check Now"
             android:textColor="@color/colorWhite" />
 

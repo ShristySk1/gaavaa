@@ -29,9 +29,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * fragmentList.add(new FragmentShop());//0
+ * fragmentList.add(new FragmentCart());//1
+ * fragmentList.add(new FragmentMyOrder());//2
+ * fragmentList.add(new FragmentListOrder());//3
+ * fragmentList.add(new FragmentEmptyOrder());//4
+ * fragmentList.add(new FragmentCart());//5
+ * fragmentList.add(new FragmentCartEmpty());//6
+ * fragmentList.add(new FragmentCartFilled());//7
+ * fragmentList.add(new FragmentProduct());//8
+ * fragmentList.add(new FragmentCategory());//9
+ * fragmentList.add(new FragmentTrackOrder());//10
+ * fragmentList.add(new FragmentAccount());//11
+ * fragmentList.add(new FragmentEditAddress());//12
+ * fragmentList.add(new FragmentEditProfile());//13
+ * fragmentList.add(new FragmentPrivacyPolicy());//14
+ * fragmentList.add(new FragmentPayment());//15
+ */
 
 public class FragmentCategory extends Fragment implements AdapterItem.OnItemClickListener, AdapterCategoryTop.OnCategoryClickListener {
-    private String TAG = "FragmentCategory";
+    public static String TAG = "FragmentCategory";
     private View view;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
@@ -59,14 +77,14 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        bundle = this.getArguments();
         toolbar_title = "List";
-        if (bundle != null) {
-            ModelCategory modelCategory = (ModelCategory) bundle.getSerializable(FragmentShop.SELECTED_CATEGORY);
-            toolbar_title = modelCategory.getName();
-            setSelectedCategory(modelCategory);
-            adapterCategoryTop.notifyDataSetChanged();
-        }
+            ModelCategory modelCategory = FragmentCategoryArgs.fromBundle(getArguments()).getModelcategory();
+            if(modelCategory!=null) {
+                toolbar_title = modelCategory.getName();
+                setSelectedCategory(modelCategory);
+                adapterCategoryTop.notifyDataSetChanged();
+            }
+
         ((MainActivity) getActivity()).setToolbarType2(toolbar_title, false, true);
         //toolbar end
 
@@ -82,7 +100,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         //bottom recycler
         listitem = new ArrayList<>();
-        filterlist=new ArrayList<>();
+        filterlist = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         adapterItem = new AdapterItem(getContext(), filterlist, this);
@@ -104,7 +122,8 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                     ProductListResponse productListResresponse = response.body();
                     for (ProductDetail productDetail : productListResresponse.getDetails()) {
                         listitem.add(productDetail);
-                        Log.d(TAG, "onResponse: "+productDetail.getProductImage());
+                        Log.d(TAG, "onResponse: " + productDetail.getProductImage());
+                        Log.d(TAG, "onResponse: " + productDetail.getTitle());
 
                     }
 
@@ -125,7 +144,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
     private void populateData(String categoryname) {
         Log.d(TAG, "populateData: ");
-        Log.d(TAG, "populateData: listitemsize "+listitem.size());
+        Log.d(TAG, "populateData: listitemsize " + listitem.size());
         filterlist.clear();
         if (categoryname != "All") {
             for (ProductDetail productDetail : listitem) {
@@ -152,9 +171,9 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, filterlist.get(position));
         Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
 
-        FragmentProduct fragmentProduct = new FragmentProduct();
-        fragmentProduct.setArguments(bundle);
-        ((MainActivity) getActivity()).changeFragment(fragmentProduct);
+//        Fragment fragmentProduct =((MainActivity)getActivity()).getFragmentForBundle(8);
+//        fragmentProduct.setArguments(bundle);
+        ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG,bundle);
     }
 
     private void prepareCategory() {

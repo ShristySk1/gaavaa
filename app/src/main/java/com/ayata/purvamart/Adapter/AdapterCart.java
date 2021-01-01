@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
@@ -61,7 +62,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         } else {
             holder.textDiscount.setVisibility(View.GONE);
         }
-        Glide.with(context).load("http://"+listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
 
     }
 

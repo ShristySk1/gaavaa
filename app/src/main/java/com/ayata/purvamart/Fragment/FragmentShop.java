@@ -1,7 +1,6 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,15 @@ import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.Slider;
 import com.ayata.purvamart.utils.AlertDialogHelper;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,9 +37,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+/**
+ *         fragmentList.add(new FragmentShop());//0
+ *         fragmentList.add(new FragmentCart());//1
+ *         fragmentList.add(new FragmentMyOrder());//2
+ *         fragmentList.add(new FragmentListOrder());//3
+ *         fragmentList.add(new FragmentEmptyOrder());//4
+ *         fragmentList.add(new FragmentCart());//5
+ *         fragmentList.add(new FragmentCartEmpty());//6
+ *         fragmentList.add(new FragmentCartFilled());//7
+ *         fragmentList.add(new FragmentProduct());//8
+ *         fragmentList.add(new FragmentCategory());//9
+ *         fragmentList.add(new FragmentTrackOrder());//10
+ *         fragmentList.add(new FragmentAccount());//11
+ *         fragmentList.add(new FragmentEditAddress());//12
+ *         fragmentList.add(new FragmentEditProfile());//13
+ *         fragmentList.add(new FragmentPrivacyPolicy());//14
+ *         fragmentList.add(new FragmentPayment());//15
+ *         fragmentList.add(new FragmentThankyou());//16
+ */
 public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener {
-
+    public static String TAG = "FragmentShop";
     public static final String SELECTED_CATEGORY = "SelectCategory";
     private View view;
     private RecyclerView recyclerView_ad, recyclerView_category, recyclerView_madeforyou;
@@ -66,8 +87,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         ((MainActivity) getActivity()).setToolbarType1(true);
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
-
-
         initView();
 
         search_layout.setOnClickListener(new View.OnClickListener() {
@@ -133,14 +152,16 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             @Override
             public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
                 AlertDialogHelper.dismiss(getContext());
-                if (response.isSuccessful()&&response!=null) {
+                if (response.isSuccessful() && response != null) {
                     HomeResponse homeResponse = response.body();
-                    List<ModelCategory> categories = homeResponse.getDetails().get(2).getCategory();
+                    List<ModelCategory> categories = homeResponse.getDetails().get(0).getCategory();
                     List<ProductDetail> productForYous = homeResponse.getDetails().get(0).getProductForYou();
-                    List<Slider> ads = homeResponse.getDetails().get(1).getSliders();
+                    List<Slider> ads = homeResponse.getDetails().get(0).getSliders();
                     populateCategoryList(categories);
                     populateAdList(ads);
                     populateMadeForYouList(productForYous);
+                } else {
+                    Toast.makeText(getContext(), response.message().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -176,9 +197,9 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, list_madeforyou.get(position));
-        FragmentProduct fragmentProduct = new FragmentProduct();
-        fragmentProduct.setArguments(bundle);
-        ((MainActivity) getActivity()).changeFragment(fragmentProduct);
+//        FragmentProduct fragmentProduct = new FragmentProduct();
+//        fragmentProduct.setArguments(bundle);
+        ((MainActivity) getActivity()).changeFragment(8,FragmentProduct.TAG,bundle);
 
     }
 
@@ -191,13 +212,17 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void selectCategory(ModelCategory modelCategory) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-        FragmentCategory fragmentCategory = new FragmentCategory();
-        fragmentCategory.setArguments(bundle);
-        ((MainActivity) getActivity()).changeFragment(fragmentCategory);
+//        FragmentCategory fragmentCategory = new FragmentCategory();
+//        fragmentCategory.setArguments(bundle);
+        ((MainActivity) getActivity()).changeFragment(9,FragmentCategory.TAG,bundle);
+
+        //This is compile time safe than just passing them in bundle
+        NavDirections action = FragmentShopDirections.actionFragmentShopToFragmentCategory2(modelCategory);
+        Navigation.findNavController(view).navigate(action);
     }
 
     @Override
-    public void onAddClick(int position,String url) {
+    public void onAddClick(int position, String url) {
         webView.loadUrl(url);
     }
 }

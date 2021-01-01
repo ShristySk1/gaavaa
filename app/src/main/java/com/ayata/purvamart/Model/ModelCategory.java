@@ -43,7 +43,7 @@ public class ModelCategory implements Serializable {
     }
 
     public String getImage() {
-        return "http://" + image;
+        return  image;
     }
 
     public void setImage(String image) {

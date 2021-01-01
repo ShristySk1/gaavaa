@@ -183,9 +183,9 @@ public class ProductDetail implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("title")
+    @SerializedName("category")
     @Expose
-    private String title=null;
+    private String title = null;
     @SerializedName("image")
     @Expose
     private String image;
@@ -197,13 +197,17 @@ public class ProductDetail implements Serializable {
     private List<String> productImage = null;
     @SerializedName("product_likes")
     @Expose
-    private Integer productLikes=null;
+    private Integer productLikes = null;
     @SerializedName("quantity")
     @Expose
     private String quantity;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("from")
+    @Expose
+    private String from;
+
     @SerializedName("product_discount")
     @Expose
     private String productDiscount;
@@ -217,9 +221,16 @@ public class ProductDetail implements Serializable {
     @Expose
     private Double productPrice;
 
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
     public Boolean getDiscounted() {
-        Log.d("checkdiscount", "getDiscounted: "+productDiscount);
+        Log.d("checkdiscount", "getDiscounted: " + productDiscount);
         if (productDiscount.equals("0.0%")) {
             return false;
         } else {

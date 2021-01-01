@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
@@ -123,12 +124,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         holder.name.setText(listitem.get(position).getName());
         holder.quantity.setText(listitem.get(position).getUnit());
-        if (listitem.get(position).getProductImage().size() > 0) {
-            Glide.with(context).load("http://" + listitem.get(position).getProductImage().get(0)).into(holder.image);
-        }else{
-            Glide.with(context).load("").into(holder.image);
-        }
-        Log.d("checkimage", "populateItemRows: " + "http://" + listitem.get(position).getProductImage());
+//        if (listitem.get(position).getProductImage().size() > 0) {
+            Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
+//        }else{
+//            Glide.with(context).load("").into(holder.image);
+//        }
+        Log.d("checkimage", "populateItemRows: " +listitem.get(position).getProductImage());
         holder.price.setText(listitem.get(position).getProductPrice().toString());
         holder.prev_price.setText(listitem.get(position).getOldPrice().toString());
         //strike through

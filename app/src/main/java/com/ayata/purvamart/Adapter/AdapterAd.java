@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
     private static setOnAddListener listener;
-    private String TAG ="AdapterAd";
+    private String TAG = "AdapterAd";
     private Context context;
     private List<Slider> listitem;
 
@@ -45,8 +45,8 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
 
         holder.title.setText(listitem.get(position).getTitle());
-        Glide.with(context).load("http://142.93.221.85/media/"+listitem.get(position).getPhotos()).into(holder.image);
-        Log.d(TAG, "onBindViewHolder: "+"http://"+listitem.get(position).getPhotos());
+        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
+        Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImage());
         Log.d(TAG, "onBindViewHolder: ");
 
         switch (count) {

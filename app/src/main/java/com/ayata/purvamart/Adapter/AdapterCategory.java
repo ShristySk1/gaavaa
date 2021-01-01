@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.Model.ModelCategory;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
@@ -43,7 +44,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.modelV
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
         holder.text.setText(listitem.get(position).getName());
-        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
         Log.d("adaptercategory", "onBindViewHolder: " + listitem.get(position).getImage());
         switch (count) {
             case 0:

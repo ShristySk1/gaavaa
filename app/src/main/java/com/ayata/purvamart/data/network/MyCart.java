@@ -9,7 +9,7 @@ public class MyCart {
     private Integer productId;
     @SerializedName("product_quantity")
     @Expose
-    private Integer productQuantity;
+    private Integer productQuantity=null;
 
     public MyCart(Integer productId, Integer productQuantity) {
         this.productId = productId;
@@ -17,6 +17,10 @@ public class MyCart {
     }
 
     public MyCart() {
+    }
+
+    public MyCart(Integer productId) {
+        this.productId = productId;
     }
 
     public Integer getProductId() {
