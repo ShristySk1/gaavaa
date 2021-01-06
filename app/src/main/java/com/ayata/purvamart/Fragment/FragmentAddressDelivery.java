@@ -49,7 +49,7 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_address_delivery, container, false);
 
         //toolbar
@@ -128,10 +128,10 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
                             bundle.putSerializable(FRAGMENT_ADDRESS_DELIVERY, (Serializable) modelItems);
                             FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
                             fragmentOrderSummary.setArguments(bundle);
-//                            getFragmentManager().beginTransaction()
-//                                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-//                                    .replace(R.id.main_fragment, fragmentOrderSummary)
-//                                    .addToBackStack(null).commit();
+                            getFragmentManager().beginTransaction()
+                                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                                    .replace(R.id.main_fragment, fragmentOrderSummary)
+                                    .addToBackStack(null).commit();
 //                        }
 //
 //                    } else {

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 30
@@ -64,7 +63,10 @@ dependencies {
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
     //multidex
     implementation 'com.android.support:multidex:1.0.3'
-    // Navigation Component
-    implementation "androidx.navigation:navigation-fragment:2.3.2"
-    implementation "androidx.navigation:navigation-ui:2.3.2"
+    //pullrefresh
+    implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
+    //shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
 }

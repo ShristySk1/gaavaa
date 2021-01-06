@@ -84,25 +84,33 @@ import java.util.List;
 //    }
 //}
 public class UserCartDetail {
-
-    @SerializedName("product_id")
+    @SerializedName("id")
     @Expose
-    private Integer productId;
+    private Integer id;
     @SerializedName("created_date")
     @Expose
     private String createdDate;
-    @SerializedName("product_name")
+    @SerializedName("category")
     @Expose
-    private String productName;
+    private String category;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("product_discount")
     @Expose
     private String productDiscount;
-    @SerializedName("price")
+    @SerializedName("product_price")
     @Expose
-    private Double price;
-    @SerializedName("image")
+    private Double productPrice;
+    @SerializedName("unit")
     @Expose
-    private List<String> image = null;
+    private String unit;
+    @SerializedName("from")
+    @Expose
+    private String from;
+    @SerializedName("product_image")
+    @Expose
+    private List<String> productImage = null;
     @SerializedName("product_quantity")
     @Expose
     private Integer productQuantity;
@@ -112,16 +120,19 @@ public class UserCartDetail {
     @SerializedName("is_taken")
     @Expose
     private Boolean isTaken;
+    @SerializedName("is_cancelled")
+    @Expose
+    private Boolean isCancelled;
     @SerializedName("total_price")
     @Expose
-    private Double totalPrice;
+    private Integer totalPrice;
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCreatedDate() {
@@ -132,12 +143,20 @@ public class UserCartDetail {
         this.createdDate = createdDate;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getCategory() {
+        return category;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getProductDiscount() {
@@ -148,20 +167,36 @@ public class UserCartDetail {
         this.productDiscount = productDiscount;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setProductPrice(Double productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public List<String> getImage() {
-        return image;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setImage(List<String> image) {
-        this.image = image;
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public List<String> getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(List<String> productImage) {
+        this.productImage = productImage;
     }
 
     public Integer getProductQuantity() {
@@ -188,11 +223,20 @@ public class UserCartDetail {
         this.isTaken = isTaken;
     }
 
-    public Double getTotalPrice() {
+    public Boolean getIsCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public Integer getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
     }
+
 }

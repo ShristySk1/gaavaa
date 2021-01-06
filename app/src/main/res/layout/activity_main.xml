@@ -10,32 +10,31 @@
         android:id="@+id/appbar_main"
         layout="@layout/appbar" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+    <!--        android:id="@+id/coordinator"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/appbar_main">-->
+
+    <!--        <androidx.core.widget.NestedScrollView-->
+    <!--            android:id="@+id/scrollView"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:fillViewport="true"-->
+    <!--            >-->
+
+    <FrameLayout
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_main">
+        app:layout_constraintTop_toBottomOf="@+id/appbar_main" />
+    <!--        </androidx.core.widget.NestedScrollView>-->
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior=".utils.OverScrollBehaviour">
-
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/nav_host_fragment_main"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph"
-                />
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -53,9 +52,9 @@
         android:id="@+id/main_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -69,7 +69,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_category, container, false);
 
         prepareCategory();
@@ -77,14 +77,14 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
+        bundle = this.getArguments();
         toolbar_title = "List";
-            ModelCategory modelCategory = FragmentCategoryArgs.fromBundle(getArguments()).getModelcategory();
-            if(modelCategory!=null) {
-                toolbar_title = modelCategory.getName();
-                setSelectedCategory(modelCategory);
-                adapterCategoryTop.notifyDataSetChanged();
-            }
-
+        if (bundle != null) {
+            ModelCategory modelCategory = (ModelCategory) bundle.getSerializable(FragmentShop.SELECTED_CATEGORY);
+            toolbar_title = modelCategory.getName();
+            setSelectedCategory(modelCategory);
+            adapterCategoryTop.notifyDataSetChanged();
+        }
         ((MainActivity) getActivity()).setToolbarType2(toolbar_title, false, true);
         //toolbar end
 

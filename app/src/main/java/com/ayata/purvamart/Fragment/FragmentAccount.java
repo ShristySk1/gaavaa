@@ -55,7 +55,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_account, container, false);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
@@ -136,7 +136,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
             case 2:
                 //My Delivery Address
-                ((MainActivity) getActivity()).changeFragment(12,FragmentEditAddress.TAG,null);
+                ((MainActivity) getActivity()).changeFragment(18,FragmentDeliveryAddress.TAG,null);
                 break;
 
             case 3:

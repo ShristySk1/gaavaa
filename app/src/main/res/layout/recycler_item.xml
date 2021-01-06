@@ -112,6 +112,18 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_like_filled" />
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

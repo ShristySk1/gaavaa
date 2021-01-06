@@ -1,40 +1,42 @@
 package com.ayata.purvamart.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ayata.purvamart.Adapter.AdapterOrder;
+import com.ayata.purvamart.Adapter.ViewPagerMyOrderAdapter;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelOrderList;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.helper.NetworkResponse;
+import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.UserCartDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.utils.AlertDialogHelper;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class FragmentMyOrder extends Fragment implements View.OnClickListener {
-
+public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick {
+    public static final String order_item = "ORDER_ITEM";
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
     public static String TAG = "FragmentMyOrder";
     private LinearLayout option1, option2, option3;
@@ -42,284 +44,154 @@ public class FragmentMyOrder extends Fragment implements View.OnClickListener {
     private View line1, line2, line3;
     public static final String empty_title = "EMPTY_TITLE";
     List<ModelOrderList> listitem;
-
+    //error
+    TextView text_error;
+    ProgressBar progress_error;
     //switch case
     Fragment fragment = null;
     Bundle bundle = new Bundle();
+    //call
+    Call<JsonObject> mCall;
+
+
+    //for click listener on bus
+    AdapterOrder adapterOrder;
+    //buslist tablayout
+    TabLayout tabLayoutBusList;
+    ViewPager2 viewPagerBusList;
+    List<ModelOrderList> listitemIsOrdered, listitemIsTaken, listitemIsCancelled;
+    ViewPagerMyOrderAdapter viewPagerBusListAdapter;
+    //Buttton shop
+    Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_order, container, false);
-
+        inflateLayout(view);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("My Order");
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
-
-        initView(view);
-
-        if (view.findViewById(R.id.fragment_order) != null) {
-
-            if (savedInstanceState != null) {
-                return null;
-            }
-
-//            getChildFragmentManager().beginTransaction()
-////                    .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-////                    .replace(R.id.fragment_order, new FragmentListOrder())
-////                    .commit();
-            option1.performClick();
-
-        }
-
+        listitemIsTaken = new ArrayList<>();
+        listitemIsCancelled = new ArrayList<>();
+        listitemIsOrdered = new ArrayList<>();
+        //buslist tablayout and viewpager
+        tabLayoutBusList = view.findViewById(R.id.tabLayout2);
+        viewPagerBusList = view.findViewById(R.id.viewPager2);
+        //bus-list recyclerview with tab pullRefreshLayout
+        viewPagerBusListAdapter = new ViewPagerMyOrderAdapter();
+        viewPagerBusListAdapter.setShopListener(this);
+        getAllOrder();
+        viewPagerBusList.setAdapter(viewPagerBusListAdapter);
+        String[] titles = {"Completed", "On Progress", "Cancelled"};
+        new TabLayoutMediator(tabLayoutBusList, viewPagerBusList,
+                (tab, position) -> tab.setText(titles[position])
+        ).attach();
+        adapterOrder.setListener(this);
         return view;
     }
 
-    private void initView(View view) {
-        option1 = view.findViewById(R.id.layout_option1);
-        option2 = view.findViewById(R.id.layout_option2);
-        option3 = view.findViewById(R.id.layout_option3);
+    void getAllOrder() {
+        ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
+        requestMyOrder(this, myOrderApi);
+    }
 
-        option1.setOnClickListener(this);
-        option2.setOnClickListener(this);
-        option3.setOnClickListener(this);
+    public void requestMyOrder(NetworkResponseListener<JsonObject> listener, ApiService api) {
+        api.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new NetworkResponse<>(listener));
+    }
 
-        textView1 = view.findViewById(R.id.text1);
-        textView2 = view.findViewById(R.id.text2);
-        textView3 = view.findViewById(R.id.text3);
-        line1 = view.findViewById(R.id.line1);
-        line2 = view.findViewById(R.id.line2);
-        line3 = view.findViewById(R.id.line3);
 
-        selectOption1();
+    @Override
+    public void onDestroyView() {
+        if (mCall != null && mCall.isExecuted()) {
+            mCall.cancel();
+        }
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onResponseReceived(JsonObject jsonObject) {
+        progress_error.setVisibility(View.GONE);
+        if (jsonObject.get("code").toString().equals("200")) {
+            if (jsonObject.get("message").getAsString().equals("empty cart")) {
+                viewPagerBusListAdapter.setEmptyCompletedOrder(true);
+                viewPagerBusListAdapter.setEmptyOnProgressOrder(true);
+                viewPagerBusListAdapter.setEmptyCancelledOrder(true);
+                viewPagerBusListAdapter.notifyDataSetChanged();
+            } else {
+                Gson gson = new GsonBuilder().create();
+                UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
+                for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
+                    if (orderDetail.getIsTaken()==null) {
+                    }else {
+                        String image = "";
+                        if (orderDetail.getProductImage().size() > 0) {
+                            image = orderDetail.getProductImage().get(0);
+                        }
+                        if (orderDetail.getIsOrdered()) {
+                            listitemIsOrdered.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
+                        } else if (orderDetail.getIsCancelled()) {
+                            listitemIsCancelled.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
+                        } else if (orderDetail.getIsTaken()) {
+                            listitemIsTaken.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
+                        }
+                    }
+                }
+                Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size()+"onprogree"+listitemIsTaken.size());
+                if (listitemIsOrdered.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyCompletedOrder(true);
+                } else if (listitemIsTaken.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyOnProgressOrder(true);
+                } else if (listitemIsCancelled.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyCancelledOrder(true);
+                }
+                viewPagerBusListAdapter.setToday(listitemIsOrdered);
+                viewPagerBusListAdapter.setTomorrow(listitemIsTaken);
+                viewPagerBusListAdapter.setDayAfter(listitemIsCancelled);
+                viewPagerBusListAdapter.notifyDataSetChanged();
+            }
+        }
 
     }
 
     @Override
-    public void onClick(View view) {
-
-
-        switch (view.getId()) {
-            case R.id.layout_option1:
-                selectOption1();
-                //fetch api
-                getCompletedOrder();
-                break;
-
-            case R.id.layout_option2:
-                selectOption2();
-                //api fetch
-                getOnProgressOrder();
-                break;
-
-            case R.id.layout_option3:
-                selectOption3();
-                //api fetch
-                getCancelledOrder();
-                break;
-        }
-
-
+    public void onLoading() {
+        progress_error.setVisibility(View.VISIBLE);
     }
 
-    private void getCancelledOrder() {
-        AlertDialogHelper.show(getContext());
-        listitem = new ArrayList<>();
-        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
-            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getContext(), SignupActivity.class));
-            return;
-        }
-        ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
-        myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AlertDialogHelper.dismiss(getContext());
-                if (response.isSuccessful()) {
-                    JsonObject jsonObject = response.body();
-                    if (jsonObject.get("code").toString().equals("200")) {
-                        if (jsonObject.get("message").getAsString().equals("empty cart")) {
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Gson gson = new GsonBuilder().create();
-                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                                if (orderDetail.getIsOrdered()) {
-//                                    listitem.add(new ModelOrderList(R.drawable.spinach, "22574", "20-Dec-2019", "3:00 PM", "22 Dec"));
-                                }
-                            }
-
-                        }
-                        //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text3),FragmentListOrder.TAG);
-                    } else {
-//                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
-
-                    }
-                } else {
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                AlertDialogHelper.dismiss(getContext());
-            }
-        });
+    @Override
+    public void onError(String message) {
+        progress_error.setVisibility(View.GONE);
+        text_error.setText(message);
+        viewPagerBusListAdapter.setEmptyCompletedOrder(false);
+        viewPagerBusListAdapter.setEmptyOnProgressOrder(false);
+        viewPagerBusListAdapter.setEmptyCancelledOrder(false);
+        viewPagerBusListAdapter.notifyDataSetChanged();
     }
 
-
-    private void getCompletedOrder() {
-        AlertDialogHelper.show(getContext());
-        listitem = new ArrayList<>();
-        ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
-        myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AlertDialogHelper.dismiss(getContext());
-                if (response.isSuccessful()) {
-
-                    JsonObject jsonObject = response.body();
-                    if (jsonObject.get("code").toString().equals("200")) {
-                        if (jsonObject.get("message").getAsString().equals("empty cart")) {
-                            Toast.makeText(getContext(), jsonObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Gson gson = new GsonBuilder().create();
-                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                                if (orderDetail.getIsOrdered()) {
-                                    String image = "";
-                                    if (orderDetail.getImage().size() > 0) {
-                                        image = orderDetail.getImage().get(0);
-                                    }
-                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
-                                }
-                            }
-
-                        }
-                        //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1),FragmentListOrder.TAG);
-                    } else {
-//                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), SignupActivity.class));
-
-                    }
-                } else {
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                AlertDialogHelper.dismiss(getContext());
-            }
-        });
+    //inflate pullRefreshLayout for error and progressbar
+    void inflateLayout(View view) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
+        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
+        ViewGroup viewGroup = view.findViewById(R.id.root_main);
+        viewGroup.addView(inflatedLayout);
+        text_error = view.findViewById(R.id.text_error);
+        progress_error = view.findViewById(R.id.progress_error);
     }
 
-    private void getOnProgressOrder() {
-        AlertDialogHelper.show(getContext());
-        listitem = new ArrayList<>();
-        ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
-        myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AlertDialogHelper.dismiss(getContext());
-                if (response.isSuccessful()) {
-                    JsonObject jsonObject = response.body();
-                    if (jsonObject.get("code").toString().equals("200")) {
-                        if (jsonObject.get("message").getAsString().equals("empty cart")) {
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Gson gson = new GsonBuilder().create();
-                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                                if (orderDetail.getIsTaken()) {
-                                    String image = "";
-                                    if (orderDetail.getImage().size() > 0) {
-                                        image = orderDetail.getImage().get(0);
-                                    }
-                                    listitem.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
-                                }
-                            }
-
-                        }
-                        //navigate to next fragment
-                        nextFragment(new FragmentListOrder(), getString(R.string.eo_text1),FragmentListOrder.TAG);
-
-                    } else {
-//                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "" + "Please login to continue", Toast.LENGTH_LONG).show();
-
-                    }
-                } else {
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                AlertDialogHelper.dismiss(getContext());
-            }
-        });
+    @Override
+    public void onItemClick(int position, ModelOrderList modelOrderList) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(order_item, modelOrderList);
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
     }
 
-
-    private void nextFragment(Fragment fragment, String title,String tag) {
-        if (listitem != null && listitem.size() != 0) {
-            bundle.putSerializable(FRAGMENT_MY_ORDER, (Serializable) listitem);
-            FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
-            fragmentCartFilled.setArguments(bundle);
-            Log.d("checkcart", "nextFragment: " + "not emptycart" + listitem.size());
-        } else {
-            Log.d("checkcart", "nextFragment: " + "emptycart");
-            fragment = new FragmentEmptyOrder();
-            bundle.putString(empty_title, title);
-        }
-        fragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-                .replace(R.id.fragment_order, fragment).commitAllowingStateLoss();
-    }
-
-    private void selectOption1() {
-
-        textView1.setTextColor(getResources().getColor(R.color.colorGreen));
-        textView2.setTextColor(getResources().getColor(R.color.colorGray));
-        textView3.setTextColor(getResources().getColor(R.color.colorGray));
-
-        line1.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-        line2.setBackgroundColor(getResources().getColor(R.color.colorGray));
-        line3.setBackgroundColor(getResources().getColor(R.color.colorGray));
-    }
-
-    private void selectOption2() {
-
-        textView1.setTextColor(getResources().getColor(R.color.colorGray));
-        textView2.setTextColor(getResources().getColor(R.color.colorGreen));
-        textView3.setTextColor(getResources().getColor(R.color.colorGray));
-
-        line1.setBackgroundColor(getResources().getColor(R.color.colorGray));
-        line2.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-        line3.setBackgroundColor(getResources().getColor(R.color.colorGray));
-    }
-
-    private void selectOption3() {
-
-        textView1.setTextColor(getResources().getColor(R.color.colorGray));
-        textView2.setTextColor(getResources().getColor(R.color.colorGray));
-        textView3.setTextColor(getResources().getColor(R.color.colorGreen));
-
-        line1.setBackgroundColor(getResources().getColor(R.color.colorGray));
-        line2.setBackgroundColor(getResources().getColor(R.color.colorGray));
-        line3.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+    @Override
+    public void onShopButtonClick() {
+        ((MainActivity) getActivity()).selectShopFragment();
     }
 }

@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorGreen</item>
         <item name="colorPrimaryDark">@color/colorGreen</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorGreen</item>
     </style>
 
     <style name="NavBarTheme" parent="Theme.AppCompat.Light.NoActionBar">

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/fragmentShop"
+    <item android:id="@+id/nav_shop"
         android:icon="@drawable/ic_shop"
         android:title="Shop"/>
-    <item android:id="@+id/fragmentCart"
+    <item android:id="@+id/nav_cart"
         android:icon="@drawable/ic_cart"
         android:title="Cart"/>
-    <item android:id="@+id/fragmentMyOrder"
+    <item android:id="@+id/nav_order"
         android:icon="@drawable/ic_shopping_bag"
         android:title="My Order"/>
-    <item android:id="@+id/fragmentAccount"
+    <item android:id="@+id/nav_account"
         android:icon="@drawable/ic_account"
         android:title="Account"/>
 </menu>

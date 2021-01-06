@@ -51,7 +51,7 @@ public class FragmentAddAddress extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_add_address, container, false);
 
         //toolbar
@@ -185,12 +185,12 @@ public class FragmentAddAddress extends Fragment {
     }
 
     private void nextFragment() {
-//        FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
-//        fragmentOrderSummary.setArguments(bundle);
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-//                .replace(R.id.main_fragment, fragmentOrderSummary)
-//                .addToBackStack(null).commit();
+        FragmentOrderSummary fragmentOrderSummary = new FragmentOrderSummary();
+        fragmentOrderSummary.setArguments(bundle);
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                .replace(R.id.main_fragment, fragmentOrderSummary)
+                .addToBackStack(null).commit();
 
     }
 

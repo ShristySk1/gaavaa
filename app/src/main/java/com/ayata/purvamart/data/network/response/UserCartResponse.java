@@ -64,6 +64,9 @@ public class UserCartResponse {
     @SerializedName("details")
     @Expose
     private List<UserCartDetail> details = null;
+    @SerializedName("grand_total")
+    @Expose
+    private Integer grandTotal;
 
     public Integer getCode() {
         return code;
@@ -96,4 +99,13 @@ public class UserCartResponse {
     public void setDetails(List<UserCartDetail> details) {
         this.details = details;
     }
+
+    public Integer getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(Integer grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
 }

@@ -1,24 +1,25 @@
 package com.ayata.purvamart.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.SignupActivity;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.helper.NetworkResponse;
+import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.UserCartDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.utils.AlertDialogHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -30,143 +31,147 @@ import java.util.List;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class FragmentCart extends Fragment {
+public class FragmentCart extends Fragment implements NetworkResponseListener<JsonObject> {
     public static String TAG = "FragmentCart";
     public static final String FRAGMENT_CART = "FRAGMENT_CART";
+    public static final String FRAGMENT_CART_TOTAL = "FRAGMENT_CART_TOTAL";
+    //list and int to bundle
     List<ModelItem> modelItemList;
+    long totalPrice=0;
+
 
     private View view;
-
-    CardView progress_bar;
-    FrameLayout main_layout;
-
     Bundle bundle = new Bundle();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
+    //call
+    Call<JsonObject> mCall;
+    //error
+    TextView text_error;
+    ProgressBar progress_error;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_cart, container, false);
+        inflateLayout();
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("Cart");
         //bottom nav
         ((MainActivity) getActivity()).showBottomNavBar(true);
-
-//        progress_bar = view.findViewById(R.id.progress_cardview);
-        main_layout = view.findViewById(R.id.fragment_cart);
-
-//        progress_bar.setVisibility(View.VISIBLE);
-//        main_layout.setVisibility(View.GONE);
-//
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //Do something after 100ms
-//
-//                progress_bar.setVisibility(View.GONE);
-//                main_layout.setVisibility(View.VISIBLE);
-//            }
-//        }, 600);
-
         dataPrepare();
-
         return view;
     }
 
     private void dataPrepare() {
         modelItemList = new ArrayList<>();
-//        modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off", 1));
-//        modelItemList.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%", 1));
-//        modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "10% Off", 2));
-        AlertDialogHelper.show(getContext());
-        ApiService myOrderApi = ApiClient.getClient().create(ApiService.class);
-        myOrderApi.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    AlertDialogHelper.dismiss(getContext());
-                    JsonObject jsonObject = response.body();
-                    if (jsonObject.get("code").toString().equals("200")) {
-                        Gson gson = new GsonBuilder().create();
-                        String empty = jsonObject.get("message").getAsString();
-                        Log.d(TAG, "onResponse: " + empty + "crt");
-                        if (empty.equals("empty cart")) {
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                                if (orderDetail.getIsTaken()) {
-//                                    Log.d(TAG, "onResponse: "+orderDetail.getImage().get(0));
-//                                    Log.d(TAG, "onResponse: "+orderDetail.getPrice().toString()+"quantity: "+orderDetail.getProductQuantity().toString());
-                                    String nullCheckImage = "";
-                                    if (orderDetail.getImage().size() > 0) {
-                                        nullCheckImage = orderDetail.getImage().get(0);
-                                    }
-                                    modelItemList.add(new ModelItem(orderDetail.getProductId(),
-                                            orderDetail.getProductName(), orderDetail.getPrice().toString(),
-                                            String.valueOf(orderDetail.getPrice() * orderDetail.getProductQuantity()),
-                                            nullCheckImage, orderDetail.getProductQuantity().toString(),
-                                            true, orderDetail.getProductDiscount(), 1));
-                                }
-                            }
-                            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        }
+        ApiService cartApi = ApiClient.getClient().create(ApiService.class);
+        requestCart(this, cartApi);
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                if (call.isCanceled()) {
+//                    //do nothing
+//                }else {
+//                    //show some thing to user ui
+//                    AlertDialogHelper.dismiss(getContext());
+//                    Toast.makeText(getContext(), t.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
+    }
 
-                    } else {
-//                        Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "" + "Please login to continue".toString(), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), SignupActivity.class));
-
-                    }
-                } else {
-                    AlertDialogHelper.dismiss(getContext());
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-                checkForData();
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                AlertDialogHelper.dismiss(getContext());
-                Toast.makeText(getContext(), t.getMessage() + "", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    public void requestCart(NetworkResponseListener<JsonObject> listener, ApiService api) {
+        api.getMyOrder(PreferenceHandler.getToken(getContext())).enqueue(new NetworkResponse<>(listener));
     }
 
     private void checkForData() {
-
         if (modelItemList != null && modelItemList.size() != 0) {
             bundle.putSerializable(FRAGMENT_CART, (Serializable) modelItemList);
+            bundle.putLong(FRAGMENT_CART_TOTAL,totalPrice);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);
-            changeFragment(fragmentCartFilled,FragmentCartFilled.TAG);
+            changeFragment(fragmentCartFilled, FragmentCartFilled.TAG);
             Log.d(TAG, "checkForData: " + modelItemList.size());
 
         } else {
-            changeFragment(new FragmentCartEmpty(),FragmentCartEmpty.TAG);
+            changeFragment(new FragmentCartEmpty(), FragmentCartEmpty.TAG);
         }
     }
 
-    private void changeFragment(Fragment fragment,String tag) {
+    private void changeFragment(Fragment fragment, String tag) {
         getChildFragmentManager().beginTransaction().add(R.id.fragment_cart, fragment).addToBackStack(tag).commit();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mCall != null && mCall.isExecuted()) {
+            mCall.cancel();
+        }
+        super.onDestroyView();
+    }
 
+    //inflate pullRefreshLayout for error and progressbar
+    void inflateLayout() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
+        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
+        ViewGroup viewGroup = view.findViewById(R.id.root_main);
+        viewGroup.addView(inflatedLayout);
+        text_error = view.findViewById(R.id.text_error);
+        progress_error = view.findViewById(R.id.progress_error);
+    }
+
+
+    @Override
+    public void onResponseReceived(JsonObject jsonObject) {
+        progress_error.setVisibility(View.GONE);
+        if (jsonObject.get("code").toString().equals("200")) {
+            Gson gson = new GsonBuilder().create();
+            String empty = jsonObject.get("message").getAsString();
+            Log.d(TAG, "onResponse: " + empty + "crt");
+            if (empty.equals("empty cart")) {
+                if (isAdded())
+                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
+                if (isAdded())
+                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onResponseReceived1: " + myOrderResponse.getDetails().size());
+                totalPrice=myOrderResponse.getGrandTotal();
+                for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
+                    if (orderDetail.getIsTaken() == null) {
+                    } else {
+                        Log.d(TAG, "onResponseReceived:2 " + orderDetail.getIsTaken() + orderDetail.getId());
+                        if (orderDetail.getIsTaken()) {
+                            String nullCheckImage = "";
+                            if (orderDetail.getProductImage().size() > 0) {
+                                nullCheckImage = orderDetail.getProductImage().get(0);
+                            }
+                            modelItemList.add(new ModelItem(orderDetail.getId(),
+                                    orderDetail.getName(), orderDetail.getProductPrice().toString(),
+                                    String.valueOf(orderDetail.getProductPrice() * orderDetail.getProductQuantity()),
+                                    nullCheckImage, orderDetail.getProductQuantity().toString(),
+                                    true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity()));
+                        }
+                    }
+                }
+                if (isAdded())
+                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (isAdded())
+            checkForData();
+    }
+
+    @Override
+    public void onLoading() {
+        progress_error.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onError(String message) {
+        progress_error.setVisibility(View.GONE);
+        text_error.setText(message);
+    }
 }

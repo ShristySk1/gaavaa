@@ -26,7 +26,7 @@ public class FragmentThankyou extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         View view = inflater.inflate(R.layout.fragment_thankyou, container, false);
 
         ((MainActivity) getActivity()).hideToolbar();

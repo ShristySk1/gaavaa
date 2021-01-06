@@ -20,6 +20,7 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.MyCart;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_order_summary, container, false);
 
         initAppbar();
@@ -104,16 +105,16 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
             startActivity(new Intent(getContext(), SignupActivity.class));
             return;
         }
-        List<MyCart> myCarts = new ArrayList<>();
-        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
-            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
-        }
+//        List<MyCart> myCarts = new ArrayList<>();
+//        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
+//            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
+//        }
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.addToOrder(PreferenceHandler.getToken(getContext()), "application/json", myCarts).enqueue(new Callback<JsonObject>() {
+        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&response!=null) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
                     if (response.body().get("code").getAsString().equals("200")) {
                         Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
@@ -122,6 +123,8 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
                         Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getContext(), SignupActivity.class));
                     }
+                }else {
+                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -158,19 +161,6 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
 
     //add to cart api
     private void dataPrepare() {
-//        listitem.add(new ModelItem("Fresh Spinach", "100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off", 1));
-//        listitem.add(new ModelItem("Fresh Tomatoes", "150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%", 1));
-//        listitem.add(new ModelItem("Fresh Spinach", "100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "10% Off", 2));
-
-//        modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "15% Off", 1));
-//        modelItemList.add(new ModelItem("Fresh Tomatoes", "Rs. 150.00", "Rs. 00",
-//                R.drawable.tomato, "1 kg", false, "0%", 1));
-//        modelItemList.add(new ModelItem("Fresh Spinach", "Rs. 100.00", "Rs. 120.35",
-//                R.drawable.spinach, "1 kg", true, "10% Off", 2));
         Bundle bundle = getArguments();
         if (bundle != null) {
 //            listitem.addAll((ArrayList<ModelItem>) bundle.getSerializable(FragmentAddressDelivery.FRAGMENT_ADDRESS_DELIVERY));

@@ -143,6 +143,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
                     if (response.body().get("code").getAsString().equals("200")) {
+                        ((MainActivity)getActivity()).setBadge();
                         Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
     android:id="@+id/scroll_product"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".Fragment.FragmentProduct"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite">
 
         <ImageView
@@ -82,7 +83,7 @@
             android:id="@+id/text_product_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="From Chepang"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorGrayDark"
@@ -99,14 +100,15 @@
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_product_weight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_product_from" />
+            app:layout_constraintTop_toTopOf="@+id/text_product_weight" />
 
         <TextView
             android:id="@+id/text_product_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:text="1000 g"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorGray"
@@ -132,34 +134,18 @@
             android:id="@+id/text_product_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="63dp"
             android:text="@string/product_description"
             android:textAlignment="viewStart"
-            app:layout_constraintBottom_toTopOf="@+id/btn_add_to_cart"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_product_description_title"
             app:layout_constraintTop_toBottomOf="@+id/text_product_description_title"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
-
-        <Button
-            android:id="@+id/btn_add_to_cart"
-            style="@style/CustomButtonGreen"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/add_to_cart"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_product_description"
             app:layout_constraintVertical_bias="0.0" />
+
+
 
         <TextView
             android:id="@+id/textView6"
@@ -174,3 +160,15 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+    <Button
+        android:id="@+id/btn_add_to_cart"
+        style="@style/CustomButtonGreenProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_cart"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

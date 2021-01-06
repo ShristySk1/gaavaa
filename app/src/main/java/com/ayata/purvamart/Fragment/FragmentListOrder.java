@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.ayata.purvamart.Adapter.AdapterOrder;
 import com.ayata.purvamart.MainActivity;
@@ -18,6 +16,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * fragmentList.add(new FragmentShop());//0
  * fragmentList.add(new FragmentCart());//1
@@ -51,7 +50,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_list_order, container, false);
 
         getBundleArguments();
@@ -69,13 +68,12 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
 
     private void initRecycler() {
         recyclerView = view.findViewById(R.id.recycler_view);
-        adapterOrder = new AdapterOrder(getContext(), listitem, this);
+        adapterOrder = new AdapterOrder(getContext(), listitem);
         recyclerView.setAdapter(adapterOrder);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         dataPrepare();
-
     }
 
     private void dataPrepare() {
@@ -94,9 +92,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
         bundle.putSerializable(order_item, modelOrderList);
 //        FragmentTrackOrder fragmentTrackOrder = ;
 //        fragmentTrackOrder.setArguments(bundle);
-
-        ((MainActivity) getActivity()).changeFragment(10,FragmentTrackOrder.TAG,bundle);
-
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
 
     }
 }

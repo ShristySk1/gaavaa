@@ -49,7 +49,7 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         view= inflater.inflate(R.layout.fragment_payment, container, false);
 
         //toolbar
@@ -58,7 +58,6 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
 
         //bottom nav bar
         ((MainActivity)getActivity()).showBottomNavBar(false);
-
 
         //esewa
         String client_id="JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R";
@@ -108,10 +107,10 @@ public class FragmentPayment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.btn_pay:
-//                getFragmentManager().beginTransaction()
-//                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-//                        .replace(R.id.main_fragment, new FragmentAddAddress())
-//                        .addToBackStack(null).commit();
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+                        .replace(R.id.main_fragment, new FragmentDeliveryAddress())
+                        .addToBackStack(null).commit();
                 break;
         }
     }

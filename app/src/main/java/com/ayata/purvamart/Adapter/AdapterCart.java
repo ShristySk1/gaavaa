@@ -29,8 +29,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         this.context = context;
         this.listitem = listitem;
         this.onCartClickListener = onCategoryClickListener;
-        setTotalPriceInModel();
-        setTotalInFragment();
     }
 
     @NonNull
@@ -95,9 +93,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
                 public void onClick(View view) {
                     if (getAdapterPosition() != -1) {
                         onCartClickListener.onAddClick(listitem.get(getAdapterPosition()), getAdapterPosition());
-                        Double c = Double.valueOf(textCount.getText().toString());
-//                        textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
-                        setTotalInFragment();
                     }
                 }
             });
@@ -106,9 +101,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
                 public void onClick(View view) {
                     if(getAdapterPosition()!=-1) {
                         onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()), getAdapterPosition());
-                        Double c = Double.valueOf(textCount.getText().toString());
-//                        textTotalPrice.setText(listitem.get(getAdapterPosition()).getBasePrice() * c + "");
-                        setTotalInFragment();
                     }
                 }
             });
@@ -122,38 +114,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
     }
 
     public interface OnCartItemClickListener {
-        void onPriceTotalListener(Double total);
-
         void onAddClick(ModelItem modelItem, int position);
 
         void onMinusClick(ModelItem modelItem, int position);
 
         void onCartItemClick(int position);
-    }
-
-    //Rs 100.00 to 100.00
-    Double getPriceOnly(String textPrice) {
-        Pattern PRICE_PATTERN = Pattern.compile("(\\d*\\.)?\\d+");
-        Matcher matcher = PRICE_PATTERN.matcher(textPrice);
-        while (matcher.find()) {
-            return Double.parseDouble(matcher.group());
-        }
-        return 1.00;
-    }
-
-    public void setTotalInFragment() {
-        double total = 0;
-        for (int i = 0; i < listitem.size(); i++) {
-            total = total + listitem.get(i).getTotalPrice();
-        }
-        onCartClickListener.onPriceTotalListener(total);
-    }
-
-    void setTotalPriceInModel() {
-        for (int i = 0; i < listitem.size(); i++) {
-            Double totalprice = getPriceOnly(listitem.get(i).getPrice());
-            listitem.get(i).setTotalPrice(totalprice);
-        }
     }
 
     public List<ModelItem> getAllDataFromCart() {

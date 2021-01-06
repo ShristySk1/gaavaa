@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ayata.purvamart.Constants.Constants;
@@ -21,19 +22,18 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
 
     private Context context;
     private List<ModelOrderList> listitem;
-    private OnItemClickListener onItemClickListener;
+    private static OnItemClickListener onItemClickListener;
 
-    public AdapterOrder(Context context, List<ModelOrderList> listitem, OnItemClickListener onItemClickListener) {
+    public AdapterOrder(Context context, List<ModelOrderList> listitem) {
         this.context = context;
         this.listitem = listitem;
-        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.recycler_order_listitem,parent,false);
-        return new MyViewHolder(view,onItemClickListener);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -54,12 +54,10 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
 
         TextView text_order_id, text_date,text_delivery;
         ImageView imageView;
-
-        OnItemClickListener onItemClickListener;
-        public MyViewHolder(@NonNull View itemView, final OnItemClickListener onItemClickListener) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.onItemClickListener=onItemClickListener;
+
             text_order_id= itemView.findViewById(R.id.text_order);
             text_date=itemView.findViewById(R.id.text_date_time);
             text_delivery= itemView.findViewById(R.id.text_delivery);
@@ -78,4 +76,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
     public interface OnItemClickListener{
         void onItemClick(int position, ModelOrderList modelOrderList);
     }
+   public static void setListener(OnItemClickListener listeners){
+       onItemClickListener=listeners;
+   }
 }

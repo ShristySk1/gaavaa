@@ -1,87 +1,120 @@
 package com.ayata.purvamart.Fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
+import com.ayata.purvamart.Model.ModelAddress;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.network.ApiClient;
+import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.helper.NetworkResponse;
+import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentEditAddress#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentEditAddress extends Fragment {
+public class FragmentEditAddress extends Fragment implements NetworkResponseListener<JsonObject> {
     public static String TAG = "FragmentEditAddress";
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentEditAddress() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentEditAddress.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentEditAddress newInstance(String param1, String param2) {
-        FragmentEditAddress fragment = new FragmentEditAddress();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     Button save;
+    ModelAddress modelAddress;
+    String toolbarTitle;
+    //inputs
+    TextInputLayout tilCountry, tilCity, tilPersonName, tilPersonPhoneNo, tilPostalCode, tilStreetAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the pullRefreshLayout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_address, container, false);
         initView(view);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
-        ((MainActivity) getActivity()).setToolbarType2("Edit Address", false,false);
-
+        getBundleArguments();
 //        //bottom nav bar
 //        ((MainActivity)getActivity()).showBottomNavBar(false);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
-               getFragmentManager().popBackStackImmediate();
+                //get data from view and update server
+                getDataFromView();
             }
         });
         return view;
     }
 
+    private void getDataFromView() {
+        String name = tilPersonName.getEditText().getText().toString();
+        String phone = tilPersonPhoneNo.getEditText().getText().toString();
+        String streetAddress = tilStreetAddress.getEditText().getText().toString();
+        String postal = tilPostalCode.getEditText().getText().toString();
+        String city = tilCity.getEditText().getText().toString();
+        String country = tilCountry.getEditText().getText().toString();
+        if (TextUtils.isEmpty(name) | TextUtils.isEmpty(phone) | TextUtils.isEmpty(streetAddress) |
+                TextUtils.isEmpty(postal) | TextUtils.isEmpty(city) | TextUtils.isEmpty(country)) {
+            Toast.makeText(getContext(), "Empty field", Toast.LENGTH_LONG).show();
+        } else {
+            //add address in server
+            if (modelAddress != null) {
+                //if edit address
+                requestAddAdress(this, ApiClient.getApiService());
+            } else {
+                //if add address
+                modelAddress = new ModelAddress(name, name, streetAddress, phone, postal, country, city);
+                requestAddAdress(this, ApiClient.getApiService());
+            }
+            getFragmentManager().popBackStackImmediate();
+        }
+    }
+
+    public void requestAddAdress(NetworkResponseListener<JsonObject> listener, ApiService api) {
+        api.addAddress(PreferenceHandler.getToken(getContext()), modelAddress).enqueue(new NetworkResponse<>(listener));
+    }
+
+    private void getBundleArguments() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            modelAddress = (ModelAddress) bundle.getSerializable(FragmentDeliveryAddress.FragmentDeliveryAddress);
+            toolbarTitle = bundle.getString(FragmentDeliveryAddress.FragmentDeliveryAddressTitle) == null ? "Edit Address" : bundle.getString(FragmentDeliveryAddress.FragmentDeliveryAddressTitle);
+            ((MainActivity) getActivity()).setToolbarType2(toolbarTitle, false, false);
+
+        } else {
+            ((MainActivity) getActivity()).setToolbarType2("Edit Address", false, false);
+        }
+    }
+
     private void initView(View view) {
+        tilCity = view.findViewById(R.id.tilCity);
+        tilCountry = view.findViewById(R.id.tilCountry);
+        tilPostalCode = view.findViewById(R.id.tilPostalCode);
+        tilStreetAddress = view.findViewById(R.id.tilStreetName);
+        tilPersonName = view.findViewById(R.id.tilPersonName);
+        tilPersonPhoneNo = view.findViewById(R.id.tilPhoneNo);
         save = view.findViewById(R.id.btn_save);
+    }
+
+    @Override
+    public void onResponseReceived(JsonObject response) {
+        Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onLoading() {
+
+    }
+
+    @Override
+    public void onError(String message) {
+
     }
 }

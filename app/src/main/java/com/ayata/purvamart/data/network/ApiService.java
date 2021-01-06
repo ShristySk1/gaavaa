@@ -1,6 +1,7 @@
 package com.ayata.purvamart.data.network;
 
 
+import com.ayata.purvamart.Model.ModelAddress;
 import com.ayata.purvamart.data.network.response.CategoryListResponse;
 import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductListResponse;
@@ -9,8 +10,6 @@ import com.ayata.purvamart.data.network.response.ProfileDetail;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
 import com.ayata.purvamart.data.network.response.RegisterResponse;
 import com.google.gson.JsonObject;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -59,10 +58,25 @@ public interface ApiService {
     @GET("myorders-list/")
     Call<RegisterResponse> getMyOrderList(@Header("Authorization") String header);
 
-    @POST("addto-cart/")
-    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Header("Content-Type") String content_type, @Body List<MyCart> myCarts);
+    //    @POST("checkout/")
+//    @FormUrlEncoded
+//    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Field("products_id") List<ModelItem> modelItemList);
+    @POST("checkout/")
+    @FormUrlEncoded
+    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Field("products_id") String modelItemList);
 
     @POST("addproductto-cart/")
     @FormUrlEncoded
     Call<JsonObject> addToCart(@Header("Authorization") String header, @Field("product_id") Integer productId);
+
+    @POST("addproductcount/")
+    @FormUrlEncoded
+    Call<JsonObject> addProductCount(@Header("Authorization") String header, @Field("products_id") Integer productId);
+
+    @POST("removeproductcount/")
+    @FormUrlEncoded
+    Call<JsonObject> minusProductCount(@Header("Authorization") String header, @Field("products_id") Integer productId);
+
+    @POST("update-address/")
+    Call<JsonObject> addAddress(@Header("Authorization") String header, @Body ModelAddress modelAddress);
 }

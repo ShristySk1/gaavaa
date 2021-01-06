@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.baoyz.widget.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context=".Fragment.FragmentShop">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <ScrollView
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context=".Fragment.FragmentShop">
         <RelativeLayout
+            android:id="@+id/root_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants">
+            <!-- TODO: Update blank fragment layout -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:id="@+id/shimmerlayout"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+                <include layout="@layout/layout_placeholder"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+<RelativeLayout
+    android:id="@+id/rl_main_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
             <RelativeLayout
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
@@ -47,8 +58,6 @@
                     android:textColor="@color/colorGrayDark" />
 
             </RelativeLayout>
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_ad"
                 android:layout_width="match_parent"
@@ -126,7 +135,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
         </RelativeLayout>
-
-    </ScrollView>
-
-</FrameLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+    <!--    <include layout="@layout/error_layout" />-->
+</com.baoyz.widget.PullRefreshLayout>

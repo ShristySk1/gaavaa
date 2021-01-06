@@ -6,4 +6,7 @@
     <style name="CustomButtonGreen" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/button_ripple_background_green</item>
     </style>
+    <style name="CustomButtonGreenProduct" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/button_ripple_background_green_radiusless</item>
+    </style>
 </resources>
