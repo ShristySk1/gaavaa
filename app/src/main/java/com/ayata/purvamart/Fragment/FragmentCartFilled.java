@@ -105,6 +105,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
                         }
                     }
+
                     @Override
                     public void onLoading() {
 
@@ -189,8 +190,14 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 Log.d(TAG, "onResponseReceiveddeleted: " + modelItemList.size());
                 Gson gson = new GsonBuilder().create();
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-//                textTotal.setText(myOrderResponse.getGrandTotal().toString());
+                String grandTotal = myOrderResponse.getGrandTotal().toString();
+                textTotal.setText(grandTotal);
                 isItemDeleted = false;
+                if (grandTotal.equals("0")) {
+                    Log.d(TAG, "equals zero: " + grandTotal);
+                    if (isAdded())
+                        changeFragment(new FragmentCartEmpty());
+                }
                 return;
             }
             Log.d(TAG, "onResponseReceivednotdelete: " + modelItemList.size());
@@ -204,6 +211,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+
                 for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
                     if (orderDetail.getId() == id) {
                         String nullCheckImage = "";
@@ -222,10 +230,19 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                     } else {
                     }
                 }
-                Log.d(TAG, "onResponseReceived: " + myOrderResponse.getGrandTotal() + "");
-//                textTotal.setText(myOrderResponse.getGrandTotal().toString());
+                String grandTotal = myOrderResponse.getGrandTotal().toString();
+                Log.d(TAG, "onResponseReceived: grandtotal" + grandTotal);
+                textTotal.setText(grandTotal);
+                if (grandTotal.equals("0")) {
+                    Log.d(TAG, "equals zero: " + grandTotal);
+                    changeFragment(new FragmentCartEmpty());
+                }
             }
         }
+    }
+
+    private void changeFragment(Fragment fragment) {
+        getFragmentManager().beginTransaction().replace(R.id.fragment_cart, fragment).commit();
     }
 
     @Override

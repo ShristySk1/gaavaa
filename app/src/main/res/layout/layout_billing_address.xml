@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -17,14 +16,14 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_map" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,26 +32,25 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageView5"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:text="Address: Madan Bhandari Road, Kathmandu"
+            android:layout_marginEnd="8dp"
+            android:text="Madan Bhandari Road, Kathmandu"
             app:layout_constraintEnd_toStartOf="@+id/tvEdit"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone no: 9865563256"
-            app:layout_constraintStart_toStartOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:text="9865563256"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
 
         <TextView
             android:id="@+id/tvEdit"
@@ -66,6 +64,22 @@
             android:textColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address: "
+            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone no: "
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

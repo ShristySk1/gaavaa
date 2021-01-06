@@ -70,7 +70,7 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
                 requestAddAdress(this, ApiClient.getApiService());
             } else {
                 //if add address
-                modelAddress = new ModelAddress(name, name, streetAddress, phone, postal, country, city);
+                modelAddress = new ModelAddress(phone,postal,city,name,streetAddress,country);
                 requestAddAdress(this, ApiClient.getApiService());
             }
             getFragmentManager().popBackStackImmediate();

@@ -6,71 +6,70 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class ModelAddress implements Serializable {
-    @SerializedName("first_name")
+
+
+    @SerializedName("id")
     @Expose
-    private String firstName;
-    @SerializedName("last_name")
+    private Integer id;
+    @SerializedName("user_id")
     @Expose
-    private String lastName;
-    @SerializedName("street_name")
+    private Integer userId;
+    @SerializedName("contact_number")
     @Expose
-    private String streetName;
-    @SerializedName("contact_no1")
-    @Expose
-    private String contactNo1;
+    private String contactNumber;
     @SerializedName("postal_code")
     @Expose
     private String postalCode;
-    @SerializedName("country")
-    @Expose
-    private String country;
     @SerializedName("city")
     @Expose
     private String city;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("street_name")
+    @Expose
+    private String streetName;
+    @SerializedName("country")
+    @Expose
+    private String country;
+    @SerializedName("latitide")
+    @Expose
+    private Object latitide;
+    @SerializedName("longitude")
+    @Expose
+    private Object longitude;
 
-    public ModelAddress(String firstName, String lastName, String streetName, String contactNo1, String postalCode, String country, String city) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.streetName = streetName;
-        this.contactNo1 = contactNo1;
+    public ModelAddress(String contactNumber, String postalCode, String city, String name, String streetName, String country) {
+        this.contactNumber = contactNumber;
         this.postalCode = postalCode;
-        this.country = country;
         this.city = city;
-    }
-
-    public ModelAddress() {
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
+        this.name = name;
         this.streetName = streetName;
+        this.country = country;
     }
 
-    public String getContactNo1() {
-        return contactNo1;
+    public Integer getId() {
+        return id;
     }
 
-    public void setContactNo1(String contactNo1) {
-        this.contactNo1 = contactNo1;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getPostalCode() {
@@ -81,6 +80,30 @@ public class ModelAddress implements Serializable {
         this.postalCode = postalCode;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -89,12 +112,20 @@ public class ModelAddress implements Serializable {
         this.country = country;
     }
 
-    public String getCity() {
-        return city;
+    public Object getLatitide() {
+        return latitide;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setLatitide(Object latitide) {
+        this.latitide = latitide;
+    }
+
+    public Object getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Object longitude) {
+        this.longitude = longitude;
     }
 
 }

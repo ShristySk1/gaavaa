@@ -141,18 +141,22 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                     }
                 }
                 Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size()+"onprogree"+listitemIsTaken.size());
-                if (listitemIsOrdered.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyCompletedOrder(true);
-                } else if (listitemIsTaken.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyOnProgressOrder(true);
-                } else if (listitemIsCancelled.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyCancelledOrder(true);
-                }
                 viewPagerBusListAdapter.setToday(listitemIsOrdered);
                 viewPagerBusListAdapter.setTomorrow(listitemIsTaken);
                 viewPagerBusListAdapter.setDayAfter(listitemIsCancelled);
-                viewPagerBusListAdapter.notifyDataSetChanged();
-            }
+                if (listitemIsOrdered.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyCompletedOrder(true);
+                    Log.d(TAG, "onResponseReceived: complete");
+                }
+                if (listitemIsTaken.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyOnProgressOrder(true);}
+                if (listitemIsCancelled.size() == 0) {
+                    viewPagerBusListAdapter.setEmptyCancelledOrder(true);
+                    Log.d(TAG, "onResponseReceived: calnceeled");
+                }
+                    viewPagerBusListAdapter.notifyDataSetChanged();
+
+                }
         }
 
     }

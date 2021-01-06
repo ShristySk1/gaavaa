@@ -77,6 +77,9 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> minusProductCount(@Header("Authorization") String header, @Field("products_id") Integer productId);
 
-    @POST("update-address/")
+    @POST("add-address/")
     Call<JsonObject> addAddress(@Header("Authorization") String header, @Body ModelAddress modelAddress);
+
+    @GET("get-address/")
+    Call<JsonObject> getAddress(@Header("Authorization") String header);
 }

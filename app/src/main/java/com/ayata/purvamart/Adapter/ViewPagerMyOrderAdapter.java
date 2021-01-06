@@ -63,7 +63,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
         RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(manager);
         if (position == 0) {
-            Log.d("checkorder", "onBindViewHolder: "+isEmptyCompletedOrder);
+            Log.d("checkordercompleted", "onBindViewHolder: "+isEmptyCompletedOrder);
             if (getEmptyCompletedOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
             } else {
@@ -73,7 +73,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
             }
         }
         if (position == 1) {
-            Log.d("checkorder", "onBindViewHolder: "+getEmptyOnProgressOrder());
+            Log.d("checkorderprogress", "onBindViewHolder: "+getEmptyOnProgressOrder());
             if (getEmptyOnProgressOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
 
@@ -84,7 +84,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
             }
         }
         if (position == 2) {
-            Log.d("checkorder", "onBindViewHolder: "+isEmptyCancelledOrder);
+            Log.d("checkordercancelled", "onBindViewHolder: "+isEmptyCancelledOrder);
             if (getEmptyCancelledOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
             } else {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ayata.purvamart.Model.ModelAddress;
@@ -35,11 +34,20 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        ModelAddress modelAddress = listitem.get(position);
+        String streetAddress = modelAddress.getStreetName();
+        String city = modelAddress.getCity();
+        String country = modelAddress.getCountry();
+        String postalCode = modelAddress.getPostalCode();
 
-//        holder.text_delivery.setText("Estimated Delivery on"+" "+listitem.get(position).getDelivery_date());
-//        holder.text_date.setText(listitem.get(position).getDate()+", "+listitem.get(position).getTime());
-//        holder.text_order_id.setText("Order#:"+" "+listitem.get(position).getOrder_id());
-//        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.imageView);
+        //required in view
+        String address = streetAddress + "," + city + "," + country;
+        String phone = modelAddress.getContactNumber();
+        String name = modelAddress.getName();
+        holder.address.setText(address);
+        holder.name.setText(name);
+        holder.phone.setText(phone);
+
     }
 
     @Override
@@ -49,17 +57,14 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvEdit;
-        ImageView imageView;
+        TextView tvEdit, name, phone, address;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEdit = itemView.findViewById(R.id.tvEdit);
-//
-//            text_order_id= itemView.findViewById(R.id.text_order);
-//            text_date=itemView.findViewById(R.id.text_date_time);
-//            text_delivery= itemView.findViewById(R.id.text_delivery);
-//            imageView= itemView.findViewById(R.id.image);
+            name = itemView.findViewById(R.id.name);
+            phone = itemView.findViewById(R.id.phone);
+            address = itemView.findViewById(R.id.address);
             tvEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

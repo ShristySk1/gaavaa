@@ -87,6 +87,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
 
     private void checkForData() {
         if (modelItemList != null && modelItemList.size() != 0) {
+            //filled layout
             bundle.putSerializable(FRAGMENT_CART, (Serializable) modelItemList);
             bundle.putLong(FRAGMENT_CART_TOTAL,totalPrice);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
@@ -95,12 +96,13 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
             Log.d(TAG, "checkForData: " + modelItemList.size());
 
         } else {
+            //empty layout
             changeFragment(new FragmentCartEmpty(), FragmentCartEmpty.TAG);
         }
     }
 
     private void changeFragment(Fragment fragment, String tag) {
-        getChildFragmentManager().beginTransaction().add(R.id.fragment_cart, fragment).addToBackStack(tag).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_cart, fragment).commit();
     }
 
     @Override
