@@ -32,6 +32,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     public static final String TAG = "FragmentDeliveryAddress";
     public static final String FragmentDeliveryAddress = "FragmentDeliveryAddress";
     public static final String FragmentDeliveryAddressTitle = "FragmentDeliveryAddressTitle";
+    public static final String FragmentDeliveryAddressId = "FragmentDeliveryAddressId";
 
 
     RecyclerView recyclerView;
@@ -54,9 +55,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         ll_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FragmentDeliveryAddressTitle, "Add Address");
-                ((MainActivity) getActivity()).changeFragment(12, FragmentEditAddress.TAG, bundle);
+                ((MainActivity) getActivity()).changeFragment(19, FragmentEditAddress.TAG2, null);
             }
         });
         return view;
@@ -93,12 +92,15 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         //make bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentDeliveryAddress, modelAddress);
+        bundle.putString(FragmentDeliveryAddressTitle,"Edit Address");
         ((MainActivity) getActivity()).changeFragment(12, FragmentEditAddress.TAG, bundle);
 
     }
 
     @Override
     public void onAddressClick(ModelAddress modelAddress) {
+        //setAddressId of clicked address
+        PreferenceHandler.setAddressId(getContext(), modelAddress.getId().toString());
         ((MainActivity) getActivity()).changeFragment(17, FragmentPayment.TAG, null);
 
     }

@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentThankyou());//16
         fragmentList.add(new FragmentPayment2());//17
         fragmentList.add(new FragmentDeliveryAddress());//18
+        fragmentList.add(new FragmentEditAddress());//19//for add
 
 
     }

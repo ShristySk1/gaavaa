@@ -41,7 +41,7 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
         String postalCode = modelAddress.getPostalCode();
 
         //required in view
-        String address = streetAddress + "," + city + "," + country;
+        String address = "Address: "+streetAddress + "," + city + "," + country;
         String phone = modelAddress.getContactNumber();
         String name = modelAddress.getName();
         holder.address.setText(address);

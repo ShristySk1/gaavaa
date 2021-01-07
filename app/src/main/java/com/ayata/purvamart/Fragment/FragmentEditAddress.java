@@ -22,7 +22,8 @@ import com.google.gson.JsonObject;
 import androidx.fragment.app.Fragment;
 
 public class FragmentEditAddress extends Fragment implements NetworkResponseListener<JsonObject> {
-    public static String TAG = "FragmentEditAddress";
+    public static final String TAG2 = "FragmentEditAddressForAdd";
+    public static String TAG = "FragmentEditAddressForEdit";
 
 
     Button save;
@@ -70,7 +71,7 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
                 requestAddAdress(this, ApiClient.getApiService());
             } else {
                 //if add address
-                modelAddress = new ModelAddress(phone,postal,city,name,streetAddress,country);
+                modelAddress = new ModelAddress(phone, postal, city, name, streetAddress, country);
                 requestAddAdress(this, ApiClient.getApiService());
             }
             getFragmentManager().popBackStackImmediate();
@@ -85,12 +86,22 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
         Bundle bundle = getArguments();
         if (bundle != null) {
             modelAddress = (ModelAddress) bundle.getSerializable(FragmentDeliveryAddress.FragmentDeliveryAddress);
-            toolbarTitle = bundle.getString(FragmentDeliveryAddress.FragmentDeliveryAddressTitle) == null ? "Edit Address" : bundle.getString(FragmentDeliveryAddress.FragmentDeliveryAddressTitle);
+            toolbarTitle = bundle.getString(FragmentDeliveryAddress.FragmentDeliveryAddressTitle);
             ((MainActivity) getActivity()).setToolbarType2(toolbarTitle, false, false);
-
+            //set saved address to view
+            setDataToView();
         } else {
-            ((MainActivity) getActivity()).setToolbarType2("Edit Address", false, false);
+            ((MainActivity) getActivity()).setToolbarType2("Add Address", false, false);
         }
+    }
+
+    private void setDataToView() {
+        tilCountry.getEditText().setText(modelAddress.getCountry());
+        tilCity.getEditText().setText(modelAddress.getCity());
+        tilPostalCode.getEditText().setText(modelAddress.getPostalCode());
+        tilStreetAddress.getEditText().setText(modelAddress.getStreetName());
+        tilPersonName.getEditText().setText(modelAddress.getName());
+        tilPersonPhoneNo.getEditText().setText(modelAddress.getContactNumber());
     }
 
     private void initView(View view) {

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +27,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 
@@ -38,7 +36,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
     public static final String FRAGMENT_CART_TOTAL = "FRAGMENT_CART_TOTAL";
     //list and int to bundle
     List<ModelItem> modelItemList;
-    long totalPrice=0;
+    long totalPrice = 0;
 
 
     private View view;
@@ -48,6 +46,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
     //error
     TextView text_error;
     ProgressBar progress_error;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,7 +88,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
         if (modelItemList != null && modelItemList.size() != 0) {
             //filled layout
             bundle.putSerializable(FRAGMENT_CART, (Serializable) modelItemList);
-            bundle.putLong(FRAGMENT_CART_TOTAL,totalPrice);
+            bundle.putLong(FRAGMENT_CART_TOTAL, totalPrice);
             FragmentCartFilled fragmentCartFilled = new FragmentCartFilled();
             fragmentCartFilled.setArguments(bundle);
             changeFragment(fragmentCartFilled, FragmentCartFilled.TAG);
@@ -140,23 +139,18 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onResponseReceived1: " + myOrderResponse.getDetails().size());
-                totalPrice=myOrderResponse.getGrandTotal();
+                totalPrice = myOrderResponse.getGrandTotal();
                 for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                    if (orderDetail.getIsTaken() == null) {
-                    } else {
-                        Log.d(TAG, "onResponseReceived:2 " + orderDetail.getIsTaken() + orderDetail.getId());
-                        if (orderDetail.getIsTaken()) {
-                            String nullCheckImage = "";
-                            if (orderDetail.getProductImage().size() > 0) {
-                                nullCheckImage = orderDetail.getProductImage().get(0);
-                            }
-                            modelItemList.add(new ModelItem(orderDetail.getId(),
-                                    orderDetail.getName(), orderDetail.getProductPrice().toString(),
-                                    String.valueOf(orderDetail.getProductPrice() * orderDetail.getProductQuantity()),
-                                    nullCheckImage, orderDetail.getProductQuantity().toString(),
-                                    true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity()));
-                        }
+                    String nullCheckImage = "";
+                    if (orderDetail.getProductImage().size() > 0) {
+                        nullCheckImage = orderDetail.getProductImage().get(0);
                     }
+                    modelItemList.add(new ModelItem(orderDetail.getId(),
+                            orderDetail.getName(), orderDetail.getProductPrice().toString(),
+                            String.valueOf(orderDetail.getProductPrice() * orderDetail.getProductQuantity()),
+                            nullCheckImage, orderDetail.getProductQuantity().toString(),
+                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity()));
+
                 }
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();

@@ -1,47 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FragmentPayment2">
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Payment methods"
-      android:paddingVertical="8dp"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_payment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        android:layout_height="match_parent"
+        tools:context=".Fragment.FragmentPayment2">
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Payment methods"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/CustomButtonGreen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Pay"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_payment"
-        app:layout_constraintVertical_bias="1.0" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:id="@+id/linear1"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/linear2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="15dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/pay_title1"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Order Total"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorGray"
+                            />
+
+                        <TextView
+                            android:id="@+id/pay_orderprice"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs. 200"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorGray"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear3"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingHorizontal="15dp">
+
+                        <TextView
+                            android:id="@+id/pay_title3"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery Fee"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorGray"
+                            />
+
+                        <TextView
+                            android:id="@+id/pay_delivery"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorGreen"
+                            />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/dotted_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginHorizontal="14dp"
+                        android:src="@drawable/dotted_line"
+                        android:layerType="software"/>
+
+                    <LinearLayout
+                        android:id="@+id/linear4"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="15dp">
+
+                        <TextView
+                            android:id="@+id/pay_title2"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Payment"
+                            android:textStyle="normal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorGrayDark"
+                            />
+
+                        <TextView
+                            android:id="@+id/pay_total"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs. 200"
+                            android:textStyle="bold"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorGrayDark"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btn_pay"
+                    android:layout_below="@id/linear1"
+                    style="@style/CustomButtonGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Pay"
+                    android:textColor="@color/colorWhite" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

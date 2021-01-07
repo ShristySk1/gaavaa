@@ -32,6 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,12 +69,12 @@
             android:id="@+id/text_product_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@string/product_title"
             android:textColor="@color/colorGrayDark"
             android:textSize="24sp"
-            android:textStyle="normal"
+            android:textStyle="normal|bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/linear1"
             app:layout_constraintTop_toBottomOf="@+id/linear1" />
@@ -94,23 +95,23 @@
             android:id="@+id/text_product_newPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/numberfont"
             android:text="@string/product_price_new"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/text_product_weight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_product_weight" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/text_product_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="1000 g"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/colorGray"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/text_product_newPrice"
@@ -123,10 +124,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="@string/product_detail_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorBlack"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_product_weight"
             app:layout_constraintTop_toBottomOf="@+id/text_product_newPrice" />
 
@@ -146,27 +147,28 @@
             app:layout_constraintVertical_bias="0.0" />
 
 
-
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
             android:text="Rs "
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_product_newPrice"
             app:layout_constraintEnd_toStartOf="@+id/text_product_newPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+
     <Button
         android:id="@+id/btn_add_to_cart"
         style="@style/CustomButtonGreenProduct"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/add_to_cart"
-        android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -82,4 +82,11 @@ public interface ApiService {
 
     @GET("get-address/")
     Call<JsonObject> getAddress(@Header("Authorization") String header);
+
+    @POST("confirm-checkout/")
+    @FormUrlEncoded
+    Call<JsonObject> confirmOrder(@Header("Authorization") String header,
+                                  @Field("order_id") String orderId,
+                                  @Field("gateway") String gateway,
+                                  @Field("address_id") String addressId);
 }

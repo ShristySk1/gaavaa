@@ -71,6 +71,7 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.MyViewHo
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
+                        onPayMethodClickListener.onPayMethodClick(position, listitem.get(position));
                         row_index = position;
                         notifyDataSetChanged();
                     }

@@ -85,26 +85,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rs. "
-                    android:textStyle="bold"
                     android:textColor="@color/colorBlack"
-                    android:textSize="17sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/numberfont"
                     android:text="100.00"
-                    android:textStyle="bold"
                     android:textColor="@color/colorBlack"
-                    android:textSize="17sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_price_previous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:fontFamily="@font/numberfont"
                     android:text="Rs. 120.35"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="12sp" />
                 <!--                android:foreground="@drawable/strikethrough_foreground"-->
 
             </LinearLayout>
