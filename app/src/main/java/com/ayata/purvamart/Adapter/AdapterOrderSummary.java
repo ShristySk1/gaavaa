@@ -48,7 +48,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         ModelItem modelItem = listitem.get(position);
         String price = modelItem.getPrice();
         String discount = modelItem.getDiscount_percent();
-        Double totalprice = modelItem.getTotalPrice();
+
         Integer count=modelItem.getCount();
         String name = modelItem.getName();
         //bind data
@@ -142,7 +142,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
     public void setTotalInFragment() {
         double total = 0;
         for (int i = 0; i < listitem.size(); i++) {
-            total = total + listitem.get(i).getTotalPrice();
+//            total = total + listitem.get(i).getTotalPrice();
         }
         onItemClickListener.onPriceTotalListener(total);
     }
@@ -150,7 +150,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
     void setTotalPriceInModel() {
         for (int i = 0; i < listitem.size(); i++) {
             Double totalprice = getPriceOnly(listitem.get(i).getPrice());
-            listitem.get(i).setTotalPrice(totalprice);
+//            listitem.get(i).setTotalPrice(totalprice);
         }
     }
     public List<ModelItem> getOrderList(){

@@ -2,6 +2,7 @@ package com.ayata.purvamart.data.network;
 
 
 import com.ayata.purvamart.Model.ModelAddress;
+import com.ayata.purvamart.Model.ModelItem;
 import com.ayata.purvamart.data.network.response.CategoryListResponse;
 import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductListResponse;
@@ -10,6 +11,8 @@ import com.ayata.purvamart.data.network.response.ProfileDetail;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
 import com.ayata.purvamart.data.network.response.RegisterResponse;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -58,7 +61,7 @@ public interface ApiService {
     @GET("myorders-list/")
     Call<RegisterResponse> getMyOrderList(@Header("Authorization") String header);
 
-    //    @POST("checkout/")
+//        @POST("checkout/")
 //    @FormUrlEncoded
 //    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Field("products_id") List<ModelItem> modelItemList);
     @POST("checkout/")

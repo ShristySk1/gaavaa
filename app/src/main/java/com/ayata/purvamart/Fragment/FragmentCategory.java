@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterCategoryTop;
@@ -64,14 +67,20 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     Bundle bundle;
     String toolbar_title = "";
     List<ProductDetail> filterlist;
+    RelativeLayout empty_layout;
 
+    //error
+    TextView text_error;
+    ProgressBar progress_error;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_category, container, false);
-
+        empty_layout = view.findViewById(R.id.layout_empty);
+        //for error
+        inflateLayout();
         prepareCategory();
         adapterCategoryTop = new AdapterCategoryTop(getContext(), categoryTopList, this);
 
@@ -107,6 +116,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapterItem);
         //allproduct
+        progress_error.setVisibility(View.VISIBLE);
         allProduct();
         return view;
     }
@@ -117,6 +127,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+                progress_error.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().getDetails().size());
                     ProductListResponse productListResresponse = response.body();
@@ -124,11 +135,10 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                         listitem.add(productDetail);
                         Log.d(TAG, "onResponse: " + productDetail.getProductImage());
                         Log.d(TAG, "onResponse: " + productDetail.getTitle());
-
                     }
 
                 } else {
-                    Log.d(TAG, "onResponse: " + response.body().getMessage().toString());
+                    Log.d(TAG, "onResponse: " + response.body().getMessage());
                 }
                 //
                 populateData(toolbar_title);
@@ -137,6 +147,8 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
             @Override
             public void onFailure(Call<ProductListResponse> call, Throwable t) {
+                progress_error.setVisibility(View.GONE);
+                text_error.setText(t.getMessage());
                 Log.d(TAG, "onResponse:failed " + t.getMessage());
             }
         });
@@ -153,14 +165,22 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                     filterlist.add(productDetail);
                 }
             }
-            adapterItem.notifyDataSetChanged();
 
         } else {
             filterlist.addAll(listitem);
-            adapterItem.notifyDataSetChanged();
         }
+        if (filterlist.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            empty_layout.setVisibility(View.VISIBLE);
+        } else {
+            empty_layout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        adapterItem.notifyDataSetChanged();
+
 
         Log.d(TAG, "populateData: filtering size" + filterlist.size());
+
 
     }
 
@@ -173,18 +193,11 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
 //        Fragment fragmentProduct =((MainActivity)getActivity()).getFragmentForBundle(8);
 //        fragmentProduct.setArguments(bundle);
-        ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG,bundle);
+        ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG, bundle);
     }
 
     private void prepareCategory() {
-
         categoryTopList = new ArrayList<>();
-//        categoryTopList.add(new ModelCategory("0","All",R.drawable.spices1,true));
-//        categoryTopList.add(new ModelCategory("1","Spices",R.drawable.spices1, false));
-//        categoryTopList.add(new ModelCategory("2","Herbs",R.drawable.spices1,false));
-//        categoryTopList.add(new ModelCategory("3","Tea",R.drawable.spices1,false));
-//        categoryTopList.add(new ModelCategory("4","Honey",R.drawable.spices1,false));
-//        categoryTopList.add(new ModelCategory("5","Vegetable",R.drawable.spices1,false));
         ApiService categoryListapi = ApiClient.getClient().create(ApiService.class);
         categoryListapi.getCategoryList().enqueue(new Callback<CategoryListResponse>() {
             @Override
@@ -238,5 +251,16 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
             adapterCategoryTop.notifyDataSetChanged();
         }
         ((MainActivity) getActivity()).setToolbarType2(toolbar_title, false, true);
+    }
+
+    //inflate pullRefreshLayout for error and progressbar
+    void inflateLayout() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
+        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
+        ViewGroup viewGroup = view.findViewById(R.id.root_main);
+        viewGroup.addView(inflatedLayout);
+        text_error = view.findViewById(R.id.text_error);
+        progress_error = view.findViewById(R.id.progress_error);
     }
 }

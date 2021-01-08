@@ -146,10 +146,10 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
                         nullCheckImage = orderDetail.getProductImage().get(0);
                     }
                     modelItemList.add(new ModelItem(orderDetail.getId(),
-                            orderDetail.getName(), orderDetail.getProductPrice().toString(),
-                            String.valueOf(orderDetail.getProductPrice() * orderDetail.getProductQuantity()),
+                            orderDetail.getName(), String.valueOf(orderDetail.getTotalPrice()),
+                            String.valueOf(orderDetail.getProductPrice()),
                             nullCheckImage, orderDetail.getProductQuantity().toString(),
-                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity()));
+                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity(),orderDetail.getUnit()));
 
                 }
                 if (isAdded())

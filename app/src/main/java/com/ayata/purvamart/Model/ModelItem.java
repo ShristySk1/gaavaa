@@ -7,8 +7,8 @@ public class ModelItem implements Serializable {
     private String name, price, prev_price, discount_percent, quantity;
     private String image;
     private Boolean discount;
-    private Double totalPrice;
     private int count;
+    private String unit;
     //cart
     private Double basePrice;
 
@@ -38,7 +38,7 @@ public class ModelItem implements Serializable {
 //        this.basePrice=Double.valueOf(price);
 //        this.discount = discount;
 //    }
-    public ModelItem(Integer id, String name, String price, String prev_price, String image, String quantity, Boolean discount, String discount_percent, int count) {
+    public ModelItem(Integer id, String name, String price, String prev_price, String image, String quantity, Boolean discount, String discount_percent, int count, String unit) {
         this.name = name;
         this.price = price;
         this.id = id;
@@ -49,6 +49,15 @@ public class ModelItem implements Serializable {
         this.basePrice = Double.valueOf(price);
         this.discount = discount;
         this.count = count;
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getName() {
@@ -109,14 +118,6 @@ public class ModelItem implements Serializable {
 
     public void setDiscount(Boolean discount) {
         this.discount = discount;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public int getCount() {

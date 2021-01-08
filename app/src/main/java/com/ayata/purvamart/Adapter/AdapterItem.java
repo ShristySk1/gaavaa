@@ -25,6 +25,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
+
     private Context context;
     private List<ProductDetail> listitem;
     private OnItemClickListener onItemClickListener;
@@ -41,9 +42,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false);
             return new modelViewHolder(view, onItemClickListener);
-        } else {
+        } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(context).inflate(R.layout.recycler_load_progressbar, parent, false);
             return new LoadingViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.fragment_cart_empty, parent, false);
+            return new EmptyViewHolder(view);
         }
     }
 
@@ -114,7 +118,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
-
+    private class EmptyViewHolder extends RecyclerView.ViewHolder {
+        public EmptyViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
     private void showLoadingView(LoadingViewHolder viewHolder, int position) {
         //ProgressBar would be displayed
 
@@ -125,11 +133,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.name.setText(listitem.get(position).getName());
         holder.quantity.setText(listitem.get(position).getUnit());
 //        if (listitem.get(position).getProductImage().size() > 0) {
-            Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
 //        }else{
 //            Glide.with(context).load("").into(holder.image);
 //        }
-        Log.d("checkimage", "populateItemRows: " +listitem.get(position).getProductImage());
+        Log.d("checkimage", "populateItemRows: " + listitem.get(position).getProductImage());
         holder.price.setText(listitem.get(position).getProductPrice().toString());
         holder.prev_price.setText(listitem.get(position).getOldPrice().toString());
         //strike through

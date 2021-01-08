@@ -110,29 +110,29 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
 //            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
 //        }
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()&&response!=null) {
-                    Log.d(TAG, "onResponse: " + response.body().get("message"));
-                    if (response.body().get("code").getAsString().equals("200")) {
-                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
-                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
-                    } else {
-                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getContext(), SignupActivity.class));
-                    }
-                }else {
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d(TAG, "onResponse: " + t.getMessage());
-            }
-        });
+//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+//        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                if (response.isSuccessful()&&response!=null) {
+//                    Log.d(TAG, "onResponse: " + response.body().get("message"));
+//                    if (response.body().get("code").getAsString().equals("200")) {
+//                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
+//                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
+//                    } else {
+//                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(getContext(), SignupActivity.class));
+//                    }
+//                }else {
+//                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.d(TAG, "onResponse: " + t.getMessage());
+//            }
+//        });
     }
 
     private void initAppbar() {
@@ -185,7 +185,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
         Integer count = modelItem.getCount();
         count++;
         modelItem.setCount(count);
-        modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
+//        modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
         adapterOrderSummary.notifyItemChanged(position);
     }
 
@@ -195,7 +195,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
         if (count > 1) {
             count--;
             modelItem.setCount(count);
-            modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
+//            modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
             adapterOrderSummary.notifyItemChanged(position);
         } else {
             listitem.remove(position);

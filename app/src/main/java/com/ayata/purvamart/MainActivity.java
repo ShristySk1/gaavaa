@@ -30,6 +30,7 @@ import com.ayata.purvamart.Fragment.FragmentProduct;
 import com.ayata.purvamart.Fragment.FragmentShop;
 import com.ayata.purvamart.Fragment.FragmentThankyou;
 import com.ayata.purvamart.Fragment.FragmentTrackOrder;
+import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,6 +41,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import static com.ayata.purvamart.utils.BadgeDrawable.setBadgeCount;
 
@@ -59,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //for internet checking
+        new ApiClient(getApplicationContext());
         toolbar = findViewById(R.id.appbar_main);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         //image and badge
@@ -113,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentPayment2());//17
         fragmentList.add(new FragmentDeliveryAddress());//18
         fragmentList.add(new FragmentEditAddress());//19//for add
-
 
     }
 
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             };
 
     public void hideToolbar() {
-        toolbar.setVisibility(View.GONE);
+        toolbar.setVisibility(View.INVISIBLE);
     }
 
     public void showToolbar() {
@@ -291,14 +293,23 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     }
 
+    public void changeFragmentThankyou(int fragmentIndex) {
+        removeAllBackstacK();
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).addToBackStack(FragmentThankyou.TAG).commit();
+    }
+
+    private void removeAllBackstacK() {
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(0);
+            manager.popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+    }
+
     public void selectMyOrderFragment() {
-        getSupportFragmentManager().popBackStack(FragmentPayment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        if (manager.getBackStackEntryCount() > 0) {
-//            FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(0);
-//            manager.popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        }
-//        changeFragment(2, FragmentMyOrder.TAG, null);
+        getSupportFragmentManager().popBackStack(FragmentThankyou.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         bottomnav.setSelectedItemId(R.id.nav_order);
+//        changeFragment(2, FragmentMyOrder.TAG, null);
     }
 
     public void selectCartFragment() {
@@ -314,13 +325,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         changeFragment(0, FragmentShop.TAG, null);
     }
 
-    public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-    }
 
     @Override
     public void onBackStackChanged() {

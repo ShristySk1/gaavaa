@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.Adapter.AdapterAddress;
@@ -39,6 +41,9 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     List<ModelAddress> listitem;
     AdapterAddress adapterAddress;
     LinearLayout ll_add_address;
+    //error
+    TextView text_error;
+    ProgressBar progress_error;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +54,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType2("Shipping Address", false, false);
+        inflateLayout(view);
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(false);
         initRecycler(view);
@@ -77,6 +83,16 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
 //        listitem.add(new ModelAddress());
         getAddress();
 
+    }
+    //inflate pullRefreshLayout for error and progressbar
+    void inflateLayout(View view) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
+        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
+        ViewGroup viewGroup = view.findViewById(R.id.root_main);
+        viewGroup.addView(inflatedLayout);
+        text_error = view.findViewById(R.id.text_error);
+        progress_error = view.findViewById(R.id.progress_error);
     }
 
     void getAddress() {
@@ -107,6 +123,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
 
     @Override
     public void onResponseReceived(JsonObject response) {
+        progress_error.setVisibility(View.GONE);
         Gson gson = new GsonBuilder().create();
         TypeToken<List<ModelAddress>> responseTypeToken = new TypeToken<List<ModelAddress>>() {
         };
@@ -117,11 +134,13 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
 
     @Override
     public void onLoading() {
-
+        progress_error.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onError(String message) {
+        progress_error.setVisibility(View.GONE);
+        text_error.setText(message);
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

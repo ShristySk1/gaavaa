@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:fontFamily="@font/numberfont"
+                style="@style/MyNumberFontFamily"
                 android:text="4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorBlack" />
@@ -123,7 +123,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
-        android:fontFamily="@font/numberfont"
+        style="@style/MyNumberFontFamily"
         android:text="120"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

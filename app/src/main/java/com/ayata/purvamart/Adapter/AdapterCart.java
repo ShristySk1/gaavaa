@@ -14,8 +14,6 @@ import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,17 +40,16 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
         ModelItem modelItem = listitem.get(position);
-        String price = modelItem.getPrice();
+        String price = modelItem.getPrev_price();
         String discount = modelItem.getDiscount_percent();
-        Double pri = Double.valueOf(price);
         Integer count = modelItem.getCount();
         String name = modelItem.getName();
-        Double totalprice = pri * Double.valueOf(count);
+        String totalprice = String.valueOf(modelItem.getPrice());
         //bind data
         holder.textName.setText(name);
-        holder.textPrice.setText(price + "/kg");
+        holder.textPrice.setText(price + "/"+modelItem.getUnit());
         holder.textCount.setText(count.toString());
-        holder.textTotalPrice.setText(totalprice.toString());
+        holder.textTotalPrice.setText(totalprice);
         //handle discount
         if (modelItem.getDiscount()) {
             holder.textDiscount.setVisibility(View.VISIBLE);
@@ -73,7 +70,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
 
         OnCartItemClickListener onCategoryClickListener;
         ImageView image;
-        TextView textName, textPrice, textCount, textTotalPrice,textDiscount;
+        TextView textName, textPrice, textCount, textTotalPrice, textDiscount;
         ImageButton add, minus;
 
         public modelViewHolder(@NonNull View itemView, OnCartItemClickListener onCategoryClickListener) {
@@ -99,7 +96,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
             minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(getAdapterPosition()!=-1) {
+                    if (getAdapterPosition() != -1) {
                         onCartClickListener.onMinusClick(listitem.get(getAdapterPosition()), getAdapterPosition());
                     }
                 }

@@ -1,10 +1,5 @@
 package com.ayata.purvamart.data.network.helper;
 
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.ref.WeakReference;
 
 import androidx.annotation.NonNull;
@@ -39,8 +34,12 @@ public class NetworkResponse<ResponseType> implements Callback<ResponseType> {
 
     @Override
     public void onFailure(@NonNull Call<ResponseType> call, @NonNull Throwable t) {
-        if (listener != null && listener.get() != null) {
-            listener.get().onError(t.getMessage());
+        if (t instanceof NoConnectivityException) {
+            listener.get().onError("No Internet Connection");
+        } else {
+            if (listener != null && listener.get() != null) {
+                listener.get().onError(t.getMessage());
+            }
         }
     }
 }

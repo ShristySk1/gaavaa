@@ -51,7 +51,7 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
     Button btn_pay;
     String paymentName = "CASHONDELIVERY";
     public static final int REQUEST_CODE_PAYMENT = 3;
-    public String TAG="FragmentPayment2";
+    public static String TAG = "FragmentPayment2";
 
     //total
     TextView pay_total, pay_orderprice;
@@ -64,8 +64,8 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
         btn_pay = view.findViewById(R.id.btn_pay);
         pay_total = view.findViewById(R.id.pay_total);
         pay_orderprice = view.findViewById(R.id.pay_orderprice);
-        pay_total.setText(PreferenceHandler.getGrandTotal(getContext()));
-        pay_orderprice.setText(PreferenceHandler.getGrandTotal(getContext()));
+        pay_total.setText("Rs. " + PreferenceHandler.getGrandTotal(getContext()));
+        pay_orderprice.setText("Rs. " + PreferenceHandler.getGrandTotal(getContext()));
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType2("Payment", false, false);
@@ -76,6 +76,7 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //thankyou fragment
                 requestConfirmOrder(FragmentPayment2.this, ApiClient.getApiService());
             }
         });
@@ -132,16 +133,20 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
             Gson gson = new GsonBuilder().create();
             TypeToken<List<ConfirmCheckoutResponse>> responseTypeToken = new TypeToken<List<ConfirmCheckoutResponse>>() {
             };
-            List<ConfirmCheckoutResponse> details = gson.fromJson(gson.toJson(response.getAsJsonArray("details")), responseTypeToken.getType());
-            String orderId = details.get(0).getOrderId();
-            String merchantId = details.get(0).getMerchantId();
-            String merchantSecrete = details.get(0).getMerchantSecret();
-            String scd = details.get(0).getScd();
+//            List<ConfirmCheckoutResponse> details = gson.fromJson(gson.toJson(response.getAsJsonArray("details")), responseTypeToken.getType());
+//            String orderId = details.get(0).getOrderId();
+//            String merchantId = details.get(0).getMerchantId();
+//            String merchantSecrete = details.get(0).getMerchantSecret();
+//            String scd = details.get(0).getScd();
+            //thankyou fragment
+            if (isAdded())
+                ((MainActivity) getActivity()).changeFragmentThankyou(16);
         } else {
             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
     @Override
     public void onLoading() {
@@ -155,7 +160,6 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
 
 
     private void setForKhalti() {
-
         String productId = "Product ID";
         String product_name = "Main";
         long amount = 100L;
@@ -233,4 +237,5 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
             }
         }
     }
+
 }

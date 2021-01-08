@@ -55,29 +55,30 @@
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilPersonName"
-                    style="@style/MyTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:hint="Name"
-                    app:errorEnabled="false">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPersonName"
+                style="@style/MyTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:hint="Name"
+                app:errorEnabled="false">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
-                        android:textSize="14sp"
-                        tools:text="Nepal" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:theme="@style/MyTextInputLayoutStyle.ColorControl"
+                    tools:text="Nepal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPhoneNo"
                 style="@style/MyTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:hint="Mobile no."
                 app:errorEnabled="false">
 
@@ -86,8 +87,8 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:inputType="text"
-                    android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                     android:textSize="14sp"
+                    android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                     tools:text="9865523523" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +98,7 @@
                 style="@style/MyTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:hint="Street Name"
                 app:errorEnabled="false">
 
@@ -115,7 +116,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -133,9 +134,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                         android:inputType="number"
                         android:textSize="14sp"
+                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                         tools:text="44700" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,8 +145,8 @@
                     android:id="@+id/tilCity"
                     style="@style/MyTextInputLayoutStyle"
                     android:layout_width="0dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_weight="1"
                     android:hint="City"
@@ -154,32 +155,33 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                         android:background="@null"
                         android:inputType="text"
                         android:textSize="14sp"
+                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
                         tools:text="Kathmandu" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilCountry"
-                    style="@style/MyTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:hint="Country"
-                    app:errorEnabled="false">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCountry"
+                style="@style/MyTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:hint="Country"
+                app:errorEnabled="false">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:theme="@style/MyTextInputLayoutStyle.ColorControl"
-                        android:inputType="text"
-                        android:textSize="14sp"
-                        tools:text="Nepal" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:theme="@style/MyTextInputLayoutStyle.ColorControl"
+                    tools:text="Nepal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
