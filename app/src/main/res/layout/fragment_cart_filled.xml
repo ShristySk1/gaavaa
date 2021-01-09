@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".Fragment.FragmentCartFilled"
+    tools:context=".ui.Fragment.cart.FragmentCartFilled"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 

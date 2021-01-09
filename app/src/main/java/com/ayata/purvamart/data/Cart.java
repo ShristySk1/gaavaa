@@ -1,6 +1,6 @@
 package com.ayata.purvamart.data;
 
-import com.ayata.purvamart.Model.ModelItem;
+import com.ayata.purvamart.data.Model.ModelItem;
 
 import java.util.List;
 

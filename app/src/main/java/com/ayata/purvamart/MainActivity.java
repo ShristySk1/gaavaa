@@ -12,28 +12,29 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ayata.purvamart.Fragment.FragmentAccount;
-import com.ayata.purvamart.Fragment.FragmentCart;
-import com.ayata.purvamart.Fragment.FragmentCartEmpty;
-import com.ayata.purvamart.Fragment.FragmentCartFilled;
-import com.ayata.purvamart.Fragment.FragmentCategory;
-import com.ayata.purvamart.Fragment.FragmentDeliveryAddress;
-import com.ayata.purvamart.Fragment.FragmentEditAddress;
-import com.ayata.purvamart.Fragment.FragmentEditProfile;
-import com.ayata.purvamart.Fragment.FragmentEmptyOrder;
-import com.ayata.purvamart.Fragment.FragmentListOrder;
-import com.ayata.purvamart.Fragment.FragmentMyOrder;
-import com.ayata.purvamart.Fragment.FragmentPayment;
-import com.ayata.purvamart.Fragment.FragmentPayment2;
-import com.ayata.purvamart.Fragment.FragmentPrivacyPolicy;
-import com.ayata.purvamart.Fragment.FragmentProduct;
-import com.ayata.purvamart.Fragment.FragmentShop;
-import com.ayata.purvamart.Fragment.FragmentThankyou;
-import com.ayata.purvamart.Fragment.FragmentTrackOrder;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
+import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
+import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
+import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
+import com.ayata.purvamart.ui.Fragment.account.FragmentEditAddress;
+import com.ayata.purvamart.ui.Fragment.account.FragmentEditProfile;
+import com.ayata.purvamart.ui.Fragment.account.FragmentPrivacyPolicy;
+import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
+import com.ayata.purvamart.ui.Fragment.cart.FragmentCartEmpty;
+import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
+import com.ayata.purvamart.ui.Fragment.order.FragmentEmptyOrder;
+import com.ayata.purvamart.ui.Fragment.order.FragmentListOrder;
+import com.ayata.purvamart.ui.Fragment.order.FragmentMyOrder;
+import com.ayata.purvamart.ui.Fragment.order.FragmentTrackOrder;
+import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //for internet checking
-        new ApiClient(getApplicationContext());
+        new ApiClient(new WeakReference<>(getApplicationContext()));
         toolbar = findViewById(R.id.appbar_main);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         //image and badge
@@ -243,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_outline));
                 else
                     like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_filled));
-
                 //        <<sdk 21+ android5>>
                 if ((int) like.getTag() == R.drawable.ic_like_outline) {
                     like.setTag(R.drawable.ic_like_filled);

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.ayata.purvamart.PortalActivity;
+import com.ayata.purvamart.ui.login.PortalActivity;
 
 
 public class PreferenceHandler {

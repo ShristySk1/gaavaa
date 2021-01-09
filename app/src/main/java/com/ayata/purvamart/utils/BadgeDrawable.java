@@ -15,6 +15,9 @@ import com.ayata.purvamart.R;
 
 import androidx.core.content.ContextCompat;
 
+/**
+ * For Cart badge
+ */
 public class BadgeDrawable extends Drawable {
 
     private Paint mBadgePaint;

@@ -7,14 +7,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
-
-import com.ayata.purvamart.Constants.Constants;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * For dialog used during login,sign up and verification
+ */
 public class MyDialogFragment extends DialogFragment {
 
 
@@ -31,7 +33,7 @@ public class MyDialogFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         TextView message;
-        message=view.findViewById(R.id.message);
+        message = view.findViewById(R.id.message);
         if (getArguments() != null) {
             message.setText(getArguments().getString(Constants.DIALOG_MESSAGE));
         }

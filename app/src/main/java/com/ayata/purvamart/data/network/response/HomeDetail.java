@@ -1,6 +1,6 @@
 package com.ayata.purvamart.data.network.response;
 
-import com.ayata.purvamart.Model.ModelCategory;
+import com.ayata.purvamart.data.Model.ModelCategory;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

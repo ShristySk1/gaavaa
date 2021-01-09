@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        tools:context=".Fragment.FragmentShop">
+        tools:context=".ui.Fragment.shop.FragmentShop">
         <RelativeLayout
             android:id="@+id/root_main"
             android:layout_width="match_parent"
