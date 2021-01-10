@@ -220,9 +220,31 @@ public class ProductDetail implements Serializable {
     @SerializedName("product_price")
     @Expose
     private Double productPrice;
-
+    @SerializedName("is_ordered")
+    @Expose
+    private Boolean isOrdered=null;
+    @SerializedName("is_taken")
+    @Expose
+    private Boolean isTaken=null;
+    @SerializedName("is_cancelled")
+    @Expose
+    private Boolean isCancelled=null;
+    @SerializedName("is_completed")
+    @Expose
+    private Boolean isCompleted=null;
+    @SerializedName("created_date")
+    @Expose
+    private String createdDate=null;
     public String getFrom() {
         return from;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
     public void setFrom(String from) {
@@ -239,6 +261,37 @@ public class ProductDetail implements Serializable {
         }
     }
 
+    public Boolean getOrdered() {
+        return isOrdered;
+    }
+
+    public void setOrdered(Boolean ordered) {
+        isOrdered = ordered;
+    }
+
+    public Boolean getTaken() {
+        return isTaken;
+    }
+
+    public void setTaken(Boolean taken) {
+        isTaken = taken;
+    }
+
+    public Boolean getCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
+    public Boolean getCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(Boolean completed) {
+        isCompleted = completed;
+    }
 
     public Integer getId() {
         return id;

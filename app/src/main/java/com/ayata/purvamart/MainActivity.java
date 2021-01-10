@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.unused.FragmentOrderSummary;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentPayment2());//17
         fragmentList.add(new FragmentDeliveryAddress());//18
         fragmentList.add(new FragmentEditAddress());//19//for add
+        fragmentList.add(new FragmentOrderSummary());//20
 
     }
 
@@ -276,12 +278,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    public void changeFragment(int fragmentIndex, String tag, Bundle bundle) {
+    public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle) {
         if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 11) {
             if (bundle != null) {
                 getFragmentForBundle(fragmentIndex).setArguments(bundle);
             }
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout)
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).commit();
         } else {
             if (bundle != null) {

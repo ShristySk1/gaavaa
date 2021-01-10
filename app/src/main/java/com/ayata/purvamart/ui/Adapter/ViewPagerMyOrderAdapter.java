@@ -63,16 +63,6 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
         RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(manager);
         if (position == 0) {
-            Log.d("checkordercompleted", "onBindViewHolder: "+isEmptyCompletedOrder);
-            if (getEmptyCompletedOrder()) {
-                holder.emptyLayout.setVisibility(View.VISIBLE);
-            } else {
-                holder.emptyLayout.setVisibility(View.GONE);
-                AdapterOrder ModelOrderListAdapter = new AdapterOrder(context, today);
-                holder.recyclerView.setAdapter(ModelOrderListAdapter);
-            }
-        }
-        if (position == 1) {
             Log.d("checkorderprogress", "onBindViewHolder: "+getEmptyOnProgressOrder());
             if (getEmptyOnProgressOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
@@ -83,12 +73,21 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
+        if (position == 1) {
+            Log.d("checkordercompleted", "onBindViewHolder: "+isEmptyCompletedOrder);
+            if (getEmptyCompletedOrder()) {
+                holder.emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                holder.emptyLayout.setVisibility(View.GONE);
+                AdapterOrderCompleted ModelOrderListAdapter = new AdapterOrderCompleted(context, today);
+                holder.recyclerView.setAdapter(ModelOrderListAdapter);
+            }
+        }
         if (position == 2) {
             Log.d("checkordercancelled", "onBindViewHolder: "+isEmptyCancelledOrder);
             if (getEmptyCancelledOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
             } else {
-
                 holder.emptyLayout.setVisibility(View.GONE);
                 AdapterOrder ModelOrderListAdapter = new AdapterOrder(context, dayAfter);
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);

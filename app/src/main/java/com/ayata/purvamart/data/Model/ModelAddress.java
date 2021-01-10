@@ -48,6 +48,17 @@ public class ModelAddress implements Serializable {
         this.country = country;
     }
 
+    public ModelAddress(Integer addressId, String contactNumber, String postalCode, String city, String name, String streetName, String country) {
+        this.contactNumber = contactNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.name = name;
+        this.streetName = streetName;
+        this.country = country;
+        this.id = addressId;
+    }
+
+
     public Integer getId() {
         return id;
     }

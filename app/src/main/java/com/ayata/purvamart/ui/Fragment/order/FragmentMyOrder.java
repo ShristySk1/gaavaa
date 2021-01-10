@@ -12,24 +12,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterOrder;
-import com.ayata.purvamart.ui.Adapter.ViewPagerMyOrderAdapter;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.UserCartDetail;
-import com.ayata.purvamart.data.network.response.UserCartResponse;
+import com.ayata.purvamart.data.network.response.RecentOrderDetails;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.Adapter.AdapterOrder;
+import com.ayata.purvamart.ui.Adapter.AdapterOrderCompleted;
+import com.ayata.purvamart.ui.Adapter.ViewPagerMyOrderAdapter;
+import com.ayata.purvamart.ui.Fragment.unused.FragmentOrderSummary;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
 
-public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick {
+public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick, AdapterOrderCompleted.OnCompletedItemClickListener {
     public static final String order_item = "ORDER_ITEM";
+    public static final String completed_order_item = "COMPLETED_ORDER_ITEM";
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
     public static String TAG = "FragmentMyOrder";
     private LinearLayout option1, option2, option3;
@@ -57,8 +60,9 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     Call<JsonObject> mCall;
 
 
-    //for click listener on bus
+    //for click listener
     AdapterOrder adapterOrder;
+    AdapterOrderCompleted adapterOrderCompleted;
     //buslist tablayout
     TabLayout tabLayoutBusList;
     ViewPager2 viewPagerBusList;
@@ -89,11 +93,12 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
         viewPagerBusListAdapter.setShopListener(this);
         getAllOrder();
         viewPagerBusList.setAdapter(viewPagerBusListAdapter);
-        String[] titles = {"Completed", "On Progress", "Cancelled"};
+        String[] titles = {"On Progress", "Completed", "Cancelled"};
         new TabLayoutMediator(tabLayoutBusList, viewPagerBusList,
                 (tab, position) -> tab.setText(titles[position])
         ).attach();
         adapterOrder.setListener(this);
+        adapterOrderCompleted.setListener(this);
         return view;
     }
 
@@ -104,7 +109,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
             startActivity(new Intent(getContext(), SignupActivity.class));
             return;
         }
-        new Repository(this, myOrderApi).requestMyOrder();
+        new Repository(this, myOrderApi).requestMyRecentOrder();
     }
 
 
@@ -127,22 +132,38 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                 viewPagerBusListAdapter.notifyDataSetChanged();
             } else {
                 Gson gson = new GsonBuilder().create();
-                UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                    if (orderDetail.getIsTaken() == null) {
-                    } else {
-                        String image = "";
-                        if (orderDetail.getProductImage().size() > 0) {
-                            image = orderDetail.getProductImage().get(0);
-                        }
-                        if (orderDetail.getIsOrdered()) {
-                            listitemIsOrdered.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
-                        } else if (orderDetail.getIsCancelled()) {
-                            listitemIsCancelled.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
-                        } else if (orderDetail.getIsTaken()) {
-                            listitemIsTaken.add(new ModelOrderList(image, "22574", orderDetail.getCreatedDate(), "", "1st Jan"));
-                        }
+                TypeToken<List<RecentOrderDetails>> responseTypeToken = new TypeToken<List<RecentOrderDetails>>() {
+                };
+                List<RecentOrderDetails> detail = gson.fromJson(gson.toJson(jsonObject.getAsJsonArray("details")), responseTypeToken.getType());
+                for (RecentOrderDetails orderDetails : detail) {
+                    String orderId = orderDetails.getOrderId();
+                    String date = orderDetails.getCreatedDate();
+                    String estimatedTime = orderDetails.getEstimatedDate();
+//                    for (ProductDetail productDetail : orderDetails.getItems()) {
+//                        String image = "";
+//                        if (productDetail.getProductImage().size() > 0) {
+//                            image = productDetail.getProductImage().get(0);
+//                        }
+//                        if (productDetail.getOrdered()) {
+//                            listitemIsOrdered.add(new ModelOrderList(image, orderId, productDetail.getCreatedDate(), "", "1st Jan"));
+//                        } else if (productDetail.getCancelled()) {
+//                            listitemIsCancelled.add(new ModelOrderList(image, "22574", productDetail.getCreatedDate(), "", "1st Jan"));
+//                        } else if (productDetail.getTaken()) {
+//                            listitemIsTaken.add(new ModelOrderList(image, "22574", productDetail.getCreatedDate(), "", "1st Jan"));
+//                        }
+//                    }
+                    switch (orderDetails.getConditional_status()) {
+                        case "Delivered":
+                            listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems()));
+                            break;
+                        case "Ordered":
+                            listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems()));
+                            break;
+                        case "Cancelled":
+                            listitemIsCancelled.add(new ModelOrderList("", "22574", date, "", estimatedTime, orderDetails.getItems()));
+                            break;
                     }
+
                 }
                 Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size() + "onprogree" + listitemIsTaken.size());
                 viewPagerBusListAdapter.setToday(listitemIsOrdered);
@@ -202,5 +223,12 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     @Override
     public void onShopButtonClick() {
         ((MainActivity) getActivity()).selectShopFragment();
+    }
+
+    @Override
+    public void onCompletedItemClick(int position, ModelOrderList modelOrderList) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(completed_order_item, modelOrderList);
+        ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle);
     }
 }

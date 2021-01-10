@@ -229,20 +229,6 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_below="@+id/layout_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_btn"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            style="@style/CustomButtonGreen"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="40dp"/>
-
 
     </RelativeLayout>
 

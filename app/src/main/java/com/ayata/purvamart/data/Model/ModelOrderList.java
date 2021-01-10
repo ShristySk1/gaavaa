@@ -1,6 +1,9 @@
 package com.ayata.purvamart.data.Model;
 
+import com.ayata.purvamart.data.network.response.ProductDetail;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class ModelOrderList implements Serializable {
 
@@ -9,13 +12,23 @@ public class ModelOrderList implements Serializable {
     private String date;
     private String time;
     private String delivery_date;
+    private List<ProductDetail> productDetails;
 
-    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date) {
+    public List<ProductDetail> getProductDetails() {
+        return productDetails;
+    }
+
+    public void setProductDetails(List<ProductDetail> productDetails) {
+        this.productDetails = productDetails;
+    }
+
+    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date,List<ProductDetail> productDetails) {
         this.image = image;
         this.order_id = order_id;
         this.date = date;
         this.time = time;
         this.delivery_date = delivery_date;
+        this.productDetails=productDetails;
     }
 
     public String getImage() {

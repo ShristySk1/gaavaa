@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
@@ -77,7 +77,8 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                repository.requestAddAdress(modelAddress);
+                ModelAddress modelAddress2 = new ModelAddress(modelAddress.getId(),phone, postal, city, name, streetAddress, country);
+                repository.requestUpdateMyAddress(modelAddress2);
             } else {
                 //if add address
                 modelAddress = new ModelAddress(phone, postal, city, name, streetAddress, country);

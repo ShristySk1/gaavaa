@@ -30,7 +30,7 @@ public interface ApiService {
 
     @POST("account/verify/")
     @FormUrlEncoded
-    Call<JsonObject> verifyOtp(@Header("Authorization") String header,@Field("otp") String otp);
+    Call<JsonObject> verifyOtp(@Header("Authorization") String header, @Field("otp") String otp);
 
     @GET("category-list/")
     Call<CategoryListResponse> getCategoryList();
@@ -80,13 +80,19 @@ public interface ApiService {
     @POST("add-address/")
     Call<JsonObject> addAddress(@Body ModelAddress modelAddress);
 
+    @POST("update-address/")
+    Call<JsonObject> updateAddress(@Body ModelAddress modelAddress);
+
     @GET("get-address/")
     Call<JsonObject> getAddress();
+
+    @GET("recent-orders/")
+    Call<JsonObject> getRecentOrder();
 
     @POST("confirm-checkout/")
     @FormUrlEncoded
     Call<JsonObject> confirmOrder(
-                                  @Field("order_id") String orderId,
-                                  @Field("gateway") String gateway,
-                                  @Field("address_id") String addressId);
+            @Field("order_id") String orderId,
+            @Field("gateway") String gateway,
+            @Field("address_id") String addressId);
 }

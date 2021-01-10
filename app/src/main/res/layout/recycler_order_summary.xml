@@ -53,36 +53,14 @@
         app:layout_constraintStart_toStartOf="@+id/text_cart_productName"
         app:layout_constraintTop_toBottomOf="@+id/text_cart_productName" />
 
-    <ImageButton
-        android:id="@+id/imageButton_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_plus"
-        app:layout_constraintBottom_toBottomOf="@+id/image_cart_productImage"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toTopOf="@+id/image_cart_productImage" />
-
-    <ImageButton
-        android:id="@+id/imageButton_minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton_add"
-        app:layout_constraintEnd_toStartOf="@+id/text_cart_productQuantity"
-        app:layout_constraintTop_toTopOf="@+id/imageButton_add"
-        android:src="@drawable/ic_minus" />
-
     <TextView
         android:id="@+id/text_cart_productQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="4"
         android:textColor="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton_add"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton_add"
-        app:layout_constraintTop_toTopOf="@+id/imageButton_add" />
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_cart_pricePerKg"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

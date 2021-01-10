@@ -121,36 +121,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@drawable/button_white_gray_border"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:paddingHorizontal="16dp"-->
-            <!--                android:paddingVertical="10dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Lastname"-->
-            <!--                    android:textColor="@color/colorGrayText" />-->
-
-            <!--                <com.google.android.material.textfield.TextInputLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:layout_marginTop="4dp"-->
-            <!--                    app:errorEnabled="false"-->
-            <!--                    app:hintEnabled="false">-->
-
-            <!--                    <com.google.android.material.textfield.TextInputEditText-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:background="@null"-->
-            <!--                        android:inputType="text"-->
-            <!--                        android:text="Shrestha"-->
-            <!--                        android:textSize="14sp" />-->
-            <!--                </com.google.android.material.textfield.TextInputLayout>-->
-            <!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -168,8 +138,8 @@
                     android:textColor="@color/colorGrayText" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/input_register_phone"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="4dp"
                     app:errorEnabled="false"

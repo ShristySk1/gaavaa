@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.data.Model.ModelOrderList;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderSummary;
 import com.ayata.purvamart.ui.Fragment.account.FragmentAddressDelivery;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.ui.Fragment.order.FragmentMyOrder;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.ayata.purvamart.data.Cart;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
@@ -48,8 +51,8 @@ import androidx.recyclerview.widget.RecyclerView;
  *         fragmentList.add(new FragmentThankyou());//16
  */
 
-public class FragmentOrderSummary extends Fragment implements AdapterOrderSummary.OnItemClickListener {
-    public String TAG = "FragmentOrderSummary";
+public class FragmentOrderSummary extends Fragment{
+    public static String TAG = "FragmentOrderSummary";
 
     private View view;
     private RecyclerView recyclerView;
@@ -72,61 +75,61 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
         text_address = view.findViewById(R.id.text_address);
 
         initRecycler(view);
-        btn_confirm = view.findViewById(R.id.btn_confirm);
-        btn_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //save to server
-                saveOrderListToServer();
-
-            }
-        });
+//        btn_confirm = view.findViewById(R.id.btn_confirm);
+//        btn_confirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //save to server
+////                saveOrderListToServer();
+//
+//            }
+//        });
 
         return view;
     }
 
-    private void saveOrderListToServer() {
-        //TODO JSON DATA POST
-//        List<MyCart> carts = new ArrayList<>();
-//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-//        MyCart myCart = new MyCart();
-//        Log.d(TAG, "nextFragment: " + modelItem.getId());
-//        myCart.setProductId(modelItem.getId());
-//        carts.add(myCart);
-        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
-            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getContext(), SignupActivity.class));
-            return;
-        }
-//        List<MyCart> myCarts = new ArrayList<>();
-//        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
-//            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
-//        }
+//    private void saveOrderListToServer() {
 
-//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-//        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                if (response.isSuccessful()&&response!=null) {
-//                    Log.d(TAG, "onResponse: " + response.body().get("message"));
-//                    if (response.body().get("code").getAsString().equals("200")) {
-//                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
-//                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
-//                    } else {
-//                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
-//                        startActivity(new Intent(getContext(), SignupActivity.class));
-//                    }
-//                }else {
-//                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
-//                }
-//            }
+////        List<MyCart> carts = new ArrayList<>();
+////        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+////        MyCart myCart = new MyCart();
+////        Log.d(TAG, "nextFragment: " + modelItem.getId());
+////        myCart.setProductId(modelItem.getId());
+////        carts.add(myCart);
+//        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
+//            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(getContext(), SignupActivity.class));
+//            return;
+//        }
+////        List<MyCart> myCarts = new ArrayList<>();
+////        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
+////            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
+////        }
 //
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Log.d(TAG, "onResponse: " + t.getMessage());
-//            }
-//        });
-    }
+////        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+////        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
+////            @Override
+////            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+////                if (response.isSuccessful()&&response!=null) {
+////                    Log.d(TAG, "onResponse: " + response.body().get("message"));
+////                    if (response.body().get("code").getAsString().equals("200")) {
+////                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
+////                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
+////                    } else {
+////                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
+////                        startActivity(new Intent(getContext(), SignupActivity.class));
+////                    }
+////                }else {
+////                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+////                }
+////            }
+////
+////            @Override
+////            public void onFailure(Call<JsonObject> call, Throwable t) {
+////                Log.d(TAG, "onResponse: " + t.getMessage());
+////            }
+////        });
+//    }
 
     private void initAppbar() {
         //toolbar
@@ -142,7 +145,7 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
     private void initRecycler(View view) {
         listitem = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_view);
-        adapterOrderSummary = new AdapterOrderSummary(getContext(), listitem, this);
+        adapterOrderSummary = new AdapterOrderSummary(getContext(), listitem);
         recyclerView.setAdapter(adapterOrderSummary);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -156,61 +159,17 @@ public class FragmentOrderSummary extends Fragment implements AdapterOrderSummar
     private void dataPrepare() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-//            listitem.addAll((ArrayList<ModelItem>) bundle.getSerializable(FragmentAddressDelivery.FRAGMENT_ADDRESS_DELIVERY));
-            Log.d(TAG, "dataPrepare: " + listitem.size());
-            //test
-            String total_address = bundle.getString(FragmentAddressDelivery.FRAGMENT_ADDRESS_DELIVERY);
-            text_address.setText(total_address);
-            listitem.addAll(Cart.getModelItems());
-            if (listitem != null)
-                adapterOrderSummary.notifyDataSetChanged();
+            ModelOrderList modelOrderList=(ModelOrderList)bundle.getSerializable(FragmentMyOrder.completed_order_item);
+            for (ProductDetail productDetail:modelOrderList.getProductDetails()){
+                listitem.add(new ModelItem(
+                        productDetail.getId(),
+                        productDetail.getName(),
+                        String.valueOf(productDetail.getProductPrice()),
+                        String.valueOf(productDetail.getProductPrice()), productDetail.getImage(),"",true,"",0,""));
+            }
+            adapterOrderSummary.notifyDataSetChanged();
         }
     }
 
-    @Override
-    public void onPriceTotalListener(Double total) {
-        pay_orderPrice.setText(total.toString());
-        pay_total.setText(total.toString());
-    }
 
-    @Override
-    public void onAddClick(ModelItem modelItem, int position) {
-        Integer count = modelItem.getCount();
-        count++;
-        modelItem.setCount(count);
-//        modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
-        adapterOrderSummary.notifyItemChanged(position);
-    }
-
-    @Override
-    public void onMinusClick(ModelItem modelItem, int position) {
-        Integer count = modelItem.getCount();
-        if (count > 1) {
-            count--;
-            modelItem.setCount(count);
-//            modelItem.setTotalPrice(calculatePrice(getPriceOnly(modelItem.getPrice()), modelItem.getCount()));
-            adapterOrderSummary.notifyItemChanged(position);
-        } else {
-            listitem.remove(position);
-            adapterOrderSummary.notifyItemRemoved(position);
-        }
-    }
-
-    @Override
-    public void onCartItemClick(int position) {
-
-    }
-
-    private double calculatePrice(Double price, int quantity) {
-        return price * quantity;
-    }
-
-    Double getPriceOnly(String textPrice) {
-        Pattern PRICE_PATTERN = Pattern.compile("(\\d*\\.)?\\d+");
-        Matcher matcher = PRICE_PATTERN.matcher(textPrice);
-        while (matcher.find()) {
-            return Double.parseDouble(matcher.group());
-        }
-        return 1.00;
-    }
 }
