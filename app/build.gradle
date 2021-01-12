@@ -6,14 +6,14 @@ android {
 
     defaultConfig {
         applicationId "com.ayata.purvamart"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 //        android.enableR8 false
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        vectorDrawables.useSupportLibrary=true
+        vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
     }
@@ -71,6 +71,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     //country picker
     implementation 'com.hbb20:ccp:2.4.4'
+    //map place picker
+//    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.github.AkashG58:AKPlacePicker:1.0.0'
 
 
 }

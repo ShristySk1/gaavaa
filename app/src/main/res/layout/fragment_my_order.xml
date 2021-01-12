@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_main"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="?android:colorBackground"
     tools:context=".ui.Fragment.order.FragmentMyOrder">
 
 <!--    <LinearLayout-->
@@ -110,6 +110,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
+      app:tabBackground="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bottom_border_gray"

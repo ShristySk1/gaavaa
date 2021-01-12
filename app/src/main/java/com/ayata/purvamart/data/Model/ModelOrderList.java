@@ -13,6 +13,16 @@ public class ModelOrderList implements Serializable {
     private String time;
     private String delivery_date;
     private List<ProductDetail> productDetails;
+    private String grand_total;
+    private String payment_type;
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
 
     public List<ProductDetail> getProductDetails() {
         return productDetails;
@@ -22,13 +32,23 @@ public class ModelOrderList implements Serializable {
         this.productDetails = productDetails;
     }
 
-    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date,List<ProductDetail> productDetails) {
+    public String getGrand_total() {
+        return grand_total;
+    }
+
+    public void setGrand_total(String grand_total) {
+        this.grand_total = grand_total;
+    }
+
+    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date, List<ProductDetail> productDetails, String grand_total,String payment_type) {
         this.image = image;
         this.order_id = order_id;
         this.date = date;
         this.time = time;
         this.delivery_date = delivery_date;
-        this.productDetails=productDetails;
+        this.productDetails = productDetails;
+        this.grand_total=grand_total;
+        this.payment_type=payment_type;
     }
 
     public String getImage() {

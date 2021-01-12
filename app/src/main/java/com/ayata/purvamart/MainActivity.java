@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
-import com.ayata.purvamart.ui.Fragment.unused.FragmentOrderSummary;
+import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;

@@ -30,7 +30,7 @@ public interface ApiService {
 
     @POST("account/verify/")
     @FormUrlEncoded
-    Call<JsonObject> verifyOtp(@Header("Authorization") String header, @Field("otp") String otp);
+    Call<JsonObject> verifyOtp(@Field("otp") String otp);
 
     @GET("category-list/")
     Call<CategoryListResponse> getCategoryList();
@@ -88,6 +88,10 @@ public interface ApiService {
 
     @GET("recent-orders/")
     Call<JsonObject> getRecentOrder();
+
+    @POST("cancelorder/")
+    @FormUrlEncoded
+    Call<JsonObject> cancelOrder(@Field("order_id") String orderId);
 
     @POST("confirm-checkout/")
     @FormUrlEncoded

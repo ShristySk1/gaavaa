@@ -22,9 +22,8 @@ import com.ayata.purvamart.data.network.response.RecentOrderDetails;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterOrder;
-import com.ayata.purvamart.ui.Adapter.AdapterOrderCompleted;
+import com.ayata.purvamart.ui.Adapter.AdapterOrderDetails;
 import com.ayata.purvamart.ui.Adapter.ViewPagerMyOrderAdapter;
-import com.ayata.purvamart.ui.Fragment.unused.FragmentOrderSummary;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -40,7 +39,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
 
-public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick, AdapterOrderCompleted.OnCompletedItemClickListener {
+public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick, AdapterOrderDetails.OnCompletedItemClickListener {
     public static final String order_item = "ORDER_ITEM";
     public static final String completed_order_item = "COMPLETED_ORDER_ITEM";
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
@@ -62,7 +61,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
 
     //for click listener
     AdapterOrder adapterOrder;
-    AdapterOrderCompleted adapterOrderCompleted;
+    AdapterOrderDetails adapterOrderCompleted;
     //buslist tablayout
     TabLayout tabLayoutBusList;
     ViewPager2 viewPagerBusList;
@@ -152,23 +151,25 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
 //                            listitemIsTaken.add(new ModelOrderList(image, "22574", productDetail.getCreatedDate(), "", "1st Jan"));
 //                        }
 //                    }
-                    switch (orderDetails.getConditional_status()) {
-                        case "Delivered":
-                            listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems()));
-                            break;
-                        case "Ordered":
-                            listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems()));
-                            break;
-                        case "Cancelled":
-                            listitemIsCancelled.add(new ModelOrderList("", "22574", date, "", estimatedTime, orderDetails.getItems()));
-                            break;
-                    }
+                    if (orderDetails.getConditional_status() != null) {
+                        switch (orderDetails.getConditional_status()) {
+                            case "Delivered":
+                                listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+                                break;
+                            case "Ordered":
+                                listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+                                break;
+                            case "Cancelled":
+                                listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+                                break;
+                        }
 
+                    }
                 }
                 Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size() + "onprogree" + listitemIsTaken.size());
-                viewPagerBusListAdapter.setToday(listitemIsOrdered);
-                viewPagerBusListAdapter.setTomorrow(listitemIsTaken);
-                viewPagerBusListAdapter.setDayAfter(listitemIsCancelled);
+                viewPagerBusListAdapter.setOnCompleted(listitemIsOrdered);
+                viewPagerBusListAdapter.setOnProgress(listitemIsTaken);
+                viewPagerBusListAdapter.setOnCancelled(listitemIsCancelled);
                 if (listitemIsOrdered.size() == 0) {
                     viewPagerBusListAdapter.setEmptyCompletedOrder(true);
                     Log.d(TAG, "onResponseReceived: complete");
@@ -230,5 +231,9 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
         Bundle bundle = new Bundle();
         bundle.putSerializable(completed_order_item, modelOrderList);
         ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle);
+    }
+
+    protected void setCurrentPositionViewPager(int positionViewPager) {
+        viewPagerBusList.setCurrentItem(positionViewPager);
     }
 }

@@ -25,10 +25,14 @@ public class PreferenceHandler {
         editor.putString("email", email);
         editor.putString("phone", phone);
         editor.putString("username", username);
-
         editor.apply();
     }
-
+    public static void saveTokenTemp(Context context,String string) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("Token", string);
+        editor.apply();
+    }
     public static void updateUser(String details, String email, String phone, String username, Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();

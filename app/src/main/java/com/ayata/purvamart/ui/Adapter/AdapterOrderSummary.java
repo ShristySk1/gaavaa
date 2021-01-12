@@ -9,17 +9,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.ModelItem;
-import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummary.modelViewHolder> {
     private Context context;
@@ -44,23 +42,32 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
         ModelItem modelItem = listitem.get(position);
-        String price = modelItem.getPrice();
+        String price = modelItem.getPrev_price();
         String discount = modelItem.getDiscount_percent();
-
-        Integer count=modelItem.getCount();
+        String count = modelItem.getQuantity();
+        String subTotal = modelItem.getPrice();
+        Log.d("myproductcoynt", "onBindViewHolder: countinadapter" + count);
         String name = modelItem.getName();
+        String totalprice = String.valueOf(modelItem.getPrice());
         //bind data
         holder.textName.setText(name);
-        holder.textPrice.setText(price + "/kg");
-        holder.textCount.setText(count.toString());
-
+        holder.textPrice.setText(price + "/" + modelItem.getUnit());
+        holder.textSubTotal.setText(subTotal);
+        holder.textCount.setText(count);
+        //handle discount
+        if (modelItem.getDiscount()) {
+            holder.text_summary_productDiscount.setVisibility(View.VISIBLE);
+            holder.text_summary_productDiscount.setText(discount);
+        } else {
+            holder.text_summary_productDiscount.setVisibility(View.GONE);
+        }
         Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
 
     }
 
     @Override
     public int getItemCount() {
-        Log.d("adaptertest", "getItemCount: "+listitem.size());
+        Log.d("adaptertest", "getItemCount: " + listitem.size());
         return listitem.size();
     }
 
@@ -70,16 +77,16 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         ImageView image;
         TextView textName, textPrice, textCount;
         ImageButton add, minus;
+        TextView text_summary_productDiscount, textSubTotal;
+
         public modelViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_cart_productImage);
             textName = itemView.findViewById(R.id.text_cart_productName);
-//            textTotalPrice = itemView.findViewById(R.id.text_cart_productPrice);
             textPrice = itemView.findViewById(R.id.text_cart_pricePerKg);
             textCount = itemView.findViewById(R.id.text_cart_productQuantity);
-//            textDiscount = itemView.findViewById(R.id.text_cart_productDiscount);
-            add = itemView.findViewById(R.id.imageButton_add);
-            minus = itemView.findViewById(R.id.imageButton_minus);
+            textSubTotal = itemView.findViewById(R.id.text_subtotal);
+            text_summary_productDiscount = itemView.findViewById(R.id.text_summary_productDiscount);
             itemView.setOnClickListener(this);
         }
 
@@ -90,7 +97,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
     }
 
 
-    public List<ModelItem> getOrderList(){
+    public List<ModelItem> getOrderList() {
         return listitem;
     }
 }

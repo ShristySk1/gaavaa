@@ -27,12 +27,10 @@ public class OkHttpHeaderInterceptor implements Interceptor {
         String categoryList = "/category-list/";
         String productList = "/products-list/";
         String home = "/home/";
-        String verify = "/verify/";
-        if ((originalRequest.url().toString().contains(home)) ||
-                (originalRequest.url().toString().contains(login)) ||
-                register.contains(originalRequest.url().toString()) ||
-                categoryList.contains(originalRequest.url().toString()) ||
-                verify.contains(originalRequest.url().toString()) ||
+        if ((originalRequest.url().toString().contains(home)) |
+                (originalRequest.url().toString().contains(login)) |
+                register.contains(originalRequest.url().toString()) |
+                categoryList.contains(originalRequest.url().toString()) |
                 productList.contains(originalRequest.url().toString())) {
             Log.d("orifginal url", "intercept: " + originalRequest.url());
             return chain.proceed(originalRequest);

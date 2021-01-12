@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Fragment.unused.FragmentOrderSummary;
+import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;

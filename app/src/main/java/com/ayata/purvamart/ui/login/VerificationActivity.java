@@ -94,13 +94,13 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
         email = intent.getStringExtra(Constants.USER_EMAIL);
         phoenno = intent.getStringExtra(Constants.USER_PHONE_NUMBER);
         phone_no.setText("We sent it to the number +977 "+phoenno);
+        PreferenceHandler.saveTokenTemp(this,tokenwithBearer);
     }
 
     private void verifyOtp(String otp) {
         ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
         try {
-
-            restloginapiinterface.verifyOtp(tokenwithBearer, otp).enqueue(new Callback<JsonObject>() {
+            restloginapiinterface.verifyOtp(otp).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     hideDialog();

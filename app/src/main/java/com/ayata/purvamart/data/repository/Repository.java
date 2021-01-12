@@ -33,11 +33,17 @@ public class Repository {
     public void requestMyAddress() {
         apiService.getAddress().enqueue(new GenericNetworkResponse<>(listener));
     }
+
     public void requestUpdateMyAddress(ModelAddress modelAddress) {
         apiService.updateAddress(modelAddress).enqueue(new GenericNetworkResponse<>(listener));
     }
+
     public void requestMyRecentOrder() {
         apiService.getRecentOrder().enqueue(new GenericNetworkResponse<>(listener));
+    }
+
+    public void requestCancelOrder(String orderId) {
+        apiService.cancelOrder(orderId).enqueue(new GenericNetworkResponse<>(listener));
     }
 
     public void requestAddAdress(ModelAddress modelAddress) {

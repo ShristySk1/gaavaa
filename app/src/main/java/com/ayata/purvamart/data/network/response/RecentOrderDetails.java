@@ -22,6 +22,28 @@ public class RecentOrderDetails {
     @SerializedName("conditional_status")
     @Expose
     private String conditional_status;
+    @Expose
+    private String payment_type = null;
+    @SerializedName("total")
+    @Expose
+    private String total = null;
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
+
     public String getCreatedDate() {
         return createdDate;
     }

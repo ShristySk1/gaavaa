@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginBottom="4dp"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
     android:paddingTop="10dp">
 
     <androidx.constraintlayout.widget.Guideline
@@ -21,10 +20,28 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="20dp" />
 
+    <TextView
+        android:id="@+id/text_summary_productDiscount"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_lime"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="4dp"
+
+        android:rotation="-90"
+        android:text="10% Off"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:translationX="-37dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image_cart_productImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginStart="35dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
@@ -55,12 +72,41 @@
 
     <TextView
         android:id="@+id/text_cart_productQuantity"
+        style="@style/MyNumberFontFamily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="4"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/text_cart_pricePerKg"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
+        app:layout_constraintStart_toEndOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Quantity:"
+        app:layout_constraintStart_toStartOf="@+id/text_cart_pricePerKg"
+        app:layout_constraintTop_toBottomOf="@+id/text_cart_pricePerKg" />
+
+    <TextView
+        android:id="@+id/text_subtotal"
+        style="@style/MyNumberFontFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="142"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_cart_productQuantity"
         app:layout_constraintEnd_toStartOf="@+id/guideline7" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rs."
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_subtotal"
+        app:layout_constraintEnd_toStartOf="@+id/text_subtotal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

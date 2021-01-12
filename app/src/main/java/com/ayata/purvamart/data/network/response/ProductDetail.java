@@ -222,25 +222,52 @@ public class ProductDetail implements Serializable {
     private Double productPrice;
     @SerializedName("is_ordered")
     @Expose
-    private Boolean isOrdered=null;
+    private Boolean isOrdered = null;
     @SerializedName("is_taken")
     @Expose
-    private Boolean isTaken=null;
+    private Boolean isTaken = null;
     @SerializedName("is_cancelled")
     @Expose
-    private Boolean isCancelled=null;
+    private Boolean isCancelled = null;
     @SerializedName("is_completed")
     @Expose
-    private Boolean isCompleted=null;
+    private Boolean isCompleted = null;
     @SerializedName("created_date")
     @Expose
-    private String createdDate=null;
+    private String createdDate = null;
+
     public String getFrom() {
         return from;
     }
 
+    @SerializedName("product_quantity")
+    @Expose
+    private String product_quantity = null;
+
+    public String getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(String total_price) {
+        this.total_price = total_price;
+    }
+
+    @SerializedName("total_price")
+    @Expose
+    private String total_price = null;
+    @SerializedName("payment_type")
+
     public String getCreatedDate() {
         return createdDate;
+    }
+
+
+    public String getProduct_quantity() {
+        return product_quantity;
+    }
+
+    public void setProduct_quantity(String product_quantity) {
+        this.product_quantity = product_quantity;
     }
 
     public void setCreatedDate(String createdDate) {

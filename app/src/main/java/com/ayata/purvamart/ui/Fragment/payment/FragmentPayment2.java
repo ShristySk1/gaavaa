@@ -11,15 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterPayment;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelPayment;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.data.Model.ModelPayment;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ConfirmCheckoutResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.Adapter.AdapterPayment;
 import com.esewa.android.sdk.payment.ESewaConfiguration;
 import com.esewa.android.sdk.payment.ESewaPayment;
 import com.esewa.android.sdk.payment.ESewaPaymentActivity;
@@ -75,6 +75,10 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (paymentName.equals("ESEWA") || paymentName.equals("KHALTI")) {
+                    Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //thankyou fragment
                 String orderId = PreferenceHandler.getOrderId(getContext());
                 String addressId = PreferenceHandler.getAddressId(getContext());
@@ -109,16 +113,18 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
                 break;
             case 1:
                 paymentName = "ESEWA";
-                setForEsewa();
+                Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+//                setForEsewa();
                 break;
             case 2:
                 paymentName = "KHALTI";
-                setForEsewa();
+                Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+//                setForKhalti();
                 break;
             default:
                 paymentName = "CASHONDELIVERY";
         }
-        Toast.makeText(getContext(), paymentName, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), paymentName, Toast.LENGTH_SHORT).show();
     }
 
 

@@ -1,14 +1,21 @@
 package com.ayata.purvamart.ui.Fragment.account;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.app.akplacepicker.models.AddressData;
+import com.app.akplacepicker.utilities.Constants;
+import com.app.akplacepicker.utilities.PlacePicker;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelAddress;
@@ -20,6 +27,7 @@ import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class FragmentEditAddress extends Fragment implements NetworkResponseListener<JsonObject> {
@@ -34,6 +42,8 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
     TextInputLayout tilCountry, tilCity, tilPersonName, tilPersonPhoneNo, tilPostalCode, tilStreetAddress;
     //Repository
     Repository repository;
+    //map
+    LinearLayout ll_select_from_map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +87,7 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ModelAddress modelAddress2 = new ModelAddress(modelAddress.getId(),phone, postal, city, name, streetAddress, country);
+                ModelAddress modelAddress2 = new ModelAddress(modelAddress.getId(), phone, postal, city, name, streetAddress, country);
                 repository.requestUpdateMyAddress(modelAddress2);
             } else {
                 //if add address
@@ -109,6 +119,7 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
         tilStreetAddress.getEditText().setText(modelAddress.getStreetName());
         tilPersonName.getEditText().setText(modelAddress.getName());
         tilPersonPhoneNo.getEditText().setText(modelAddress.getContactNumber());
+
     }
 
     private void initView(View view) {
@@ -119,6 +130,13 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
         tilPersonName = view.findViewById(R.id.tilPersonName);
         tilPersonPhoneNo = view.findViewById(R.id.tilPhoneNo);
         save = view.findViewById(R.id.btn_save);
+        ll_select_from_map = view.findViewById(R.id.ll_select_from_map);
+        ll_select_from_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMapIntent();
+            }
+        });
     }
 
     @Override
@@ -134,5 +152,44 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
     @Override
     public void onError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setMapIntent() {
+        Intent intent = new PlacePicker.IntentBuilder()
+                .setGoogleMapApiKey("AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg")
+                .setLatLong(18.520430, 73.856743)
+                .setMapZoom(19.0f)
+                .setAddressRequired(true)
+                .setFabColor(R.color.colorPrimary)
+                .setPrimaryTextColor(R.color.black)
+                .build(getActivity());
+        startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.PLACE_PICKER_REQUEST) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                AddressData addressData = data.getParcelableExtra(Constants.ADDRESS_INTENT);
+                addressData.getAddressList();
+                Log.d(TAG, "onActivityResult: " + addressData.getAddressList().get(0));
+                String streetName = addressData.getAddressList().get(0).getAddressLine(0);
+                String postalCode = addressData.getAddressList().get(0).getPostalCode();
+                String city = addressData.getAddressList().get(0).getLocality();
+                tilCity.getEditText().setText(city);
+                tilPostalCode.getEditText().setText(postalCode);
+                tilStreetAddress.getEditText().setText(streetName);
+                Location mLocation = new Location("");
+                mLocation.setLatitude(addressData.getLatitude());
+                mLocation.setLongitude(addressData.getLongitude());
+                getCurrentAddress(mLocation);
+            } else {
+            }
+        }
+    }
+
+    private void getCurrentAddress(Location mLocation) {
+
     }
 }

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelOrderList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrderAdapter.myViewHolder> {
-    List<ModelOrderList> today = new ArrayList<>();
-    List<ModelOrderList> tomorrow = new ArrayList<>();
-    List<ModelOrderList> dayAfter = new ArrayList<>();
+    List<ModelOrderList> onCompleted = new ArrayList<>();
+    List<ModelOrderList> onProgress = new ArrayList<>();
+    List<ModelOrderList> onCancelled = new ArrayList<>();
     Boolean isEmptyCompletedOrder = false;
     Boolean isEmptyOnProgressOrder = false;
     Boolean isEmptyCancelledOrder = false;
-    public  setOnShopButtonClick setOnShopButtonClick;
+    public setOnShopButtonClick setOnShopButtonClick;
 
     public Boolean getEmptyCompletedOrder() {
         return isEmptyCompletedOrder;
@@ -63,33 +63,33 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
         RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(manager);
         if (position == 0) {
-            Log.d("checkorderprogress", "onBindViewHolder: "+getEmptyOnProgressOrder());
+            Log.d("checkorderprogress", "onBindViewHolder: " + getEmptyOnProgressOrder());
             if (getEmptyOnProgressOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
 
             } else {
                 holder.emptyLayout.setVisibility(View.GONE);
-                AdapterOrder ModelOrderListAdapter = new AdapterOrder(context, tomorrow);
+                AdapterOrder ModelOrderListAdapter = new AdapterOrder(context, onProgress);
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
         if (position == 1) {
-            Log.d("checkordercompleted", "onBindViewHolder: "+isEmptyCompletedOrder);
+            Log.d("checkordercompleted", "onBindViewHolder: " + isEmptyCompletedOrder);
             if (getEmptyCompletedOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.emptyLayout.setVisibility(View.GONE);
-                AdapterOrderCompleted ModelOrderListAdapter = new AdapterOrderCompleted(context, today);
+                AdapterOrderDetails ModelOrderListAdapter = new AdapterOrderDetails(context, onCompleted);
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
         if (position == 2) {
-            Log.d("checkordercancelled", "onBindViewHolder: "+isEmptyCancelledOrder);
+            Log.d("checkordercancelled", "onBindViewHolder: " + isEmptyCancelledOrder);
             if (getEmptyCancelledOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.emptyLayout.setVisibility(View.GONE);
-                AdapterOrder ModelOrderListAdapter = new AdapterOrder(context, dayAfter);
+                AdapterOrderDetails ModelOrderListAdapter = new AdapterOrderDetails(context, onCancelled);
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
@@ -121,28 +121,28 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
     }
 
 
-    public List<ModelOrderList> getToday() {
-        return today;
+    public List<ModelOrderList> getOnCompleted() {
+        return onCompleted;
     }
 
-    public void setToday(List<ModelOrderList> today) {
-        this.today = today;
+    public void setOnCompleted(List<ModelOrderList> onCompleted) {
+        this.onCompleted = onCompleted;
     }
 
-    public List<ModelOrderList> getTomorrow() {
-        return tomorrow;
+    public List<ModelOrderList> getOnProgress() {
+        return onProgress;
     }
 
-    public void setTomorrow(List<ModelOrderList> tomorrow) {
-        this.tomorrow = tomorrow;
+    public void setOnProgress(List<ModelOrderList> onProgress) {
+        this.onProgress = onProgress;
     }
 
-    public List<ModelOrderList> getDayAfter() {
-        return dayAfter;
+    public List<ModelOrderList> getOnCancelled() {
+        return onCancelled;
     }
 
-    public void setDayAfter(List<ModelOrderList> dayAfter) {
-        this.dayAfter = dayAfter;
+    public void setOnCancelled(List<ModelOrderList> onCancelled) {
+        this.onCancelled = onCancelled;
     }
 
     public void setShopListener(setOnShopButtonClick listeners) {

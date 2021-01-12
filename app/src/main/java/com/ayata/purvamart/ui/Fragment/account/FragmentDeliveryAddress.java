@@ -9,15 +9,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterAddress;
-import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.data.Constants.Constants;
+import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.Adapter.AdapterAddress;
+import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -61,6 +62,10 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         ll_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (listitem.size() >= 3) {
+                    Toast.makeText(getContext(), "Address add limit exceeded", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ((MainActivity) getActivity()).changeFragment(19, FragmentEditAddress.TAG2, null);
             }
         });
@@ -141,4 +146,6 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         text_error.setText(message);
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
+
 }

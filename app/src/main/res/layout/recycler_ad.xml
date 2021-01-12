@@ -61,6 +61,6 @@
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/text_discount"
             android:scaleType="fitEnd"
-            android:src="@drawable/fruit_image" />
+          />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

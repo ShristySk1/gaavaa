@@ -10,4 +10,6 @@ public class Constants {
     public static String OTP = "OTP_TOKEN";
     public static String USER_PHONE_NUMBER = "USER_PHONE_NUMBER";
     public static int PLACEHOLDER= R.drawable.spices1;
+    public static String API = "AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg";
+
 }
