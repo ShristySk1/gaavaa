@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,36 +37,25 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
 
-public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick, AdapterOrderDetails.OnCompletedItemClickListener {
-    public static final String order_item = "ORDER_ITEM";
-    public static final String completed_order_item = "COMPLETED_ORDER_ITEM";
+public class FragmentMyOrder extends Fragment implements NetworkResponseListener<JsonObject>, AdapterOrder.OnItemClickListener, ViewPagerMyOrderAdapter.setOnShopButtonClick, AdapterOrderDetails.OnCompletedAndCancelledItemClickListener {
+    public static final String ORDER_ITEM_FOR_TRACK = "ORDER_ITEM";
+    public static final String ORDER_ITEM_FOR_SUMMARY = "ORDER_ITEM_FOR_SUMMARY";
     public static final String FRAGMENT_MY_ORDER = "FRAGMENT_MY_ORDER";
     public static String TAG = "FragmentMyOrder";
-    private LinearLayout option1, option2, option3;
-    private TextView textView1, textView2, textView3;
-    private View line1, line2, line3;
     public static final String empty_title = "EMPTY_TITLE";
-    List<ModelOrderList> listitem;
     //error
     TextView text_error;
     ProgressBar progress_error;
-    //switch case
-    Fragment fragment = null;
-    Bundle bundle = new Bundle();
     //call
     Call<JsonObject> mCall;
-
-
     //for click listener
     AdapterOrder adapterOrder;
     AdapterOrderDetails adapterOrderCompleted;
-    //buslist tablayout
-    TabLayout tabLayoutBusList;
-    ViewPager2 viewPagerBusList;
+    //myOrder tablayout
+    TabLayout tabLayoutMyOrder;
+    ViewPager2 viewPagerMyOrder;
     List<ModelOrderList> listitemIsOrdered, listitemIsTaken, listitemIsCancelled;
-    ViewPagerMyOrderAdapter viewPagerBusListAdapter;
-    //Buttton shop
-    Button button;
+    ViewPagerMyOrderAdapter viewPagerMyOrderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,16 +71,18 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
         listitemIsTaken = new ArrayList<>();
         listitemIsCancelled = new ArrayList<>();
         listitemIsOrdered = new ArrayList<>();
-        //buslist tablayout and viewpager
-        tabLayoutBusList = view.findViewById(R.id.tabLayout2);
-        viewPagerBusList = view.findViewById(R.id.viewPager2);
-        //bus-list recyclerview with tab pullRefreshLayout
-        viewPagerBusListAdapter = new ViewPagerMyOrderAdapter();
-        viewPagerBusListAdapter.setShopListener(this);
+        //myorder tablayout and viewpager
+        tabLayoutMyOrder = view.findViewById(R.id.tabLayout2);
+        viewPagerMyOrder = view.findViewById(R.id.viewPager2);
+        //adapter
+        viewPagerMyOrderAdapter = new ViewPagerMyOrderAdapter();
+        //listener for shop button inside empty myorder
+        viewPagerMyOrderAdapter.setShopListener(this);
         getAllOrder();
-        viewPagerBusList.setAdapter(viewPagerBusListAdapter);
+        viewPagerMyOrder.setAdapter(viewPagerMyOrderAdapter);
+        //tab titles
         String[] titles = {"On Progress", "Completed", "Cancelled"};
-        new TabLayoutMediator(tabLayoutBusList, viewPagerBusList,
+        new TabLayoutMediator(tabLayoutMyOrder, viewPagerMyOrder,
                 (tab, position) -> tab.setText(titles[position])
         ).attach();
         adapterOrder.setListener(this);
@@ -125,10 +114,11 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
         progress_error.setVisibility(View.GONE);
         if (jsonObject.get("code").toString().equals("200")) {
             if (jsonObject.get("message").getAsString().equals("empty cart")) {
-                viewPagerBusListAdapter.setEmptyCompletedOrder(true);
-                viewPagerBusListAdapter.setEmptyOnProgressOrder(true);
-                viewPagerBusListAdapter.setEmptyCancelledOrder(true);
-                viewPagerBusListAdapter.notifyDataSetChanged();
+                //set empty view for all
+                viewPagerMyOrderAdapter.setEmptyCompletedOrder(true);
+                viewPagerMyOrderAdapter.setEmptyOnProgressOrder(true);
+                viewPagerMyOrderAdapter.setEmptyCancelledOrder(true);
+                viewPagerMyOrderAdapter.notifyDataSetChanged();
             } else {
                 Gson gson = new GsonBuilder().create();
                 TypeToken<List<RecentOrderDetails>> responseTypeToken = new TypeToken<List<RecentOrderDetails>>() {
@@ -138,19 +128,6 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                     String orderId = orderDetails.getOrderId();
                     String date = orderDetails.getCreatedDate();
                     String estimatedTime = orderDetails.getEstimatedDate();
-//                    for (ProductDetail productDetail : orderDetails.getItems()) {
-//                        String image = "";
-//                        if (productDetail.getProductImage().size() > 0) {
-//                            image = productDetail.getProductImage().get(0);
-//                        }
-//                        if (productDetail.getOrdered()) {
-//                            listitemIsOrdered.add(new ModelOrderList(image, orderId, productDetail.getCreatedDate(), "", "1st Jan"));
-//                        } else if (productDetail.getCancelled()) {
-//                            listitemIsCancelled.add(new ModelOrderList(image, "22574", productDetail.getCreatedDate(), "", "1st Jan"));
-//                        } else if (productDetail.getTaken()) {
-//                            listitemIsTaken.add(new ModelOrderList(image, "22574", productDetail.getCreatedDate(), "", "1st Jan"));
-//                        }
-//                    }
                     if (orderDetails.getConditional_status() != null) {
                         switch (orderDetails.getConditional_status()) {
                             case "Delivered":
@@ -167,21 +144,22 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                     }
                 }
                 Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size() + "onprogree" + listitemIsTaken.size());
-                viewPagerBusListAdapter.setOnCompleted(listitemIsOrdered);
-                viewPagerBusListAdapter.setOnProgress(listitemIsTaken);
-                viewPagerBusListAdapter.setOnCancelled(listitemIsCancelled);
+                viewPagerMyOrderAdapter.setOnCompleted(listitemIsOrdered);
+                viewPagerMyOrderAdapter.setOnProgress(listitemIsTaken);
+                viewPagerMyOrderAdapter.setOnCancelled(listitemIsCancelled);
+                //remove empty view layout when list size>0
                 if (listitemIsOrdered.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyCompletedOrder(true);
+                    viewPagerMyOrderAdapter.setEmptyCompletedOrder(true);
                     Log.d(TAG, "onResponseReceived: complete");
                 }
                 if (listitemIsTaken.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyOnProgressOrder(true);
+                    viewPagerMyOrderAdapter.setEmptyOnProgressOrder(true);
                 }
                 if (listitemIsCancelled.size() == 0) {
-                    viewPagerBusListAdapter.setEmptyCancelledOrder(true);
+                    viewPagerMyOrderAdapter.setEmptyCancelledOrder(true);
                     Log.d(TAG, "onResponseReceived: calnceeled");
                 }
-                viewPagerBusListAdapter.notifyDataSetChanged();
+                viewPagerMyOrderAdapter.notifyDataSetChanged();
 
             }
         }
@@ -197,10 +175,10 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public void onError(String message) {
         progress_error.setVisibility(View.GONE);
         text_error.setText(message);
-        viewPagerBusListAdapter.setEmptyCompletedOrder(false);
-        viewPagerBusListAdapter.setEmptyOnProgressOrder(false);
-        viewPagerBusListAdapter.setEmptyCancelledOrder(false);
-        viewPagerBusListAdapter.notifyDataSetChanged();
+        viewPagerMyOrderAdapter.setEmptyCompletedOrder(false);
+        viewPagerMyOrderAdapter.setEmptyOnProgressOrder(false);
+        viewPagerMyOrderAdapter.setEmptyCancelledOrder(false);
+        viewPagerMyOrderAdapter.notifyDataSetChanged();
     }
 
     //inflate pullRefreshLayout for error and progressbar
@@ -214,26 +192,39 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
         progress_error = view.findViewById(R.id.progress_error);
     }
 
+    /**
+     * Go to order tracking Fragment when clicked on OnProgress Tab
+     *
+     * @param position
+     * @param modelOrderList
+     * @see FragmentTrackOrder
+     */
     @Override
     public void onItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(order_item, modelOrderList);
+        bundle.putSerializable(ORDER_ITEM_FOR_TRACK, modelOrderList);
         ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
     }
 
+    /**
+     * Shop button when empty layout is visible
+     */
     @Override
     public void onShopButtonClick() {
         ((MainActivity) getActivity()).selectShopFragment();
     }
 
+    /**
+     * Go to order summary Fragment when clicked on OnCancelled and OnCompleted Tab
+     *
+     * @param position
+     * @param modelOrderList
+     * @see FragmentOrderSummary
+     */
     @Override
-    public void onCompletedItemClick(int position, ModelOrderList modelOrderList) {
+    public void onCompletedAndCancelledItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(completed_order_item, modelOrderList);
+        bundle.putSerializable(ORDER_ITEM_FOR_SUMMARY, modelOrderList);
         ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle);
-    }
-
-    protected void setCurrentPositionViewPager(int positionViewPager) {
-        viewPagerBusList.setCurrentItem(positionViewPager);
     }
 }

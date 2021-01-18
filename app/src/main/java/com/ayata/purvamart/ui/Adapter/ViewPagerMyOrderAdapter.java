@@ -62,6 +62,13 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
         Context context = holder.itemView.getContext();
         RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(manager);
+        /**
+         * hide and unhide empty view according to list
+         * AdapterOrder is for displaying orders that needs to show order tracking page when clicked
+         * AdapterOrderDetails is for displaying orders that needs to show order summary when clicked
+         */
+
+        //onprogress
         if (position == 0) {
             Log.d("checkorderprogress", "onBindViewHolder: " + getEmptyOnProgressOrder());
             if (getEmptyOnProgressOrder()) {
@@ -73,6 +80,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
+        //oncomplete
         if (position == 1) {
             Log.d("checkordercompleted", "onBindViewHolder: " + isEmptyCompletedOrder);
             if (getEmptyCompletedOrder()) {
@@ -83,6 +91,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
                 holder.recyclerView.setAdapter(ModelOrderListAdapter);
             }
         }
+        //oncancelled
         if (position == 2) {
             Log.d("checkordercancelled", "onBindViewHolder: " + isEmptyCancelledOrder);
             if (getEmptyCancelledOrder()) {

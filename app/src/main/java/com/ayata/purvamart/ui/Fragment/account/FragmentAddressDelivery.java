@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
 
 import java.io.Serializable;
@@ -32,7 +32,7 @@ public class FragmentAddressDelivery extends Fragment implements View.OnClickLis
     private CardView address1_layout, address2_layout;
     private Button btn_payment;
     //list of cart data
-    List<ModelItem> modelItems;
+    List<ProductDetail> modelItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

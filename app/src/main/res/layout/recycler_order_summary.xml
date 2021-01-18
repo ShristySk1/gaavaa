@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/text_cart_productName"
-        app:srcCompat="@drawable/spinach" />
+     />
 
     <TextView
         android:id="@+id/text_cart_productName"

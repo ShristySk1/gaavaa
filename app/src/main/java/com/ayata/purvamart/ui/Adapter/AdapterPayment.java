@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.ModelPayment;
 import com.ayata.purvamart.R;
 import com.bumptech.glide.Glide;
@@ -42,7 +43,7 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.MyViewHo
         String paymentName = modelPayment.getPayment_name();
         int paymentImage = modelPayment.getPayment_image();
         holder.tvPaymentMethod.setText(paymentName);
-        Glide.with(context).load(paymentImage).into(holder.ivPaymentImage);
+        Glide.with(context).load(paymentImage).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.ivPaymentImage);
         if (row_index == position) {
             holder.recycler_main.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_green_border2));
         } else {

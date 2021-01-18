@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderSummary;
-import com.ayata.purvamart.ui.Fragment.order.FragmentMyOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public class FragmentOrderSummary extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private AdapterOrderSummary adapterOrderSummary;
-    private List<ModelItem> listitem;
+    private List<ProductDetail> listitem;
     private LinearLayoutManager layoutManager;
     private Button btn_confirm;
     private TextView pay_total;
@@ -62,67 +60,16 @@ public class FragmentOrderSummary extends Fragment {
         view = inflater.inflate(R.layout.fragment_order_summary, container, false);
 
         initAppbar();
-        pay_orderPrice = view.findViewById(R.id.pay_orderprice);
-        pay_total = view.findViewById(R.id.pay_total);
-        image_pay_type = view.findViewById(R.id.image_pay_type);
-//        text_address = view.findViewById(R.id.text_address);
-
+        initView(view);
         initRecycler(view);
-//        btn_confirm = view.findViewById(R.id.btn_confirm);
-//        btn_confirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //save to server
-////                saveOrderListToServer();
-//
-//            }
-//        });
-
         return view;
     }
 
-//    private void saveOrderListToServer() {
-
-////        List<MyCart> carts = new ArrayList<>();
-////        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-////        MyCart myCart = new MyCart();
-////        Log.d(TAG, "nextFragment: " + modelItem.getId());
-////        myCart.setProductId(modelItem.getId());
-////        carts.add(myCart);
-//        if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
-//            Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
-//            startActivity(new Intent(getContext(), SignupActivity.class));
-//            return;
-//        }
-////        List<MyCart> myCarts = new ArrayList<>();
-////        for (ModelItem modelItem : adapterOrderSummary.getOrderList()) {
-////            myCarts.add(new MyCart(modelItem.getId(), Integer.valueOf(modelItem.getQuantity())));
-////        }
-//
-////        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-////        apiService.addToOrder(PreferenceHandler.getToken(getContext()), new Gson().toJson(adapterOrderSummary.getOrderList())).enqueue(new Callback<JsonObject>() {
-////            @Override
-////            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-////                if (response.isSuccessful()&&response!=null) {
-////                    Log.d(TAG, "onResponse: " + response.body().get("message"));
-////                    if (response.body().get("code").getAsString().equals("200")) {
-////                        Toast.makeText(getContext(), "Order Successful", Toast.LENGTH_LONG).show();
-////                        ((MainActivity) getActivity()).changeFragment(16,FragmentThankyou.TAG,null);
-////                    } else {
-////                        Toast.makeText(getContext(), "Please login to continue", Toast.LENGTH_LONG).show();
-////                        startActivity(new Intent(getContext(), SignupActivity.class));
-////                    }
-////                }else {
-////                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
-////                }
-////            }
-////
-////            @Override
-////            public void onFailure(Call<JsonObject> call, Throwable t) {
-////                Log.d(TAG, "onResponse: " + t.getMessage());
-////            }
-////        });
-//    }
+    private void initView(View view) {
+        pay_orderPrice = view.findViewById(R.id.pay_orderprice);
+        pay_total = view.findViewById(R.id.pay_total);
+        image_pay_type = view.findViewById(R.id.image_pay_type);
+    }
 
     private void initAppbar() {
         //toolbar
@@ -148,28 +95,30 @@ public class FragmentOrderSummary extends Fragment {
 
     }
 
-    //add to cart api
+
+    //set bundled data to list
     private void dataPrepare() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            ModelOrderList modelOrderList = (ModelOrderList) bundle.getSerializable(FragmentMyOrder.completed_order_item);
+            ModelOrderList modelOrderList = (ModelOrderList) bundle.getSerializable(FragmentMyOrder.ORDER_ITEM_FOR_SUMMARY);
 //            Glide.with(getContext()).load(modelOrderList.getPayment_type()).placeholder(R.drawable.placeholder).into(image_pay_type);
             image_pay_type.setText(modelOrderList.getPayment_type());
             pay_orderPrice.setText(modelOrderList.getGrand_total());
             pay_total.setText(modelOrderList.getGrand_total());
-            for (ProductDetail productDetail : modelOrderList.getProductDetails()) {
-                listitem.add(new ModelItem(
-                        productDetail.getId(),
-                        productDetail.getName(),
-                        String.valueOf(productDetail.getTotal_price()),
-                        String.valueOf(productDetail.getProductPrice()),
-                        productDetail.getImage(),
-                        productDetail.getProduct_quantity(),
-                        true,
-                        productDetail.getProductDiscount(),
-                        1,
-                        productDetail.getUnit()));
-            }
+//            for (ProductDetail productDetail : modelOrderList.getProductDetails()) {
+//                listitem.add(new ModelItem(
+//                        productDetail.getId(),
+//                        productDetail.getName(),
+//                        String.valueOf(productDetail.getTotal_price()),
+//                        String.valueOf(productDetail.getProductPrice()),
+//                        productDetail.getImage(),
+//                        productDetail.getProduct_quantity(),
+//                        true,
+//                        productDetail.getProductDiscount(),
+//                        1,
+//                        productDetail.getUnit()));
+//            }
+            listitem.addAll(modelOrderList.getProductDetails());
             adapterOrderSummary.notifyDataSetChanged();
         }
     }

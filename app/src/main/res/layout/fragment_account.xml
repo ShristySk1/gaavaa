@@ -1,97 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context=".ui.Fragment.account.FragmentAccount">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior=".utils.OverScrollBehaviour">
 
-        <RelativeLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context=".ui.Fragment.account.FragmentAccount">
+
+        <!-- TODO: Update blank fragment layout -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/acc_image"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@drawable/background_green_border">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
-                <com.mikhaellopez.circularimageview.CircularImageView
+                <RelativeLayout
+                    android:id="@+id/acc_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/background_green_border">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/hacker"
+                        app:civ_border="true"
+                        app:civ_border_color="@color/colorGrayLight"
+                        app:civ_border_width="0.5dp" />
+
+                    <ImageView
+                        android:id="@+id/acc_btn_edit"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/background_blue_border"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/colorBlue" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/acc_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/acc_image"
+                    android:text="Ronesh Shrestha"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/acc_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/acc_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@id/acc_image"
+                    android:text="ronesh@ayata.com.np"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textStyle="bold" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/acc_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="15dp"
-                    android:src="@drawable/hacker"
-                    app:civ_border="true"
-                    app:civ_border_color="@color/colorGrayLight"
-                    app:civ_border_width="0.5dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/acc_email"
+                    android:layout_marginTop="40dp"
+                    android:nestedScrollingEnabled="false" />
 
-                <ImageView
-                    android:id="@+id/acc_btn_edit"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/background_blue_border"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_edit"
-                    app:tint="@color/colorBlue" />
+                <Button
+                    android:id="@+id/acc_btn_logout"
+                    style="@style/CustomButtonGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/acc_recycler"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Logout"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorWhite" />
             </RelativeLayout>
 
+        </ScrollView>
 
-            <TextView
-                android:id="@+id/acc_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@+id/acc_image"
-                android:text="Ronesh Shrestha"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/acc_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/acc_name"
-                android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@id/acc_image"
-                android:text="ronesh@ayata.com.np"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textStyle="bold" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/acc_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/acc_email"
-                android:layout_marginTop="40dp"
-                android:nestedScrollingEnabled="false" />
-
-            <Button
-                android:id="@+id/acc_btn_logout"
-                style="@style/CustomButtonGreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/acc_recycler"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="15dp"
-                android:text="Logout"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-        </RelativeLayout>
-
-    </ScrollView>
-
-</FrameLayout>
+    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

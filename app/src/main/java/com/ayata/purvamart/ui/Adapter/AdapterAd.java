@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.response.Slider;
 import com.bumptech.glide.Glide;
 
@@ -45,7 +46,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
 
         holder.title.setText(listitem.get(position).getTitle());
-        Glide.with(context).load(listitem.get(position).getImage()).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImage());
         Log.d(TAG, "onBindViewHolder: ");
 

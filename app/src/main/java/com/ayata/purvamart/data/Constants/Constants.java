@@ -3,6 +3,7 @@ package com.ayata.purvamart.data.Constants;
 import com.ayata.purvamart.R;
 
 public class Constants {
+    public static final int FALLBACKIMAGE =R.drawable.placeholder;
     public static String DIALOG_MESSAGE = "DIALOG_MESSAGE";
     public static String USER_NAME = "USER_NAME";
     public static String USER_EMAIL = "USER_EMAIL";

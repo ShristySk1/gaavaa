@@ -6,8 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class ModelAddress implements Serializable {
-
-
     @SerializedName("id")
     @Expose
     private Integer id;

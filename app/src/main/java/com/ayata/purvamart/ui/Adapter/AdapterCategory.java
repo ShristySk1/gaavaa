@@ -44,7 +44,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.modelV
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
         holder.text.setText(listitem.get(position).getName());
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d("adaptercategory", "onBindViewHolder: " + listitem.get(position).getImage());
         switch (count) {
             case 0:

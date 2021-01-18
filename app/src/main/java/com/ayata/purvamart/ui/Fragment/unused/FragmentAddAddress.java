@@ -14,10 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -33,7 +33,7 @@ public class FragmentAddAddress extends Fragment {
     public static final String FRAGMENT_ADDRESS_DELIVERY = "FRAGMENT_ADDRESS_DELIVERY";
     private String TAG = "FragmentAddAddress";
     //list of cart data
-    List<ModelItem> modelItems;
+    List<ProductDetail> modelItems;
 
     private View view;
 

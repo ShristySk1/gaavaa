@@ -39,7 +39,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:baselineAlignBottom="true"
-        android:src="@drawable/spices1" />
+         />
 
 
 </RelativeLayout>

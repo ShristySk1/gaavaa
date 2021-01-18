@@ -24,6 +24,7 @@ import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.login.SignupActivity;
+import com.ayata.purvamart.utils.GpsTracker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
@@ -155,15 +156,22 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
     }
 
     private void setMapIntent() {
-        Intent intent = new PlacePicker.IntentBuilder()
-                .setGoogleMapApiKey("AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg")
-                .setLatLong(18.520430, 73.856743)
-                .setMapZoom(19.0f)
-                .setAddressRequired(true)
-                .setFabColor(R.color.colorPrimary)
-                .setPrimaryTextColor(R.color.black)
-                .build(getActivity());
-        startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST);
+        // check if GPS enabled
+        GpsTracker gpsTracker = new GpsTracker(getContext());
+        if (gpsTracker.getIsGPSTrackingEnabled()) {
+            Double lat = gpsTracker.getLatitude();
+            Double lon = gpsTracker.getLongitude();
+            Intent intent = new PlacePicker.IntentBuilder()
+                    .setGoogleMapApiKey("AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg")
+//                    .setLatLong(18.520430, 73.856743)
+                    .setLatLong(lat, lon)
+                    .setMapZoom(19.0f)
+                    .setAddressRequired(true)
+                    .setFabColor(R.color.colorPrimary)
+                    .setPrimaryTextColor(R.color.black)
+                    .build(getActivity());
+            startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST);
+        }
     }
 
     @Override

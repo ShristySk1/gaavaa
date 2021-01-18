@@ -82,6 +82,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         empty_layout = view.findViewById(R.id.layout_empty);
         //for error
         inflateLayout();
+        //set bundle arguments to list
         prepareCategory();
         adapterCategoryTop = new AdapterCategoryTop(getContext(), categoryTopList, this);
 
@@ -155,6 +156,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         });
     }
 
+    //filter data when clicked on different category
     private void populateData(String categoryname) {
         Log.d(TAG, "populateData: ");
         Log.d(TAG, "populateData: listitemsize " + listitem.size());
@@ -185,18 +187,19 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
     }
 
+    //when clicked on products of that category
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, filterlist.get(position));
         Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
-
-//        Fragment fragmentProduct =((MainActivity)getActivity()).getFragmentForBundle(8);
-//        fragmentProduct.setArguments(bundle);
         ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG, bundle);
     }
 
+    /**
+     * Category "All" is added to list manually for getting all products.
+     */
     private void prepareCategory() {
         categoryTopList = new ArrayList<>();
         ApiService categoryListapi = ApiClient.getClient().create(ApiService.class);

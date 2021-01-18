@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
@@ -27,6 +27,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -124,7 +126,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
     public boolean validatePassword() {
         String passwordInput = textPassword.getEditText().getText().toString().trim();
         if (passwordInput.isEmpty()) {
@@ -152,8 +153,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     public boolean validateMobileNumber() {
         String mobileInput = textMobileNumber.getEditText().getText().toString().trim();
+        Log.d(TAG, "validateMobileNumber: " + !android.util.Patterns.PHONE.matcher(mobileInput).matches());
+        Log.d(TAG, "validateMobileNumber: " + isValidNumber(mobileInput));
         if (mobileInput.isEmpty()) {
             textMobileNumber.setError("Field can't be empty");
+            return false;
+        } else if (!isValidNumber(mobileInput)) {
+            textMobileNumber.setError("Invalid Phone number");
             return false;
         } else {
             textMobileNumber.setError(null);
@@ -161,11 +167,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private boolean isValidNumber(String phonenumber) {
+        String PHONE_PATTERN = "^(9|9)\\d{9}$";
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+        Matcher matcher = pattern.matcher(phonenumber);
+        return matcher.matches();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_create_account:
-                if (!validateEmail() | !validatePassword() | !validateMobileNumber()|!validateConfirmPassword()) {
+                if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateConfirmPassword()) {
                     return;
                 }
                 RegisterDetail details = new RegisterDetail();

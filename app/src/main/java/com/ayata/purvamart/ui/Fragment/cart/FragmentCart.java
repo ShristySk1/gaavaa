@@ -11,16 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.ui.login.SignupActivity;
-import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.UserCartDetail;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -37,7 +36,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
     public static final String FRAGMENT_CART = "FRAGMENT_CART";
     public static final String FRAGMENT_CART_TOTAL = "FRAGMENT_CART_TOTAL";
     //list and int to bundle
-    List<ModelItem> modelItemList;
+    List<ProductDetail> modelItemList;
     long totalPrice = 0;
 
 
@@ -144,18 +143,20 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onResponseReceived1: " + myOrderResponse.getDetails().size());
                 totalPrice = myOrderResponse.getGrandTotal();
-                for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
-                    String nullCheckImage = "";
-                    if (orderDetail.getProductImage().size() > 0) {
-                        nullCheckImage = orderDetail.getProductImage().get(0);
-                    }
-                    modelItemList.add(new ModelItem(orderDetail.getId(),
-                            orderDetail.getName(), String.valueOf(orderDetail.getTotalPrice()),
-                            String.valueOf(orderDetail.getProductPrice()),
-                            nullCheckImage, orderDetail.getProductQuantity().toString(),
-                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity(), orderDetail.getUnit()));
-
-                }
+//                for (ProductDetail orderDetail : myOrderResponse.getDetails()) {
+//                    String nullCheckImage = "";
+//                    if (orderDetail.getProductImage().size() > 0) {
+//                        nullCheckImage = orderDetail.getProductImage().get(0);
+//                    }
+//                    modelItemList.add(orderDetail)
+//                    modelItemList.add(new ModelItem(orderDetail.getId(),
+//                            orderDetail.getName(), String.valueOf(orderDetail.getTotalPrice()),
+//                            String.valueOf(orderDetail.getProductPrice()),
+//                            nullCheckImage, orderDetail.getProductQuantity().toString(),
+//                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity(), orderDetail.getUnit()));
+//
+//                }
+                modelItemList.addAll(myOrderResponse.getDetails());
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
             }

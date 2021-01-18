@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ayata.purvamart.ui.Adapter.AdapterOrder;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelOrderList;
+import com.ayata.purvamart.ui.Adapter.AdapterOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,9 @@ import androidx.recyclerview.widget.RecyclerView;
  * fragmentList.add(new FragmentPayment());//15
  */
 
+/**
+ * displayed when order is not empty
+ */
 public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemClickListener {
 
     public static String TAG = "FragmentListOrder";
@@ -44,7 +47,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
     private AdapterOrder adapterOrder;
     private LinearLayoutManager layoutManager;
     private List<ModelOrderList> listitem;
-
+    //to pass in track order
     public static final String order_item = "ORDER_ITEM";
 
     @Override
@@ -73,25 +76,19 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        dataPrepare();
-    }
-
-    private void dataPrepare() {
-
-//        listitem.add(new ModelOrderList(R.drawable.spinach,"22574","20-Dec-2019", "3:00 PM","22 Dec"));
-//        listitem.add(new ModelOrderList(R.drawable.spinach,"22574","20-Dec-2019", "3:00 PM","22 Dec"));
-//        listitem.add(new ModelOrderList(R.drawable.spinach,"22574","20-Dec-2019", "3:00 PM","22 Dec"));
         adapterOrder.notifyDataSetChanged();
     }
 
+    /**
+     * order clicked
+     * @param position
+     * @param modelOrderList
+     */
     @Override
     public void onItemClick(int position, ModelOrderList modelOrderList) {
 //        Toast.makeText(getContext(), "List Clicked Item--"+position, Toast.LENGTH_SHORT).show();
-
         Bundle bundle = new Bundle();
         bundle.putSerializable(order_item, modelOrderList);
-//        FragmentTrackOrder fragmentTrackOrder = ;
-//        fragmentTrackOrder.setArguments(bundle);
         ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
 
     }

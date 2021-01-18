@@ -11,19 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterAd;
-import com.ayata.purvamart.ui.Adapter.AdapterCategory;
-import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.Slider;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.Adapter.AdapterAd;
+import com.ayata.purvamart.ui.Adapter.AdapterCategory;
+import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -76,7 +75,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     //error
     TextView text_error;
     ProgressBar progress_error;
-
+    //pull refresh
     PullRefreshLayout pullRefreshLayout;
     //shimmer
     ShimmerFrameLayout shimmerFrameLayout;
@@ -110,6 +109,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             public void onClick(View view) {
                 //search method
                 Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(getContext(), SearchActivity.class));
             }
         });
 
@@ -163,13 +163,16 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
                 selectCategory(modelCategory);
             }
         });
+        //api
         getAllHomeList();
 
     }
 
+    /*
+    Api call
+     */
     private void getAllHomeList() {
-        ApiService homeapi = ApiClient.getClient().create(ApiService.class);
-        Repository repository = new Repository(this, homeapi);
+        Repository repository = new Repository(this, ApiClient.getApiService());
         repository.requestAllHome();
     }
 
@@ -197,26 +200,38 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, list_madeforyou.get(position));
-//        FragmentProduct fragmentProduct = new FragmentProduct();
-//        fragmentProduct.setArguments(bundle);
         ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle);
 
     }
 
+    /**
+     * For each category click listener
+     *
+     * @param selectedItem
+     */
     @Override
     public void onCategoryClick(ModelCategory selectedItem) {
         Toast.makeText(getContext(), "Item--" + selectedItem.getName(), Toast.LENGTH_SHORT).show();
         selectCategory(selectedItem);
     }
 
+    /**
+     * Category to be passed in fragmentcategory class from shop page
+     *
+     * @param modelCategory
+     */
     public void selectCategory(ModelCategory modelCategory) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-//        FragmentCategory fragmentCategory = new FragmentCategory();
-//        fragmentCategory.setArguments(bundle);
         ((MainActivity) getActivity()).changeFragment(9, FragmentCategory.TAG, bundle);
     }
 
+    /**
+     * Advertisement click listener
+     *
+     * @param position
+     * @param url
+     */
     @Override
     public void onAddClick(int position, String url) {
         webView.loadUrl(url);

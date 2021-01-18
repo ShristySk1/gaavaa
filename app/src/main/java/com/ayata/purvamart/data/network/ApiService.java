@@ -38,9 +38,9 @@ public interface ApiService {
     @GET("products-list/")
     Call<ProductListResponse> getProductsList();
 
-    @POST("category-list/")
-    @FormUrlEncoded
-    Call<ProductListResponse2> getProductsListSpecific(@Field("category_title") String category_title);
+//    @POST("category-list/")
+//    @FormUrlEncoded
+//    Call<ProductListResponse2> getProductsListSpecific(@Field("category_title") String category_title);
 
     @GET("home/")
     Call<HomeResponse> getAllHome();
@@ -58,9 +58,6 @@ public interface ApiService {
     @GET("myorders-list/")
     Call<RegisterResponse> getMyOrderList();
 
-    //        @POST("checkout/")
-//    @FormUrlEncoded
-//    Call<JsonObject> addToOrder(@Header("Authorization") String header, @Field("products_id") List<ModelItem> modelItemList);
     @POST("checkout/")
     @FormUrlEncoded
     Call<JsonObject> addToOrder(@Field("products_id") String modelItemList);

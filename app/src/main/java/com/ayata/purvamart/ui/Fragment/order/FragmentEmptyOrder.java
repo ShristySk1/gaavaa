@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 
-
+/**
+ * Displayed when empty order
+ */
 public class FragmentEmptyOrder extends Fragment {
     public String TAG = "FragmentEmptyOrder";
     private Button button;

@@ -132,11 +132,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         holder.name.setText(listitem.get(position).getName());
         holder.quantity.setText(listitem.get(position).getUnit());
-//        if (listitem.get(position).getProductImage().size() > 0) {
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
-//        }else{
-//            Glide.with(context).load("").into(holder.image);
-//        }
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d("checkimage", "populateItemRows: " + listitem.get(position).getProductImage());
         holder.price.setText(listitem.get(position).getProductPrice().toString());
         holder.prev_price.setText(listitem.get(position).getOldPrice().toString());
@@ -150,7 +146,6 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.prev_price.setVisibility(View.VISIBLE);
         } else {
             holder.discount.setVisibility(View.GONE);
-            //holder.discount.setText(listitem.get(position).getDiscount_percent());
             holder.prev_price.setVisibility(View.GONE);
         }
 

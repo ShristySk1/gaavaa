@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
-import com.ayata.purvamart.data.Model.ModelItem;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummary.modelViewHolder> {
     private Context context;
-    private List<ModelItem> listitem;
+    private List<ProductDetail> listitem;
 
 
-    public AdapterOrderSummary(Context context, List<ModelItem> listitem) {
+    public AdapterOrderSummary(Context context, List<ProductDetail> listitem) {
         this.context = context;
         this.listitem = listitem;
 
@@ -41,14 +41,13 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
 
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
-        ModelItem modelItem = listitem.get(position);
-        String price = modelItem.getPrev_price();
-        String discount = modelItem.getDiscount_percent();
-        String count = modelItem.getQuantity();
-        String subTotal = modelItem.getPrice();
+        ProductDetail modelItem = listitem.get(position);
+        String price = String.valueOf(modelItem.getProductPrice());
+        String discount = modelItem.getProductDiscount();
+        String count = modelItem.getProduct_quantity();
+        String subTotal = modelItem.getTotal_price();
         Log.d("myproductcoynt", "onBindViewHolder: countinadapter" + count);
         String name = modelItem.getName();
-        String totalprice = String.valueOf(modelItem.getPrice());
         //bind data
         holder.textName.setText(name);
         holder.textPrice.setText(price + "/" + modelItem.getUnit());
@@ -61,8 +60,7 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         } else {
             holder.text_summary_productDiscount.setVisibility(View.GONE);
         }
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
-
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
     }
 
     @Override
@@ -94,10 +92,5 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         public void onClick(View view) {
 //            onItemClickListener.onCartItemClick(getAdapterPosition());
         }
-    }
-
-
-    public List<ModelItem> getOrderList() {
-        return listitem;
     }
 }

@@ -16,11 +16,12 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
+
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -74,6 +75,8 @@ dependencies {
     //map place picker
 //    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.github.AkashG58:AKPlacePicker:1.0.0'
+    //search
+    implementation 'br.com.mauker.materialsearchview:materialsearchview:2.0.0-alpha03'
 
 
 }

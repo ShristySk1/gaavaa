@@ -20,6 +20,7 @@ import com.ayata.purvamart.data.network.response.ConfirmCheckoutResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterPayment;
+import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
 import com.esewa.android.sdk.payment.ESewaConfiguration;
 import com.esewa.android.sdk.payment.ESewaPayment;
 import com.esewa.android.sdk.payment.ESewaPaymentActivity;
@@ -43,6 +44,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * This fragment displays all payments required.
+ */
 public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMethodClickListener, NetworkResponseListener<JsonObject> {
     RecyclerView recyclerView;
     List<ModelPayment> listitem;
@@ -65,6 +69,8 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
         pay_orderprice = view.findViewById(R.id.pay_orderprice);
         pay_total.setText("Rs. " + PreferenceHandler.getGrandTotal(getContext()));
         pay_orderprice.setText("Rs. " + PreferenceHandler.getGrandTotal(getContext()));
+//        pay_total.setText("Rs. " + FragmentCartFilled.GRANDTOTAL);
+//        pay_orderprice.setText("Rs. " +  FragmentCartFilled.GRANDTOTAL);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType2("Payment", false, false);

@@ -9,18 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterCart;
-import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.GenericNetworkResponse;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.UserCartDetail;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.Adapter.AdapterCart;
+import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -53,7 +52,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartItemClickListener, NetworkResponseListener<JsonObject> {
     public static String TAG = "FragmentCartFilled";
     RecyclerView recyclerView;
-    List<ModelItem> modelItemList;
+    List<ProductDetail> modelItemList;
     Long grandTotal;
     AdapterCart adapterCart;
     TextView textTotal;
@@ -102,7 +101,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                             String orderId = response.getAsJsonObject("details").get("order_id").getAsString();
                             Log.d(TAG, "myOrderIdis: " + orderId);
                             PreferenceHandler.setOrderId(getContext(), orderId);
-                            PreferenceHandler.setGrandTotal(getContext(), grandTotal.toString());
                             ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, null);
                         } else {
                             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
@@ -129,9 +127,10 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         modelItemList = new ArrayList<>();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            modelItemList = (ArrayList<ModelItem>) bundle.getSerializable(FragmentCart.FRAGMENT_CART);
+            modelItemList = (ArrayList<ProductDetail>) bundle.getSerializable(FragmentCart.FRAGMENT_CART);
             grandTotal = bundle.getLong(FragmentCart.FRAGMENT_CART_TOTAL);
             Log.d(TAG, "dataPrepare: grandtotal" + grandTotal);
+            PreferenceHandler.setGrandTotal(getContext(), grandTotal.toString());
             textTotal.setText(grandTotal.toString());
         }
     }
@@ -150,7 +149,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
     @Override
-    public void onAddClick(ModelItem modelItem, int position) {
+    public void onAddClick(ProductDetail modelItem, int position) {
         id = modelItem.getId();
         pos = position;
         requestAddProductCount(this, apiService, modelItem.getId());
@@ -161,20 +160,20 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
     public void requestMinusProductCount(NetworkResponseListener<JsonObject> listener, ApiService api, Integer product_id) {
-        api.minusProductCount( product_id).enqueue(new GenericNetworkResponse<>(listener));
+        api.minusProductCount(product_id).enqueue(new GenericNetworkResponse<>(listener));
     }
 
-    public void requestCheckOut(NetworkResponseListener<JsonObject> listener, ApiService api, List<ModelItem> modelItemList) {
+    public void requestCheckOut(NetworkResponseListener<JsonObject> listener, ApiService api, List<ProductDetail> modelItemList) {
         api.addToOrder(new Gson().toJson(modelItemList)).enqueue(new GenericNetworkResponse<>(listener));
 //        api.addToOrder(PreferenceHandler.getToken(getContext()),modelItemList).enqueue(new NetworkResponse<>(listener));
 
     }
 
     @Override
-    public void onMinusClick(ModelItem modelItem, int position) {
+    public void onMinusClick(ProductDetail modelItem, int position) {
         id = modelItem.getId();
         pos = position;
-        if (modelItem.getCount() == 1) {
+        if (Integer.valueOf(modelItem.getProduct_quantity()) == 1) {
             isItemDeleted = true;
         } else {
             isItemDeleted = false;
@@ -189,7 +188,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
 
     @Override
     public void onResponseReceived(JsonObject jsonObject) {
-        ModelItem newItem = null;
         if (jsonObject.get("code").toString().equals("200")) {
             Log.d(TAG, "onResponseReceived: " + jsonObject.get("details").toString() + jsonObject.get("message"));
             if (isItemDeleted) {
@@ -199,13 +197,9 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 Gson gson = new GsonBuilder().create();
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                 String grandTotal = myOrderResponse.getGrandTotal().toString();
+                PreferenceHandler.setGrandTotal(getContext(), grandTotal);
                 textTotal.setText(grandTotal);
                 isItemDeleted = false;
-//                if (grandTotal.equals("0")) {
-//                    Log.d(TAG, "equals zero: " + grandTotal);
-//                    if (isAdded())
-//                        changeFragment(new FragmentCartEmpty());
-//                }
             }
             Log.d(TAG, "onResponseReceivednotdelete: " + modelItemList.size());
             Gson gson = new GsonBuilder().create();
@@ -218,18 +212,19 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                for (UserCartDetail orderDetail : myOrderResponse.getDetails()) {
+                for (ProductDetail orderDetail : myOrderResponse.getDetails()) {
                     if (orderDetail.getId() == id) {
-                        String nullCheckImage = "";
-                        if (orderDetail.getProductImage().size() > 0) {
-                            nullCheckImage = orderDetail.getProductImage().get(0);
-                        }
-                        newItem = new ModelItem(orderDetail.getId(),
-                                orderDetail.getName(), String.valueOf(orderDetail.getTotalPrice()),
-                                String.valueOf(orderDetail.getProductPrice()),
-                                nullCheckImage, orderDetail.getProductQuantity().toString(),
-                                true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity(),orderDetail.getUnit());
-                        modelItemList.set(pos, newItem);
+//                        String nullCheckImage = "";
+//                        if (orderDetail.getProductImage().size() > 0) {
+//                            nullCheckImage = orderDetail.getProductImage().get(0);
+//                        }
+//                        newItem = new ModelItem(orderDetail.getId(),
+//                                orderDetail.getName(), String.valueOf(orderDetail.getTotal_price()),
+//                                String.valueOf(orderDetail.getProductPrice()),
+//                                nullCheckImage, orderDetail.getProduct_quantity().toString(),
+//                                true, orderDetail.getProductDiscount(), Integer.valueOf(orderDetail.getProduct_quantity()),orderDetail.getUnit());
+//
+                        modelItemList.set(pos, orderDetail);
                         Log.d(TAG, "onResponseReceived: " + modelItemList.get(pos).getQuantity());
                         adapterCart.notifyItemChanged(pos);
                     } else {
@@ -238,6 +233,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 String grandTotal = myOrderResponse.getGrandTotal().toString();
                 Log.d(TAG, "onResponseReceived: grandtotal" + grandTotal);
                 Log.d(TAG, "dataPrepare: grandtotal" + grandTotal);
+                PreferenceHandler.setGrandTotal(getContext(), grandTotal);
                 textTotal.setText(grandTotal);
                 if (grandTotal.equals("0")) {
                     changeFragment(new FragmentCartEmpty());
@@ -247,7 +243,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
     private void changeFragment(Fragment fragment) {
-//        getFragmentManager().beginTransaction().replace(R.id.fragment_cart, fragment).commit();
         ((MainActivity) getActivity()).changeFragment(5, FragmentCart.TAG, null);
     }
 

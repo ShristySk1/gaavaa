@@ -41,7 +41,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
         holder.text_delivery.setText("Estimated Delivery on"+" "+listitem.get(position).getDelivery_date());
         holder.text_date.setText(listitem.get(position).getDate()+", "+listitem.get(position).getTime());
         holder.text_order_id.setText("Order#:"+" "+listitem.get(position).getOrder_id());
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.imageView);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.imageView);
     }
 
     @Override

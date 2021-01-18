@@ -40,5 +40,7 @@
     <string name="os_text1">Order Details</string>
     <string name="os_text2">Payment Method</string>
     <string name="os_text3">Delivery Address</string>
+    <string name="GPSAlertDialogTitle">GPSAlertDialogTitle</string>
+    <string name="GPSAlertDialogMessage">GPSAlertDialogMessage</string>
 
 </resources>

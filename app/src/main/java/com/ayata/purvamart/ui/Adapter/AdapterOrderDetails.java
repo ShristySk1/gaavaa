@@ -21,7 +21,7 @@ public class AdapterOrderDetails extends RecyclerView.Adapter<AdapterOrderDetail
 
     private Context context;
     private List<ModelOrderList> listitem;
-    private static OnCompletedItemClickListener onItemClickListener;
+    private static OnCompletedAndCancelledItemClickListener onItemClickListener;
 
     public AdapterOrderDetails(Context context, List<ModelOrderList> listitem) {
         this.context = context;
@@ -41,7 +41,7 @@ public class AdapterOrderDetails extends RecyclerView.Adapter<AdapterOrderDetail
         holder.text_delivery.setText("Estimated Delivery on"+" "+listitem.get(position).getDelivery_date());
         holder.text_date.setText(listitem.get(position).getDate()+", "+listitem.get(position).getTime());
         holder.text_order_id.setText("Order#:"+" "+listitem.get(position).getOrder_id());
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.imageView);
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.imageView);
     }
 
     @Override
@@ -65,17 +65,17 @@ public class AdapterOrderDetails extends RecyclerView.Adapter<AdapterOrderDetail
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onCompletedItemClick(getAdapterPosition(),listitem.get(getAdapterPosition()));
+                    onItemClickListener.onCompletedAndCancelledItemClick(getAdapterPosition(),listitem.get(getAdapterPosition()));
                 }
             });
 
         }
     }
 
-    public interface OnCompletedItemClickListener{
-        void onCompletedItemClick(int position, ModelOrderList modelOrderList);
+    public interface OnCompletedAndCancelledItemClickListener {
+        void onCompletedAndCancelledItemClick(int position, ModelOrderList modelOrderList);
     }
-   public static void setListener(OnCompletedItemClickListener listeners){
+   public static void setListener(OnCompletedAndCancelledItemClickListener listeners){
        onItemClickListener=listeners;
    }
 }

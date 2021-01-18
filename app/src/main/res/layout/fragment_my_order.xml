@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior=".utils.OverScrollBehaviour">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,104 +18,6 @@
     android:layout_height="match_parent"
     android:background="?android:colorBackground"
     tools:context=".ui.Fragment.order.FragmentMyOrder">
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/layout1"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:minHeight="?actionBarSize"-->
-<!--        android:gravity="bottom">-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layout_option1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_weight="1">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/text1"-->
-<!--                android:text="Complete"-->
-<!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:textAlignment="center"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/colorGreen"-->
-<!--                />-->
-
-<!--            <View-->
-<!--                android:id="@+id/line1"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="2dp"-->
-<!--                android:background="@color/colorGreen"-->
-<!--                android:layout_marginVertical="8dp"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layout_option2"-->
-<!--            android:clickable="true"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_weight="1">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/text2"-->
-<!--                android:text="On Progress"-->
-<!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:textAlignment="center"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/colorGray"-->
-<!--                />-->
-
-<!--            <View-->
-<!--                android:id="@+id/line2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="2dp"-->
-<!--                android:background="@color/colorGray"-->
-<!--                android:layout_marginVertical="8dp"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layout_option3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_weight="1"-->
-<!--            android:clickable="true">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/text3"-->
-<!--                android:text="Cancelled"-->
-<!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:textAlignment="center"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/colorGray"-->
-<!--                />-->
-
-<!--            <View-->
-<!--                android:id="@+id/line3"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="2dp"-->
-<!--                android:background="@color/colorGray"-->
-<!--                android:layout_marginVertical="8dp"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--    </LinearLayout>-->
-
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/fragment_order"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_below="@+id/layout1"-->
-<!--        />-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout2"
         android:layout_width="0dp"
@@ -127,3 +40,5 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

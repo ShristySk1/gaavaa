@@ -8,9 +8,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ayata.purvamart.data.Constants.Constants;
-import com.ayata.purvamart.data.Model.ModelItem;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolder> {
     private Context context;
-    private List<ModelItem> listitem;
+    private List<ProductDetail> listitem;
     private OnCartItemClickListener onCartClickListener;
 
-    public AdapterCart(Context context, List<ModelItem> listitem, OnCartItemClickListener onCategoryClickListener) {
+    public AdapterCart(Context context, List<ProductDetail> listitem, OnCartItemClickListener onCategoryClickListener) {
         this.context = context;
         this.listitem = listitem;
         this.onCartClickListener = onCategoryClickListener;
@@ -39,15 +39,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
-        ModelItem modelItem = listitem.get(position);
-        String price = modelItem.getPrev_price();
-        String discount = modelItem.getDiscount_percent();
-        Integer count = modelItem.getCount();
+        ProductDetail modelItem = listitem.get(position);
+        String price = modelItem.getProductPrice().toString();
+        String discount = modelItem.getProductDiscount();
+        String count = modelItem.getProduct_quantity();
         String name = modelItem.getName();
-        String totalprice = String.valueOf(modelItem.getPrice());
+        String totalprice = String.valueOf(modelItem.getTotal_price());
         //bind data
         holder.textName.setText(name);
-        holder.textPrice.setText(price + "/"+modelItem.getUnit());
+        holder.textPrice.setText(price + "/" + modelItem.getUnit());
         holder.textCount.setText(count.toString());
         holder.textTotalPrice.setText(totalprice);
         //handle discount
@@ -57,8 +57,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
         } else {
             holder.textDiscount.setVisibility(View.GONE);
         }
-        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).into(holder.image);
-
+        Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
     }
 
     @Override
@@ -111,14 +110,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.modelViewHolde
     }
 
     public interface OnCartItemClickListener {
-        void onAddClick(ModelItem modelItem, int position);
+        void onAddClick(ProductDetail modelItem, int position);
 
-        void onMinusClick(ModelItem modelItem, int position);
+        void onMinusClick(ProductDetail modelItem, int position);
 
         void onCartItemClick(int position);
     }
 
-    public List<ModelItem> getAllDataFromCart() {
+    public List<ProductDetail> getAllDataFromCart() {
         return listitem;
     }
 }

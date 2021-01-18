@@ -71,7 +71,7 @@
                             android:id="@+id/esewa_logo"
                             android:layout_width="60dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/esewa_logo"/>
+                          />
 
                         <ImageView
                             android:id="@+id/esewa_check"
@@ -133,7 +133,7 @@
                             android:id="@+id/khalti_logo"
                             android:layout_width="60dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/khalti_logo"/>
+                           />
 
                         <ImageView
                             android:id="@+id/khalti_check"

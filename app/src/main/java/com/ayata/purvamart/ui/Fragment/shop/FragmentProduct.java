@@ -13,15 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.data.Constants.Constants;
-import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.ui.login.SignupActivity;
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
+import com.ayata.purvamart.ui.login.SignupActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
@@ -30,6 +30,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * This is single product page
+ */
 public class FragmentProduct extends Fragment implements View.OnClickListener {
     public static String TAG = "FragmentProduct";
     public static final String MODEL_ITEM = "param1";
@@ -70,8 +73,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
-//        textQuantity = view.findViewById(R.id.text_product_quantity);
-//        btn_add = view.findViewById(R.id.imageButton_add);
         text_product_from = view.findViewById(R.id.text_product_from);
         image_product = view.findViewById(R.id.image_product);
         thumb_image = view.findViewById(R.id.thumb_image);
@@ -80,18 +81,13 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textProductDescription = view.findViewById(R.id.text_product_description);
         textProductTitle = view.findViewById(R.id.text_product_name);
         textWeight = view.findViewById(R.id.text_product_weight);
-//        textDiscount = view.findViewById(R.id.text_product_discount);
-//        btn_add.setOnClickListener(this);
-//        btn_minus.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
         //setData
-//        textQuantity.setText("0");
-//        image_product.setImageResource(modelItem.getImage());
         if (modelItem.getProductImage().size() > 0) {
             Glide.with(getContext()).load(modelItem.getProductImage().get(0)).into(image_product);
             Log.d(TAG, "initView: " + modelItem.getProductImage().get(0));
         } else {
-            Glide.with(getContext()).asDrawable().load(Constants.PLACEHOLDER).into(image_product);
+            Glide.with(getContext()).asDrawable().load(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(image_product);
         }
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
@@ -100,7 +96,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         thumb_text.setText(modelItem.getProductLikes().toString());
         text_product_from.setText(modelItem.getFrom());
         Log.d(TAG, "initView: " + modelItem.getFrom());
-//        handleDiscount();
         thumb_image.setOnClickListener(this);
     }
 
@@ -115,12 +110,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.imageButton_add:
-////                add();
-//                break;
-//            case R.id.imageButton_minus:
-//                minus();
-//                break;
             case R.id.btn_add_to_cart:
                 nextFragment();
                 break;
@@ -129,22 +118,25 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * go to cart fragment
+     */
     private void nextFragment() {
-        FragmentCart fragmentCart = new FragmentCart();
-        //TODO JSON DATA POST
+        //check if user is logged in then only we hit api otherwise return
         if (!PreferenceHandler.isUserAlreadyLoggedIn(getContext())) {
             Toast.makeText(getContext(), "Please Login to continue", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), SignupActivity.class));
             return;
         }
+        //api
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.addToCart( modelItem.getId()).enqueue(new Callback<JsonObject>() {
+        apiService.addToCart(modelItem.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
                     if (response.body().get("code").getAsString().equals("200")) {
-                        ((MainActivity)getActivity()).setBadge();
+                        ((MainActivity) getActivity()).setBadge();
                         Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
@@ -160,23 +152,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
                 Log.d(TAG, "onResponse: " + t.getMessage());
             }
         });
-//        ((MainActivity) getActivity()).changeFragment(fragmentCart);
     }
-
-    //
-//    private void minus() {
-//        if (quantity == 0) {
-//            textQuantity.setText("" + quantity);
-//        } else {
-//            quantity--;
-//            textQuantity.setText("" + quantity);
-//        }
-//    }
-//
-//    private void add() {
-//        quantity++;
-//        textQuantity.setText("" + quantity);
-//    }
     private void showDiscount() {
         textProductOldPrice.setVisibility(View.VISIBLE);
         textDiscount.setVisibility(View.VISIBLE);
@@ -184,7 +160,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textProductOldPrice.setText(modelItem.getOldPrice().toString());
         textProductOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
-
     private void hideDiscount() {
         textProductOldPrice.setVisibility(View.GONE);
         textDiscount.setVisibility(View.GONE);
