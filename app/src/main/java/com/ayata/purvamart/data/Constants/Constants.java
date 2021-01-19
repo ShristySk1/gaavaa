@@ -12,5 +12,9 @@ public class Constants {
     public static String USER_PHONE_NUMBER = "USER_PHONE_NUMBER";
     public static int PLACEHOLDER= R.drawable.spices1;
     public static String API = "AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg";
+    //default lat lon
+    public static  Double latitude=27.7172;
+    public static  Double longitude=85.3240;
+
 
 }

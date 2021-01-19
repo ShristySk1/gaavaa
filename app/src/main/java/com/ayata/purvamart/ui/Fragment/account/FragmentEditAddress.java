@@ -157,21 +157,21 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
 
     private void setMapIntent() {
         // check if GPS enabled
-        GpsTracker gpsTracker = new GpsTracker(getContext());
-        if (gpsTracker.getIsGPSTrackingEnabled()) {
-            Double lat = gpsTracker.getLatitude();
-            Double lon = gpsTracker.getLongitude();
+//        GpsTracker gpsTracker = new GpsTracker(getContext());
+//        if (gpsTracker.getIsGPSTrackingEnabled()) {
+//            Double lat = gpsTracker.getLatitude();
+//            Double lon = gpsTracker.getLongitude();
             Intent intent = new PlacePicker.IntentBuilder()
-                    .setGoogleMapApiKey("AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg")
+                    .setGoogleMapApiKey(com.ayata.purvamart.data.Constants.Constants.API)
 //                    .setLatLong(18.520430, 73.856743)
-                    .setLatLong(lat, lon)
-                    .setMapZoom(19.0f)
+                    .setLatLong(com.ayata.purvamart.data.Constants.Constants.latitude, com.ayata.purvamart.data.Constants.Constants.longitude)
+                    .setMapZoom(17.0f)
                     .setAddressRequired(true)
                     .setFabColor(R.color.colorPrimary)
                     .setPrimaryTextColor(R.color.black)
                     .build(getActivity());
             startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST);
-        }
+//        }
     }
 
     @Override

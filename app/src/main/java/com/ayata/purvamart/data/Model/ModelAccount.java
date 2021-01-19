@@ -1,5 +1,7 @@
 package com.ayata.purvamart.data.Model;
 
+
+
 public class ModelAccount {
 
     private String title, body;
