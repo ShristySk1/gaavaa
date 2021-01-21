@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     static int badgeCount = 1;
     //cart and badge
     ImageView itemCart;
-
+    //back button when came from search view
+    static Boolean isFromSearchView = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         bottomnav = findViewById(R.id.main_bottom_navigation);
         bottomnav.setOnNavigationItemSelectedListener(navListener);
         addAllFragments();
+
+        ProductDetail productDetail = (ProductDetail) getIntent().getSerializableExtra("key");
+        if (productDetail != null) {
+            isFromSearchView = true;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
+            changeFragment(8, FragmentProduct.TAG, bundle);
+            return;
+        }
+
         showBottomNavBar(true);
         if (findViewById(R.id.main_fragment) != null) {
 
@@ -219,7 +231,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                if (isFromSearchView) {
+                    onBackPressed();
+                    onBackPressed();
+                    isFromSearchView = false;
+                } else {
+                    onBackPressed();
+                }
             }
         });
 
