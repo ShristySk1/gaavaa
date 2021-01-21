@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "258477432568-65nbb6r0h6nml3lg59u6bf23dneeanki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayata.purvamart",
+            "certificate_hash": "435fa02bfae8eb3cd111c3366b18b4965cc58c01"
+          }
+        },
+        {
           "client_id": "258477432568-fk19m79hnqcjmbk4lj0nodh5l2jchuqe.apps.googleusercontent.com",
           "client_type": 3
         }

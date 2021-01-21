@@ -25,7 +25,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-   
+
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
     }
@@ -81,9 +81,15 @@ dependencies {
 //    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.github.AkashG58:AKPlacePicker:1.0.0'
     //search
-    implementation 'br.com.mauker.materialsearchview:materialsearchview:2.0.0-alpha03'
+//    implementation 'br.com.mauker.materialsearchview:materialsearchview:2.0.0-alpha03'
+    implementation 'com.github.ShristySk1:search:6'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
+    implementation 'com.github.claudiodegio:MsvSearch:1.0.0'
     //google signin
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation 'com.google.firebase:firebase-analytics'
 
 
 }

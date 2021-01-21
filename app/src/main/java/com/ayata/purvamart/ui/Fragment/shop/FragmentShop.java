@@ -15,9 +15,11 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
+import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
+import com.ayata.purvamart.data.network.response.ProductListResponse;
 import com.ayata.purvamart.data.network.response.Slider;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAd;
@@ -26,13 +28,21 @@ import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import br.com.mauker.materialsearchview.MaterialSearchView;
+import br.com.mauker.materialsearchview.db.model.History;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * fragmentList.add(new FragmentShop());//0
@@ -80,6 +90,12 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     //shimmer
     ShimmerFrameLayout shimmerFrameLayout;
     RelativeLayout relativeLayout_main_view;
+    //suggestions
+    String[] suggestions={"aa","bb","cc","dd"};
+//    List<String> suggestions;
+    List<ProductDetail> productDetails = new ArrayList<>();
+    MaterialSearchView materialSearchView;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,17 +120,86 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
                 getAllHomeList();
             }
         });
-        search_layout.setOnClickListener(new View.OnClickListener() {
+//        search_layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //search method
+//                Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
+////                startActivity(new Intent(getContext(), SearchActivity2.class));
+//            }
+//        });
+        materialSearchView = view.findViewById(R.id.search_view);
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //search method
-                Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(getContext(), SearchActivity.class));
+            public void onClick(View v) {
+                materialSearchView.openSearch();
+            }
+        });
+//        requestSuggestionList();
+        setMaterialSearchView();
+        return view;
+    }
+
+    private void setMaterialSearchView() {
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(@NotNull String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(@NotNull String s) {
+                return false;
+            }
+        });
+        materialSearchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewOpened() {
+                // Do something once the view is open.
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                // Do something once the view is closed.
             }
         });
 
-        return view;
+        materialSearchView.setOnItemClickListener(new MaterialSearchView.OnHistoryItemClickListener() {
+            @Override
+            public void onClick(@NotNull History history) {
+                //put submit as true if you want to search by clicking on suggestion
+                Bundle bundle = new Bundle();
+                Boolean isProductAvailable=true;
+//                for (ProductDetail pd : productDetails) {
+//                    if (pd.getName().equals(history.getQuery())) {
+//                        bundle.putSerializable(FragmentProduct.MODEL_ITEM, pd);
+//                        isProductAvailable=false;
+//                        materialSearchView.setQuery(history.getQuery(), true);
+//                        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle);
+//                        Toast.makeText(getContext(), history.getQuery(), Toast.LENGTH_SHORT).show();
+//                        return;
+//                    } else {
+//                        isProductAvailable=true;
+//                    }
+//
+//                }
+//                if(!isProductAvailable){
+//                    materialSearchView.setQuery(history.getQuery(), false);
+//                    Toast.makeText(getContext(), "No Such Products", Toast.LENGTH_SHORT).show();
+//                }
+                                        materialSearchView.setQuery(history.getQuery(), true);
+
+
+            }
+
+            @Override
+            public void onLongClick(@NotNull History history) {
+                Toast.makeText(getContext(), "Long clicked! Item: $history", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     private void initView() {
         webView = view.findViewById(R.id.webView);
@@ -195,6 +280,11 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         adapterItem_madeforyou.notifyDataSetChanged();
     }
 
+    /**
+     * on single product click
+     *
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
@@ -283,11 +373,75 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
+//        materialSearchView.addPin(suggestions[0]);
+        materialSearchView.addSuggestions(suggestions);
     }
 
     @Override
     public void onPause() {
         shimmerFrameLayout.stopShimmerAnimation();
         super.onPause();
+        materialSearchView.clearSuggestions();
+//        materialSearchView.clearPinned();
     }
+//    override fun onBackPressed() {
+//        if (searchView.isOpen) {
+//            // Close the search on the back button press.
+//            searchView.closeSearch()
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        materialSearchView.onViewStopped();
+    }
+
+
+    private void clearHistory() {
+        materialSearchView.clearHistory();
+    }
+
+    private void clearSuggestions() {
+        materialSearchView.clearSuggestions();
+    }
+
+    private void clearAll() {
+        materialSearchView.clearAll();
+    }
+
+//    private void requestSuggestionList() {
+//        allProduct();
+//    }
+//
+//    private void allProduct() {
+//        suggestions=new ArrayList<>();
+//        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
+////        suggestions.clear();
+//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+//            @Override
+//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+//                if (response.isSuccessful()) {
+//                    ProductListResponse productListResresponse = response.body();
+//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
+//                        suggestions.add(productDetail.getName());
+//                    }
+//                    productDetails.addAll(productListResresponse.getDetails());
+//                    materialSearchView.addSuggestions(suggestions);
+//
+//                } else {
+//                    Log.d(TAG, "onResponse: " + response.body().getMessage());
+//                }
+//                //
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+//                Log.d(TAG, "onResponse:failed " + t.getMessage());
+//            }
+//        });
+//    }
 }

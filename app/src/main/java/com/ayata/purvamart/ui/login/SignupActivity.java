@@ -9,6 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.utils.MyDialogFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,6 +27,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = "SignupActivity";
@@ -31,10 +37,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     TextView text_login;
     //third-party
     private static final int GOOGLE_REQ_CODE_FIREBASE = 200;
+    public static final String CLIENT_ID = "258477432568-fk19m79hnqcjmbk4lj0nodh5l2jchuqe.apps.googleusercontent.com";
     GoogleSignInClient googleSignInClient;
     //firebase
     private FirebaseAuth mAuth;
-
+    DialogFragment dialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +73,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.btn_signUp_google:
                 Toast.makeText(this, "Google SignUp Clicked", Toast.LENGTH_SHORT).show();
-//                createRequest();
-//                signInFireBase();
+                createRequest();
+                signInFireBase();
                 break;
             case R.id.text_login:
                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
@@ -78,7 +85,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     void createRequest() {
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("258477432568-fk19m79hnqcjmbk4lj0nodh5l2jchuqe.apps.googleusercontent.com")
+                .requestIdToken(CLIENT_ID)
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -108,11 +115,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        showDialog();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideDialog();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("successlogin", "signInWithCredential:success");
@@ -130,5 +139,28 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updateUIFromFrirebase(FirebaseUser user) {
         Toast.makeText(this, "Email: " + user.getEmail().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    void showDialog() {
+        dialogFragment = new MyDialogFragment();
+        dialogFragment.setCancelable(false);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.DIALOG_MESSAGE, "Signing in...");
+        dialogFragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        dialogFragment.show(ft, "dialog");
+    }
+
+    void hideDialog() {
+        dialogFragment.dismiss();
+    }
+
+    private void saveUser(String token, String email, String username, String phone) {
+        PreferenceHandler.saveUser(token, email, phone, username, this);
     }
 }
