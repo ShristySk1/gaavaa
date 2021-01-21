@@ -142,6 +142,7 @@ public class FragmentEditAddress extends Fragment implements NetworkResponseList
 
     @Override
     public void onResponseReceived(JsonObject response) {
+        if(isAdded())
         Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
     }
 

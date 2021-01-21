@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 <com.baoyz.widget.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -32,50 +27,42 @@
                 android:id="@+id/rl_main_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                <RelativeLayout
+                    android:id="@+id/search_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    >
-                    <RelativeLayout
-                        android:id="@+id/search_layout"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_grey"
+                    android:clickable="true"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/search_icon"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_search" />
+
+                    <TextView
+                        android:id="@+id/search_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/background_grey"
-                        android:paddingHorizontal="15dp"
-                        android:paddingVertical="10dp">
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@+id/search_icon"
+                        android:text="Search for food"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/colorGrayDark" />
 
-
-                        <ImageView
-                            android:id="@+id/search_icon"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_alignParentStart="true"
-                            android:src="@drawable/ic_search" />
-
-                        <TextView
-                            android:id="@+id/search_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="15dp"
-                            android:layout_toEndOf="@+id/search_icon"
-                            android:text="Search for food"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textColor="@color/colorGrayDark" />
-
-                    </RelativeLayout>
-
-                </androidx.appcompat.widget.Toolbar>
+                </RelativeLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_ad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/toolbar"
+                    android:layout_below="@+id/search_layout"
                     android:layout_marginTop="20dp"
                     android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
@@ -148,16 +135,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
-
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
     <!--    <include layout="@layout/error_layout" />-->
 </com.baoyz.widget.PullRefreshLayout>
-    <br.com.mauker.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/MaterialSearchViewStyle"
-        android:elevation="10dp"
-        app:voiceIconEnabled="true" />
-</FrameLayout>

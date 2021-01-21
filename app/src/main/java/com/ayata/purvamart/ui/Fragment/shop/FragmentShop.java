@@ -1,5 +1,6 @@
 package com.ayata.purvamart.ui.Fragment.shop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,11 +91,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     //shimmer
     ShimmerFrameLayout shimmerFrameLayout;
     RelativeLayout relativeLayout_main_view;
-    //suggestions
-    String[] suggestions={"aa","bb","cc","dd"};
-//    List<String> suggestions;
     List<ProductDetail> productDetails = new ArrayList<>();
-    MaterialSearchView materialSearchView;
     Toolbar toolbar;
 
     @Override
@@ -120,85 +117,18 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
                 getAllHomeList();
             }
         });
-//        search_layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //search method
-//                Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
-////                startActivity(new Intent(getContext(), SearchActivity2.class));
-//            }
-//        });
-        materialSearchView = view.findViewById(R.id.search_view);
-        toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        search_layout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                materialSearchView.openSearch();
+            public void onClick(View view) {
+                //search method
+                Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), SearchActivity.class));
             }
         });
-//        requestSuggestionList();
-        setMaterialSearchView();
+        toolbar = view.findViewById(R.id.toolbar);
         return view;
     }
 
-    private void setMaterialSearchView() {
-        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(@NotNull String s) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(@NotNull String s) {
-                return false;
-            }
-        });
-        materialSearchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewOpened() {
-                // Do something once the view is open.
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                // Do something once the view is closed.
-            }
-        });
-
-        materialSearchView.setOnItemClickListener(new MaterialSearchView.OnHistoryItemClickListener() {
-            @Override
-            public void onClick(@NotNull History history) {
-                //put submit as true if you want to search by clicking on suggestion
-                Bundle bundle = new Bundle();
-                Boolean isProductAvailable=true;
-//                for (ProductDetail pd : productDetails) {
-//                    if (pd.getName().equals(history.getQuery())) {
-//                        bundle.putSerializable(FragmentProduct.MODEL_ITEM, pd);
-//                        isProductAvailable=false;
-//                        materialSearchView.setQuery(history.getQuery(), true);
-//                        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle);
-//                        Toast.makeText(getContext(), history.getQuery(), Toast.LENGTH_SHORT).show();
-//                        return;
-//                    } else {
-//                        isProductAvailable=true;
-//                    }
-//
-//                }
-//                if(!isProductAvailable){
-//                    materialSearchView.setQuery(history.getQuery(), false);
-//                    Toast.makeText(getContext(), "No Such Products", Toast.LENGTH_SHORT).show();
-//                }
-                                        materialSearchView.setQuery(history.getQuery(), true);
-
-
-            }
-
-            @Override
-            public void onLongClick(@NotNull History history) {
-                Toast.makeText(getContext(), "Long clicked! Item: $history", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
     private void initView() {
@@ -373,75 +303,14 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-//        materialSearchView.addPin(suggestions[0]);
-        materialSearchView.addSuggestions(suggestions);
     }
 
     @Override
     public void onPause() {
         shimmerFrameLayout.stopShimmerAnimation();
         super.onPause();
-        materialSearchView.clearSuggestions();
-//        materialSearchView.clearPinned();
-    }
-//    override fun onBackPressed() {
-//        if (searchView.isOpen) {
-//            // Close the search on the back button press.
-//            searchView.closeSearch()
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
 
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        materialSearchView.onViewStopped();
     }
 
 
-    private void clearHistory() {
-        materialSearchView.clearHistory();
-    }
-
-    private void clearSuggestions() {
-        materialSearchView.clearSuggestions();
-    }
-
-    private void clearAll() {
-        materialSearchView.clearAll();
-    }
-
-//    private void requestSuggestionList() {
-//        allProduct();
-//    }
-//
-//    private void allProduct() {
-//        suggestions=new ArrayList<>();
-//        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-////        suggestions.clear();
-//        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
-//            @Override
-//            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                if (response.isSuccessful()) {
-//                    ProductListResponse productListResresponse = response.body();
-//                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
-//                        suggestions.add(productDetail.getName());
-//                    }
-//                    productDetails.addAll(productListResresponse.getDetails());
-//                    materialSearchView.addSuggestions(suggestions);
-//
-//                } else {
-//                    Log.d(TAG, "onResponse: " + response.body().getMessage());
-//                }
-//                //
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductListResponse> call, Throwable t) {
-//                Log.d(TAG, "onResponse:failed " + t.getMessage());
-//            }
-//        });
-//    }
 }
