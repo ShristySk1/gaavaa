@@ -73,8 +73,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.btn_signUp_google:
                 Toast.makeText(this, "Google SignUp Clicked", Toast.LENGTH_SHORT).show();
-                createRequest();
-                signInFireBase();
+//                createRequest();
+//                signInFireBase();
                 break;
             case R.id.text_login:
                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));

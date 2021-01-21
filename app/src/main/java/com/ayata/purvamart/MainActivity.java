@@ -12,12 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
-import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
-import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
-import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
-import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
 import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
 import com.ayata.purvamart.ui.Fragment.account.FragmentEditAddress;
@@ -29,11 +26,14 @@ import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
 import com.ayata.purvamart.ui.Fragment.order.FragmentEmptyOrder;
 import com.ayata.purvamart.ui.Fragment.order.FragmentListOrder;
 import com.ayata.purvamart.ui.Fragment.order.FragmentMyOrder;
+import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.ui.Fragment.order.FragmentTrackOrder;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
+import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
-import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.ref.WeakReference;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     ImageView itemCart;
     //back button when came from search view
     static Boolean isFromSearchView = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,13 +232,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFromSearchView) {
-                    onBackPressed();
-                    onBackPressed();
-                    isFromSearchView = false;
-                } else {
-                    onBackPressed();
-                }
+//                if (isFromSearchView) {
+//                    onBackPressed();
+//                    onBackPressed();
+//                    isFromSearchView = false;
+//                } else {
+//                    onBackPressed();
+//                }
+                onBackPressed();
             }
         });
 
@@ -276,6 +278,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isFromSearchView) {
+            super.onBackPressed();
+            super.onBackPressed();
+            isFromSearchView = false;
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void setToolbarType3(String title) {
