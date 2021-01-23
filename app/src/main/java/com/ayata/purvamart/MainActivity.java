@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
@@ -33,6 +34,7 @@ import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
+import com.ayata.purvamart.ui.Fragment.shop.SearchFragment;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -46,6 +48,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import static com.ayata.purvamart.ui.Fragment.shop.FragmentShop.SELECTED_CATEGORY;
 import static com.ayata.purvamart.utils.BadgeDrawable.setBadgeCount;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -89,12 +92,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         bottomnav.setOnNavigationItemSelectedListener(navListener);
         addAllFragments();
 
+        //product from searchactivity
         ProductDetail productDetail = (ProductDetail) getIntent().getSerializableExtra("key");
         if (productDetail != null) {
             isFromSearchView = true;
             Bundle bundle = new Bundle();
             bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
             changeFragment(8, FragmentProduct.TAG, bundle);
+            return;
+        }
+        //category from searchactivity
+        ModelCategory modelCategory= (ModelCategory) getIntent().getSerializableExtra("key2");
+        if (modelCategory != null) {
+            isFromSearchView = true;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
+            changeFragment(9, FragmentCategory.TAG, bundle);
             return;
         }
 
@@ -132,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentDeliveryAddress());//18
         fragmentList.add(new FragmentEditAddress());//19//for add
         fragmentList.add(new FragmentOrderSummary());//20
+        fragmentList.add(new SearchFragment());//21//search
+
 
     }
 

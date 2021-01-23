@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,17 +27,19 @@ import com.ayata.purvamart.data.network.response.ProductListResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchActivity extends AppCompatActivity implements SearchAdapter.setOnSearchClickListener, SearchAdapterBefore.onProCatClickListner {
-    private static final String TAG = "SearchyActivity";
+public class SearchFragment extends Fragment implements SearchAdapter.setOnSearchClickListener {
+    public static final String TAG ="SearchFragment" ;
     private SearchView searchView;
     private RecyclerView recyclerView, recyclerViewSearchBefore;
     private SearchAdapter searchAdapter;
@@ -48,28 +53,32 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
     SearchAdapterBefore searchAdapterBefore;
     //query text
     Boolean isFirstTime = true;
-    //both
-    List<Object> modelBoth=new ArrayList<>();
-    List<ProductDetail> modelProductsBefore;
-    List<ModelCategory> modelCategoriesBefore;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_search, container, false);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+getActivity().onBackPressed();
+            }
+        });
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setContentInsetStartWithNavigation(0);
-        layout_empty = findViewById(R.id.layout_empty);
-        ll_before_search = findViewById(R.id.ll_before_search);
-        layout_recycler = findViewById(R.id.layout_recycler);
+        layout_empty = view.findViewById(R.id.layout_empty);
+        ll_before_search = view.findViewById(R.id.ll_before_search);
+        layout_recycler = view.findViewById(R.id.layout_recycler);
         layout_recycler.setVisibility(View.GONE);
         layout_empty.setVisibility(View.GONE);
 
         //recycler search
-        recyclerView = findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         searchAdapter = new SearchAdapter();
         SearchAdapter.setListener(this);
         recyclerView.setAdapter(searchAdapter);
@@ -77,10 +86,10 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
         //recycler before search
         ll_before_search.setVisibility(View.VISIBLE);
         setRecyclerViewSearchBefore();
-        recyclerViewSearchBefore = findViewById(R.id.rv_category_product_for_you);
-        recyclerViewSearchBefore.setLayoutManager(new LinearLayoutManager(this));
-        searchAdapterBefore = new SearchAdapterBefore(this, modelSearchBeforeList);
-        searchAdapterBefore.setListener(this);
+        recyclerViewSearchBefore = view.findViewById(R.id.rv_category_product_for_you);
+        recyclerViewSearchBefore.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchAdapterBefore = new SearchAdapterBefore(getContext(), modelSearchBeforeList);
+//        searchAdapterBefore.setListener(this);
         recyclerViewSearchBefore.setAdapter(searchAdapterBefore);
         //suggestion
         allProduct();
@@ -91,8 +100,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
                 showEmptyStateIfAdapterIsEmpty();
             }
         });
+        return view;
     }
-
     private void showEmptyStateIfAdapterIsEmpty() {
         if (searchAdapter.getFilteredSize() == 0) {
             layout_recycler.setVisibility(View.GONE);
@@ -107,16 +116,19 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
             }
         }
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
         searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
+                .getSearchableInfo(getActivity().getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setIconified(false);
         searchView.setIconifiedByDefault(false);
@@ -155,38 +167,26 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                finish();
+//                finish();
+                getFragmentManager().popBackStackImmediate();
                 return false;
             }
         });
-        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_search) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-    //    @Override
-//    public void onBackPressed() {
-//        if (!searchView.isIconified()) {
-//            searchView.setIconified(true);
-//            return;
-//        }
-//        super.onBackPressed();
-//    }
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-
     private void allProduct() {
         ApiService productListapi = ApiClient.getClient().create(ApiService.class);
         productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
@@ -208,7 +208,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
                 //
 //                populateData(toolbar_title);
 
-                searchAdapter.setProductDetailList(SearchActivity.this, listitem);
+                searchAdapter.setProductDetailList(getContext(), listitem);
                 searchAdapter.notifyDataSetChanged();
 
 
@@ -226,49 +226,24 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
     @Override
     public void onSearchClick(ProductDetail productDetail) {
 
-        Intent i = new Intent(this, MainActivity.class);
-        i.putExtra("key", productDetail);
-        startActivity(i);
+//        Intent i = new Intent(this, MainActivity.class);
+//        i.putExtra("key", productDetail);
+//        startActivity(i);
 
     }
 
     void setRecyclerViewSearchBefore() {
         modelSearchBeforeList = new ArrayList<>();
-         modelProductsBefore = FragmentShop.getList_madeforyou();
+        List<ProductDetail> modelProducts = FragmentShop.getList_madeforyou();
         modelSearchBeforeList.add(new ModelSearchBefore("Products For You", "", ModelSearchBefore.MODELTYPE.TITLE));
-        for (ProductDetail productDetail : modelProductsBefore) {
+        for (ProductDetail productDetail : modelProducts) {
             modelSearchBeforeList.add(new ModelSearchBefore(productDetail.getName(), productDetail.getImage(), ModelSearchBefore.MODELTYPE.PRODUCT));
         }
 //        searchAdapterBefore.notifyDataSetChanged();
-         modelCategoriesBefore = FragmentShop.getList_category();
+        List<ModelCategory> modelCategories = FragmentShop.getList_category();
         modelSearchBeforeList.add(new ModelSearchBefore("Categories", "", ModelSearchBefore.MODELTYPE.TITLE));
-        for (ModelCategory category : modelCategoriesBefore) {
-            modelSearchBeforeList.add(new ModelSearchBefore(category.getName(), category.getImage(), ModelSearchBefore.MODELTYPE.CATEGORY));
-        }
-    }
-
-    @Override
-    public void onProCatClick(ModelSearchBefore modelSearchBefore) {
-        if(modelSearchBefore.type==ModelSearchBefore.MODELTYPE.PRODUCT){
-            Intent i = new Intent(this, MainActivity.class);
-            for (ProductDetail productDetail : modelProductsBefore) {
-                if(modelSearchBefore.getTitle().equals(productDetail.getName())){
-                    i.putExtra("key", productDetail);
-                    startActivity(i);
-                    return;
-                }
-            }
-
-        }else {
-            //category click
-            Intent i = new Intent(this, MainActivity.class);
-            for (ModelCategory modelCategory : modelCategoriesBefore) {
-                if(modelSearchBefore.getTitle().equals(modelCategory.getName())){
-                    i.putExtra("key2", modelCategory);
-                    startActivity(i);
-                    return;
-                }
-            }
+        for (ModelCategory category : modelCategories) {
+            modelSearchBeforeList.add(new ModelSearchBefore(category.getName(), category.getImage(), ModelSearchBefore.MODELTYPE.PRODUCT));
         }
     }
 }

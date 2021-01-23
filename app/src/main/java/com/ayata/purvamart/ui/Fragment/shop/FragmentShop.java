@@ -1,5 +1,7 @@
 package com.ayata.purvamart.ui.Fragment.shop;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +18,9 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.HomeResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.data.network.response.ProductListResponse;
 import com.ayata.purvamart.data.network.response.Slider;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAd;
@@ -29,21 +29,15 @@ import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import br.com.mauker.materialsearchview.MaterialSearchView;
-import br.com.mauker.materialsearchview.db.model.History;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * fragmentList.add(new FragmentShop());//0
@@ -73,11 +67,20 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     private LinearLayoutManager linearLayoutManager_ad;
     private AdapterAd adapterAd;
 
-    private List<ModelCategory> list_category;
+    private static List<ModelCategory> list_category;
     private LinearLayoutManager LayoutManager_category;
     private AdapterCategory adapterCategory;
 
-    private List<ProductDetail> list_madeforyou;
+    private static List<ProductDetail> list_madeforyou;
+
+    public static List<ModelCategory> getList_category() {
+        return list_category;
+    }
+
+    public static List<ProductDetail> getList_madeforyou() {
+        return list_madeforyou;
+    }
+
     private GridLayoutManager linearLayoutManager_madeforyou;
     private AdapterItem adapterItem_madeforyou;
 
@@ -91,7 +94,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     //shimmer
     ShimmerFrameLayout shimmerFrameLayout;
     RelativeLayout relativeLayout_main_view;
-    List<ProductDetail> productDetails = new ArrayList<>();
     Toolbar toolbar;
 
     @Override
@@ -123,13 +125,17 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
                 //search method
                 Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), SearchActivity.class));
+//                //toolbar
+//                ((MainActivity) getActivity()).hideToolbar();
+//                //bottom nav
+//                ((MainActivity) getActivity()).showBottomNavBar(false);
+//                ((MainActivity)getActivity()).changeFragment(21,SearchFragment.TAG, null);
+
             }
         });
         toolbar = view.findViewById(R.id.toolbar);
         return view;
     }
-
-
 
     private void initView() {
         webView = view.findViewById(R.id.webView);

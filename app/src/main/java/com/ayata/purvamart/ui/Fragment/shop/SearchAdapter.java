@@ -13,12 +13,14 @@ import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> implements Filterable {
     static setOnSearchClickListener listener;
@@ -122,12 +124,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        ImageView image;
+        CircularImageView image;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            image = (ImageView) view.findViewById(R.id.image);
+            image = (CircularImageView) view.findViewById(R.id.image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
