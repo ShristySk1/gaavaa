@@ -1,7 +1,5 @@
 package com.ayata.purvamart.ui.Fragment.shop;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +30,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -108,6 +105,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
         initView();
+
         //refresh
         pullRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
@@ -185,7 +183,19 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             }
         });
         //api
+//        setItemCart();
+//        CartCount.addMyBooleanListener(new MainActivity.cartCountChangeListener() {
+//            @Override
+//            public void onCartCountChange(Integer count) {
+//                if(count!=null) {
+//                    Log.d(TAG, "onCartCountChange: " + count);
+//                    ((MainActivity) getActivity()).setBadge(String.valueOf(count));
+//                }
+//            }
+//        });
+        ((MainActivity) getActivity()).setItemCart();
         getAllHomeList();
+
 
     }
 

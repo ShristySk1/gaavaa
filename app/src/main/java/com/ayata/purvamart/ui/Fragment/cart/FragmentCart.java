@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.CartCount;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
@@ -142,6 +143,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onResponseReceived1: " + myOrderResponse.getDetails().size());
+//                CartCount.setMyBoolean(myOrderResponse.getDetails().size());
                 totalPrice = myOrderResponse.getGrandTotal();
 //                for (ProductDetail orderDetail : myOrderResponse.getDetails()) {
 //                    String nullCheckImage = "";

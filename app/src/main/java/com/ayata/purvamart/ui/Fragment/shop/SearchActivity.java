@@ -75,13 +75,13 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
         recyclerView.setAdapter(searchAdapter);
         listitem = new ArrayList<>();
         //recycler before search
-        ll_before_search.setVisibility(View.VISIBLE);
-        setRecyclerViewSearchBefore();
-        recyclerViewSearchBefore = findViewById(R.id.rv_category_product_for_you);
-        recyclerViewSearchBefore.setLayoutManager(new LinearLayoutManager(this));
-        searchAdapterBefore = new SearchAdapterBefore(this, modelSearchBeforeList);
-        searchAdapterBefore.setListener(this);
-        recyclerViewSearchBefore.setAdapter(searchAdapterBefore);
+//        ll_before_search.setVisibility(View.VISIBLE);
+//        setRecyclerViewSearchBefore();
+//        recyclerViewSearchBefore = findViewById(R.id.rv_category_product_for_you);
+//        recyclerViewSearchBefore.setLayoutManager(new LinearLayoutManager(this));
+//        searchAdapterBefore = new SearchAdapterBefore(this, modelSearchBeforeList);
+//        searchAdapterBefore.setListener(this);
+//        recyclerViewSearchBefore.setAdapter(searchAdapterBefore);
         //suggestion
         allProduct();
         //for listening to filtered list
@@ -94,17 +94,24 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
     }
 
     private void showEmptyStateIfAdapterIsEmpty() {
+//        if (searchAdapter.getFilteredSize() == 0) {
+//            layout_recycler.setVisibility(View.GONE);
+//            layout_empty.setVisibility(View.VISIBLE);
+//        } else {
+//            if (isFirstTime) {
+//                layout_recycler.setVisibility(View.GONE);
+//                layout_empty.setVisibility(View.GONE);
+//            } else {
+//                layout_recycler.setVisibility(View.VISIBLE);
+//                layout_empty.setVisibility(View.GONE);
+//            }
+//        }
         if (searchAdapter.getFilteredSize() == 0) {
             layout_recycler.setVisibility(View.GONE);
             layout_empty.setVisibility(View.VISIBLE);
         } else {
-            if (isFirstTime) {
-                layout_recycler.setVisibility(View.GONE);
-                layout_empty.setVisibility(View.GONE);
-            } else {
                 layout_recycler.setVisibility(View.VISIBLE);
                 layout_empty.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -145,9 +152,9 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
 
             @Override
             public boolean onQueryTextChange(String query) {
-                ll_before_search.setVisibility(View.GONE);
-                layout_recycler.setVisibility(View.VISIBLE);
-                isFirstTime=false;
+//                ll_before_search.setVisibility(View.GONE);
+//                layout_recycler.setVisibility(View.VISIBLE);
+//                isFirstTime=false;
                 searchAdapter.getFilter().filter(query);
                 return false;
             }

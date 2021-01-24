@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
+import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ProductDetail;
+import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
 import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
 import com.ayata.purvamart.ui.Fragment.account.FragmentEditAddress;
@@ -37,6 +40,9 @@ import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
 import com.ayata.purvamart.ui.Fragment.shop.SearchFragment;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -51,7 +57,7 @@ import androidx.fragment.app.FragmentTransaction;
 import static com.ayata.purvamart.ui.Fragment.shop.FragmentShop.SELECTED_CATEGORY;
 import static com.ayata.purvamart.utils.BadgeDrawable.setBadgeCount;
 
-public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, NetworkResponseListener<JsonObject> {
     private String TAG = "MainActivity";
     BottomNavigationView bottomnav;
     View toolbar;
@@ -71,6 +77,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setContentView(R.layout.activity_main);
         //for internet checking
         new ApiClient(new WeakReference<>(getApplicationContext()));
+        CartCount.addMyBooleanListener(new MainActivity.cartCountChangeListener() {
+            @Override
+            public void onCartCountChange(Integer count) {
+                if (count != null) {
+                    Log.d(TAG, "onCartCountChange: " + count);
+//                    setBadge(String.valueOf(count));
+                    Log.d(TAG, "setBadge: badgecalled");
+                    LayerDrawable icon = (LayerDrawable) itemCart.getDrawable();
+                    setBadgeCount(MainActivity.this, icon, count + "");
+                    setBadgeCount(MainActivity.this, icon, count + "");
+                    Log.d(TAG, "setBadge: badgedone");
+                }
+            }
+        });
         toolbar = findViewById(R.id.appbar_main);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         //image and badge
@@ -92,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         bottomnav.setOnNavigationItemSelectedListener(navListener);
         addAllFragments();
 
+
         //product from searchactivity
         ProductDetail productDetail = (ProductDetail) getIntent().getSerializableExtra("key");
         if (productDetail != null) {
@@ -102,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             return;
         }
         //category from searchactivity
-        ModelCategory modelCategory= (ModelCategory) getIntent().getSerializableExtra("key2");
+        ModelCategory modelCategory = (ModelCategory) getIntent().getSerializableExtra("key2");
         if (modelCategory != null) {
             isFromSearchView = true;
             Bundle bundle = new Bundle();
@@ -113,14 +134,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         showBottomNavBar(true);
         if (findViewById(R.id.main_fragment) != null) {
-
             if (savedInstanceState != null) {
                 return;
             }
             changeFragment(0, FragmentShop.TAG, null);
-
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     void addAllFragments() {
@@ -189,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                             break;
 
                     }
+//setItemCart();
                     changeFragment(selectedFragment, stack_text, null);
 //
 //                    getSupportFragmentManager().beginTransaction()
@@ -214,6 +238,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         toolbarType1.setVisibility(View.VISIBLE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.GONE);
+        itemCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomnav.setSelectedItemId(R.id.nav_cart);
+            }
+        });
 
 //        RelativeLayout notification_layout;
 //        notification_layout = toolbar.findViewById(R.id.notification_layout);
@@ -384,9 +414,49 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     }
 
-    public void setBadge() {
-        LayerDrawable icon = (LayerDrawable) itemCart.getDrawable();
-        setBadgeCount(this, icon, String.valueOf(badgeCount++));
+    public void setBadge(String badgeCount) {
+
+    }
+
+    public void setItemCart() {
+        new Repository(MainActivity.this, ApiClient.getApiService()).requestCart();
+    }
+
+    @Override
+    public void onResponseReceived(JsonObject jsonObject) {
+        Log.d(TAG, "onResponseReceived: run");
+        if (jsonObject.get("code").toString().equals("200")) {
+            Gson gson = new GsonBuilder().create();
+            String empty = jsonObject.get("message").getAsString();
+            Log.d(TAG, "onResponse: " + empty + "crt");
+            if (empty.equals("empty cart")) {
+                CartCount.setMyBoolean(0);
+            } else {
+                UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
+//                        badgeCount =
+                Integer counter = myOrderResponse.getDetails().size();
+                Log.d(TAG, "onResponseReceived:counter " + counter);
+                CartCount.setMyBoolean(counter);
+            }
+        } else {
+            Log.d(TAG, "onResponseReceived:error ");
+        }
+    }
+
+    @Override
+    public void onLoading() {
+        Log.d(TAG, "onResponseReceived:loading ");
+    }
+
+    @Override
+    public void onError(String message) {
+        Log.d(TAG, "onResponseReceived:failed ");
+
+    }
+
+
+    public interface cartCountChangeListener {
+        void onCartCountChange(Integer count);
     }
     //might need in future
 //    @Override
