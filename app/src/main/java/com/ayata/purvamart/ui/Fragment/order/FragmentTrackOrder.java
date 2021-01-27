@@ -16,7 +16,7 @@ import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.data.Model.ModelOrderTrack;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderTracker;

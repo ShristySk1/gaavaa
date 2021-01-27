@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.Fragment.shop.SearchActivity">
+    tools:context=".ui.Fragment.shop.search.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"

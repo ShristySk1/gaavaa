@@ -13,18 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.VerificationResponse;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.BaseResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.utils.MyDialogFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 
@@ -35,9 +32,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class VerificationActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "VerificationFragment";
@@ -52,7 +46,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
     View toolbar;
     //token
-    String tokenwithBearer,tokenWithoutBearer;
+    String tokenwithBearer, tokenWithoutBearer;
     String username;
     String email, phoenno;
 
@@ -78,7 +72,6 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onOtpCompleted(String otp) {
                 // do Stuff
-                showDialog();
                 verifyOtp(otp);
                 closeKeyboard();
                 Log.d("onOtpCompleted=>", otp);
@@ -88,57 +81,45 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
     private void getIntentArguments() {
         Intent intent = getIntent();
-        tokenwithBearer = "bearer"+intent.getStringExtra(Constants.AUTH_TOKEN);
+        tokenwithBearer = "bearer" + intent.getStringExtra(Constants.AUTH_TOKEN);
         tokenWithoutBearer = intent.getStringExtra(Constants.AUTH_TOKEN);
         username = intent.getStringExtra(Constants.USER_NAME);
         email = intent.getStringExtra(Constants.USER_EMAIL);
         phoenno = intent.getStringExtra(Constants.USER_PHONE_NUMBER);
-        phone_no.setText("We sent it to the number +977 "+phoenno);
-        PreferenceHandler.saveTokenTemp(this,tokenwithBearer);
+        phone_no.setText("We sent it to the number +977 " + phoenno);
+        PreferenceHandler.saveTokenTemp(this, tokenwithBearer);
     }
 
     private void verifyOtp(String otp) {
-        ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
-        try {
-            restloginapiinterface.verifyOtp(otp).enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    hideDialog();
-                    if (response.isSuccessful() && response != null) {
-                        JsonObject jsonObject = response.body();
-                        Log.d(TAG, "onResponse: " + jsonObject);
-                        JsonElement code = jsonObject.get("code");
-                        if (code.getAsString().equals("200")) {
-                            //do process with data
-                            Log.d(TAG, "onResponse: success");
-                            Gson gson = new GsonBuilder().create();
-                            VerificationResponse verificationResponse = gson.fromJson(gson.toJson(jsonObject), VerificationResponse.class);
-                            Toast.makeText(VerificationActivity.this, "Otp successfully verified", Toast.LENGTH_SHORT).show();
-                            saveUser(tokenWithoutBearer, email, username, phoenno);
-                            Log.d(TAG, "onResponse: " + verificationResponse.getDetails());
-                            Intent intent = (new Intent(VerificationActivity.this, MainActivity.class));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            return;
-                        } else {
-                            Log.d(TAG, "onResponse: " + jsonObject.get("message"));
-                            Log.d(TAG, "onResponse: " + jsonObject.get("code"));
-                            Toast.makeText(VerificationActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(VerificationActivity.this, "Otp verfication failed", Toast.LENGTH_SHORT).show();
-                    }
+        new Repository(new NetworkResponseListener<BaseResponse<String>>() {
+            @Override
+            public void onResponseReceived(BaseResponse<String> verificationResponse) {
+                hideDialog();
+                //do process with data
+                if (verificationResponse.getCode().toString().equals("200")) {
+                    saveUser(tokenWithoutBearer, email, username, phoenno);
+                    Log.d(TAG, "onResponse: " + verificationResponse.getDetails());
+                    Intent intent = (new Intent(VerificationActivity.this, MainActivity.class));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Toast.makeText(VerificationActivity.this, "Otp successfully verified", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    return;
+                } else {
+                    Toast.makeText(VerificationActivity.this, verificationResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    hideDialog();
-                    Toast.makeText(VerificationActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(VerificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onLoading() {
+                showDialog();
+            }
+
+            @Override
+            public void onError(String message) {
+                hideDialog();
+                Toast.makeText(VerificationActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        }, ApiClient.getApiService()).requestVerification(otp);
     }
 
     //close keyboard after pin view complete

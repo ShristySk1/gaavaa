@@ -15,15 +15,13 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.response.LoginResponse;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.BaseResponse;
+import com.ayata.purvamart.data.network.response.LoginDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.utils.MyDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.lang.ref.WeakReference;
 import java.util.regex.Matcher;
@@ -33,9 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "loginactivity";
@@ -147,7 +142,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 String password = textPassword.getEditText().getText().toString().trim();
                 String phone = textMobileNumber.getEditText().getText().toString().trim();
-                showDialog();
                 loginUser(phone, password);
 
                 break;
@@ -164,59 +158,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginUser(String phone_no, String password) {
         Log.d(TAG, "registerUser: " + phone_no);
-        ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
-        try {
-            restloginapiinterface.loginUser(phone_no, password).enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        new Repository(new NetworkResponseListener<BaseResponse<LoginDetail>>() {
+            @Override
+            public void onResponseReceived(BaseResponse<LoginDetail> detailBaseResponse) {
+                hideDialog();
+                LoginDetail loginDetail = detailBaseResponse.getDetails();
+                if (loginDetail != null) {
+                    String token = loginDetail.getToken();
+                    //TODO RESPONSE
+                    String username = loginDetail.getUsername();
+                    String email = loginDetail.getEmail();
+                    String phoneno = loginDetail.getMobileNumber().toString();
+                    saveUser(token, email, username, phoneno);
+                    Log.d(TAG, "onResponse: " + token);
+                    Intent intent = (new Intent(LoginActivity.this, MainActivity.class));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Toast.makeText(LoginActivity.this, "User is logged in", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    return;
+                }else {
                     hideDialog();
-                    if (response.isSuccessful() && response != null) {
-                        JsonObject jsonObject = response.body();
-                        Log.d(TAG, "onResponse: " + jsonObject);
-                        try {
-                            JsonElement code = jsonObject.get("code");
-                            String s = code.getAsString();
-                            if (s.equals("200")) {
-                                Toast.makeText(LoginActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                                Gson gson = new GsonBuilder().create();
-                                LoginResponse loginResponse = gson.fromJson(gson.toJson(jsonObject), LoginResponse.class);
-                                Toast.makeText(LoginActivity.this, "User is logged in", Toast.LENGTH_SHORT).show();
-                                String token = loginResponse.getDetails().getToken();
-                                //TODO RESPONSE
-                                String username = loginResponse.getDetails().getUsername();
-                                String email = loginResponse.getDetails().getEmail();
-                                String phoneno = loginResponse.getDetails().getMobileNumber().toString();
-                                saveUser(token, email, username, phoneno);
-                                Log.d(TAG, "onResponse: " + token);
-                                Intent intent = (new Intent(LoginActivity.this, MainActivity.class));
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                return;
-                            } else {
-                                //do process with data
-                                Log.d(TAG, "onResponse: " + jsonObject.get("message"));
-                                Log.d(TAG, "onResponse: " + jsonObject.get("status"));
-                                Toast.makeText(LoginActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                            }
-                        } catch (Exception e) {
-                            Log.d(TAG, "onResponse: " + e.getMessage());
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(LoginActivity.this, detailBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    hideDialog();
-                    Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    t.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            hideDialog();
-            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onLoading() {
+                showDialog();
+            }
+
+            @Override
+            public void onError(String message) {
+                hideDialog();
+                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        }, ApiClient.getApiService()).requestLogin(phone_no, password);
     }
 
     void showDialog() {

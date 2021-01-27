@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.account;
+package com.ayata.purvamart.ui.Fragment.account.address;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,9 @@ import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAddress;
@@ -37,10 +36,11 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     public static final String FragmentDeliveryAddressTitle = "FragmentDeliveryAddressTitle";
     public static final String FragmentDeliveryAddressId = "FragmentDeliveryAddressId";
 
-
+    //view for displaying saved address list if any
     RecyclerView recyclerView;
     List<ModelAddress> listitem;
     AdapterAddress adapterAddress;
+    //add address layout
     LinearLayout ll_add_address;
     //error
     TextView text_error;
@@ -84,8 +84,6 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     }
 
     private void prepareData() {
-//        listitem.add(new ModelAddress());
-//        listitem.add(new ModelAddress());
         getAddress();
 
     }

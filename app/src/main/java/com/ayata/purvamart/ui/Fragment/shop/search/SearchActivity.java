@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.shop;
+package com.ayata.purvamart.ui.Fragment.shop.search;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -17,9 +17,11 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.BaseResponse;
 import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.data.network.response.ProductListResponse;
+import com.ayata.purvamart.data.repository.Repository;
+import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +31,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity implements SearchAdapter.setOnSearchClickListener, SearchAdapterBefore.onProCatClickListner {
     private static final String TAG = "SearchyActivity";
@@ -49,9 +48,10 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
     //query text
     Boolean isFirstTime = true;
     //both
-    List<Object> modelBoth=new ArrayList<>();
+    List<Object> modelBoth = new ArrayList<>();
     List<ProductDetail> modelProductsBefore;
     List<ModelCategory> modelCategoriesBefore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +110,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
             layout_recycler.setVisibility(View.GONE);
             layout_empty.setVisibility(View.VISIBLE);
         } else {
-                layout_recycler.setVisibility(View.VISIBLE);
-                layout_empty.setVisibility(View.GONE);
+            layout_recycler.setVisibility(View.VISIBLE);
+            layout_empty.setVisibility(View.GONE);
         }
     }
 
@@ -195,39 +195,31 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
 
 
     private void allProduct() {
-        ApiService productListapi = ApiClient.getClient().create(ApiService.class);
-        productListapi.getProductsList().enqueue(new Callback<ProductListResponse>() {
+        new Repository(new NetworkResponseListener<BaseResponse<List<ProductDetail>>>() {
             @Override
-            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
-//                progress_error.setVisibility(View.GONE);
-                if (response.isSuccessful()) {
-//                    Log.d(TAG, "onResponse: " + response.body().getDetails().size());
-                    ProductListResponse productListResresponse = response.body();
-                    for (ProductDetail productDetail : productListResresponse.getDetails()) {
-                        listitem.add(productDetail);
-                        Log.d(TAG, "onResponse: " + productDetail.getProductImage());
-                        Log.d(TAG, "onResponse: " + productDetail.getTitle());
-                    }
-
-                } else {
-                    Log.d(TAG, "onResponse: " + response.body().getMessage());
+            public void onResponseReceived(BaseResponse<List<ProductDetail>> response) {
+                for (ProductDetail productDetail : (List<ProductDetail>) response.getDetails()) {
+                    listitem.add(productDetail);
+                    Log.d(TAG, "onResponse: " + productDetail.getProductImage());
+                    Log.d(TAG, "onResponse: " + productDetail.getTitle());
                 }
-                //
-//                populateData(toolbar_title);
 
                 searchAdapter.setProductDetailList(SearchActivity.this, listitem);
                 searchAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onLoading() {
 
             }
 
             @Override
-            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+            public void onError(String message) {
 //                progress_error.setVisibility(View.GONE);
 //                text_error.setText(t.getMessage());
-                Log.d(TAG, "onResponse:failed " + t.getMessage());
+                Log.d(TAG, "onResponse:failed " + message);
             }
-        });
+        }, ApiClient.getApiService()).requestAllProducts();
     }
 
     @Override
@@ -241,13 +233,13 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
 
     void setRecyclerViewSearchBefore() {
         modelSearchBeforeList = new ArrayList<>();
-         modelProductsBefore = FragmentShop.getList_madeforyou();
+        modelProductsBefore = FragmentShop.getList_madeforyou();
         modelSearchBeforeList.add(new ModelSearchBefore("Products For You", "", ModelSearchBefore.MODELTYPE.TITLE));
         for (ProductDetail productDetail : modelProductsBefore) {
             modelSearchBeforeList.add(new ModelSearchBefore(productDetail.getName(), productDetail.getImage(), ModelSearchBefore.MODELTYPE.PRODUCT));
         }
 //        searchAdapterBefore.notifyDataSetChanged();
-         modelCategoriesBefore = FragmentShop.getList_category();
+        modelCategoriesBefore = FragmentShop.getList_category();
         modelSearchBeforeList.add(new ModelSearchBefore("Categories", "", ModelSearchBefore.MODELTYPE.TITLE));
         for (ModelCategory category : modelCategoriesBefore) {
             modelSearchBeforeList.add(new ModelSearchBefore(category.getName(), category.getImage(), ModelSearchBefore.MODELTYPE.CATEGORY));
@@ -256,21 +248,21 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
 
     @Override
     public void onProCatClick(ModelSearchBefore modelSearchBefore) {
-        if(modelSearchBefore.type==ModelSearchBefore.MODELTYPE.PRODUCT){
+        if (modelSearchBefore.type == ModelSearchBefore.MODELTYPE.PRODUCT) {
             Intent i = new Intent(this, MainActivity.class);
             for (ProductDetail productDetail : modelProductsBefore) {
-                if(modelSearchBefore.getTitle().equals(productDetail.getName())){
+                if (modelSearchBefore.getTitle().equals(productDetail.getName())) {
                     i.putExtra("key", productDetail);
                     startActivity(i);
                     return;
                 }
             }
 
-        }else {
+        } else {
             //category click
             Intent i = new Intent(this, MainActivity.class);
             for (ModelCategory modelCategory : modelCategoriesBefore) {
-                if(modelSearchBefore.getTitle().equals(modelCategory.getName())){
+                if (modelSearchBefore.getTitle().equals(modelCategory.getName())) {
                     i.putExtra("key2", modelCategory);
                     startActivity(i);
                     return;

@@ -1,6 +1,4 @@
-package com.ayata.purvamart.data.network.helper;
-
-import com.google.gson.JsonObject;
+package com.ayata.purvamart.data.network.generic;
 
 public interface NetworkResponseListener<ResponseType> {
     void onResponseReceived(ResponseType response);

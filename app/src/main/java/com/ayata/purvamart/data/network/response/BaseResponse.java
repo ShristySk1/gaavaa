@@ -5,21 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProductListResponse2 {
-
-
+public class BaseResponse<T> {
     @SerializedName("code")
     @Expose
-    private Integer code;
+    protected Integer code;
     @SerializedName("status")
     @Expose
-    private String status;
+    protected String status;
     @SerializedName("message")
     @Expose
-    private String message;
+    protected String message;
     @SerializedName("details")
     @Expose
-    private List<ProductDetail2> details = null;
+    protected T details = null;
 
     public Integer getCode() {
         return code;
@@ -45,12 +43,11 @@ public class ProductListResponse2 {
         this.message = message;
     }
 
-    public List<ProductDetail2> getDetails() {
+    public T getDetails() {
         return details;
     }
 
-    public void setDetails(List<ProductDetail2> details) {
+    public void setDetails(T details) {
         this.details = details;
     }
-
 }

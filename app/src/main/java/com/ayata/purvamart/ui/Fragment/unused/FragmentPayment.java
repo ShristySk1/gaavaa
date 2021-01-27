@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
+import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.esewa.android.sdk.payment.ESewaConfiguration;

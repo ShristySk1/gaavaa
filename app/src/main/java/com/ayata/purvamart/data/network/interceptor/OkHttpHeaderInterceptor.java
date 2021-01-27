@@ -12,6 +12,9 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * intercepts header for auth token
+ */
 public class OkHttpHeaderInterceptor implements Interceptor {
     private WeakReference<Context> mContext;
 

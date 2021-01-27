@@ -15,12 +15,11 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelPayment;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ConfirmCheckoutResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterPayment;
-import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
 import com.esewa.android.sdk.payment.ESewaConfiguration;
 import com.esewa.android.sdk.payment.ESewaPayment;
 import com.esewa.android.sdk.payment.ESewaPaymentActivity;
@@ -116,6 +115,8 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
         switch (position) {
             case 0:
                 paymentName = "CASHONDELIVERY";
+                Toast.makeText(getContext(), "Available", Toast.LENGTH_SHORT).show();
+
                 break;
             case 1:
                 paymentName = "ESEWA";

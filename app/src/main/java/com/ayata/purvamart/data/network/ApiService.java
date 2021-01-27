@@ -2,48 +2,45 @@ package com.ayata.purvamart.data.network;
 
 
 import com.ayata.purvamart.data.Model.ModelAddress;
-import com.ayata.purvamart.data.network.response.CategoryListResponse;
-import com.ayata.purvamart.data.network.response.HomeResponse;
-import com.ayata.purvamart.data.network.response.ProductListResponse;
-import com.ayata.purvamart.data.network.response.ProductListResponse2;
+import com.ayata.purvamart.data.Model.ModelCategory;
+import com.ayata.purvamart.data.Model.ModelRegister;
+import com.ayata.purvamart.data.network.response.BaseResponse;
+import com.ayata.purvamart.data.network.response.HomeDetail;
+import com.ayata.purvamart.data.network.response.LoginDetail;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.ProfileDetail;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
-import com.ayata.purvamart.data.network.response.RegisterResponse;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
 
     @POST("account/login/")
     @FormUrlEncoded
-    Call<JsonObject> loginUser(@Field("mobile_number") String phone_no, @Field("password") String password);
+    Call<BaseResponse<LoginDetail>> loginUser(@Field("mobile_number") String phone_no, @Field("password") String password);
 
     @POST("account/register/")
-    Call<RegisterResponse> registerUser(@Body RegisterDetail details);
+    Call<BaseResponse<RegisterDetail>> registerUser(@Body ModelRegister details);
 
     @POST("account/verify/")
     @FormUrlEncoded
-    Call<JsonObject> verifyOtp(@Field("otp") String otp);
-
+    Call<BaseResponse<String>> verifyOtp(@Field("otp") String otp);
     @GET("category-list/")
-    Call<CategoryListResponse> getCategoryList();
+    Call<BaseResponse<List<ModelCategory>>> getCategoryList();
 
     @GET("products-list/")
-    Call<ProductListResponse> getProductsList();
-
-//    @POST("category-list/")
-//    @FormUrlEncoded
-//    Call<ProductListResponse2> getProductsListSpecific(@Field("category_title") String category_title);
+    Call<BaseResponse<List<ProductDetail>>> getProductsList();
 
     @GET("home/")
-    Call<HomeResponse> getAllHome();
+    Call<BaseResponse<List<HomeDetail>>> getAllHome();
 
     /**
      * authentication needed
@@ -55,8 +52,8 @@ public interface ApiService {
     @GET("usercart-list/")
     Call<JsonObject> getMyOrder();
 
-    @GET("myorders-list/")
-    Call<RegisterResponse> getMyOrderList();
+//    @GET("myorders-list/")
+//    Call<RegisterResponse> getMyOrderList();
 
     @POST("checkout/")
     @FormUrlEncoded

@@ -1,4 +1,4 @@
-package com.ayata.purvamart.data.network.helper;
+package com.ayata.purvamart.data.network.exception;
 
 
 import java.io.IOException;

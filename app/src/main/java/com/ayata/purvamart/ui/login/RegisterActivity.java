@@ -14,19 +14,16 @@ import android.widget.Toast;
 
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
+import com.ayata.purvamart.data.Model.ModelRegister;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.ApiService;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.BaseResponse;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
-import com.ayata.purvamart.data.network.response.RegisterDetailError;
-import com.ayata.purvamart.data.network.response.RegisterResponse;
+import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.utils.MyDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,9 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "registeractivity";
@@ -181,16 +175,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!validateEmail() | !validatePassword() | !validateMobileNumber() | !validateConfirmPassword()) {
                     return;
                 }
-                RegisterDetail details = new RegisterDetail();
+                ModelRegister details = new ModelRegister();
                 details.setEmail(textEmail.getEditText().getText().toString().trim());
                 details.setPassword(textPassword.getEditText().getText().toString().trim());
                 details.setConfirmPassword(textConfirmPassword.getEditText().getText().toString().trim());
                 details.setMobileNumber(textMobileNumber.getEditText().getText().toString().trim());
-
-
-//                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-//                startActivity(intent);
-                showDialog();
                 registerUser(details);
 
                 break;
@@ -205,57 +194,46 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void registerUser(RegisterDetail details) {
+    private void registerUser(ModelRegister details) {
         Log.d(TAG, "registerUser: " + details.getEmail());
-        ApiService restloginapiinterface = ApiClient.getClient().create(ApiService.class);
-        try {
-            restloginapiinterface.registerUser(details).enqueue(new Callback<RegisterResponse>() {
-                @Override
-                public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                    hideDialog();
-                    if (response.isSuccessful()) {
-                        RegisterResponse defaultResponse = response.body();
-                        Gson gson = new GsonBuilder().create();
-                        if (defaultResponse.getCode() == 200) {
-                            TypeToken<List<RegisterDetail>> responseTypeToken = new TypeToken<List<RegisterDetail>>() {
-                            };
-                            List<RegisterDetail> detail = gson.fromJson(gson.toJson(defaultResponse.getDetails()), responseTypeToken.getType());
-                            // passing Bearer token
-                            Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
-                            String token = detail.get(0).getToken();
-                            String otp = detail.get(0).getOtpCode();
-                            String username = detail.get(0).getUsername();
-                            String email = detail.get(0).getEmail();
-                            String number = detail.get(0).getMobileNumber();
-                            intent.putExtra(Constants.AUTH_TOKEN, token);
-                            intent.putExtra(Constants.OTP, otp);
-                            intent.putExtra(Constants.USER_NAME, username);
-                            intent.putExtra(Constants.USER_EMAIL, email);
-                            intent.putExtra(Constants.USER_PHONE_NUMBER, number);
-                            Log.d(TAG, "onResponse: " + token + " " + otp + "phone: " + number);
-                            startActivity(intent);
-                        } else {
-                            //If for everyOther Status the response is Object of ResponseError which contains msg.
-                            RegisterDetailError responseError = gson.fromJson(gson.toJson(defaultResponse.getDetails()), RegisterDetailError.class);
-                            Toast.makeText(RegisterActivity.this, responseError.toString() + "", Toast.LENGTH_LONG).show();
+        new Repository(new NetworkResponseListener<BaseResponse<RegisterDetail>>() {
+            @Override
+            public void onResponseReceived(BaseResponse<RegisterDetail> response) {
+                hideDialog();
+                if (response.getCode().toString().equals("200")) {
+                    RegisterDetail detail = response.getDetails();
+                    // passing Bearer token
+                    Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
+                    String token = detail.getToken();
+                    String otp = detail.getOtpCode();
+                    String username = detail.getUsername();
+                    String email = detail.getEmail().get(0);
+                    String number = detail.getMobileNumber().get(0);
+                    intent.putExtra(Constants.AUTH_TOKEN, token);
+                    intent.putExtra(Constants.OTP, otp);
+                    intent.putExtra(Constants.USER_NAME, username);
+                    intent.putExtra(Constants.USER_EMAIL, email);
+                    intent.putExtra(Constants.USER_PHONE_NUMBER, number);
+                    Log.d(TAG, "onResponse: " + token + " " + otp + "phone: " + number);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(RegisterActivity.this, response.getDetails().toString() + "", Toast.LENGTH_LONG).show();
 
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, response.message() + "", Toast.LENGTH_LONG).show();
-                    }
                 }
+            }
 
-                @Override
-                public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                    hideDialog();
-                    Toast.makeText(RegisterActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    t.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            hideDialog();
-            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onLoading() {
+                showDialog();
+            }
+
+            @Override
+            public void onError(String message) {
+                hideDialog();
+                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        }, ApiClient.getApiService()).requestRegister(details);
+
     }
 
     void showDialog() {

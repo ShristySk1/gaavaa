@@ -1,9 +1,11 @@
 package com.ayata.purvamart.data.repository;
 
 import com.ayata.purvamart.data.Model.ModelAddress;
+import com.ayata.purvamart.data.Model.ModelRegister;
 import com.ayata.purvamart.data.network.ApiService;
-import com.ayata.purvamart.data.network.helper.GenericNetworkResponse;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.GenericNetworkResponse;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.RegisterDetail;
 
 public class Repository {
     private NetworkResponseListener listener;
@@ -14,8 +16,28 @@ public class Repository {
         this.apiService = apiService;
     }
 
+    public void requestRegister(ModelRegister registerDetail) {
+        apiService.registerUser(registerDetail).enqueue(new GenericNetworkResponse<>(listener));
+    }
+
+    public void requestLogin(String mobile, String password) {
+        apiService.loginUser(mobile, password).enqueue(new GenericNetworkResponse<>(listener));
+    }
+
+    public void requestVerification(String otp) {
+        apiService.verifyOtp(otp).enqueue(new GenericNetworkResponse<>(listener));
+    }
+
     public void requestAllHome() {
         apiService.getAllHome().enqueue(new GenericNetworkResponse<>(listener));
+    }
+
+    public void requestAllCategory() {
+        apiService.getCategoryList().enqueue(new GenericNetworkResponse<>(listener));
+    }
+
+    public void requestAllProducts() {
+        apiService.getProductsList().enqueue(new GenericNetworkResponse<>(listener));
     }
 
     public void requestCart() {

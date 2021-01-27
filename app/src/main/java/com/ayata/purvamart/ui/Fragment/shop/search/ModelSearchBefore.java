@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.shop;
+package com.ayata.purvamart.ui.Fragment.shop.search;
 
 public class ModelSearchBefore {
 

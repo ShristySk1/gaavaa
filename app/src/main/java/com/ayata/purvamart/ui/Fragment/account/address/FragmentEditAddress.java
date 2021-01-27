@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.account;
+package com.ayata.purvamart.ui.Fragment.account.address;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,11 +20,10 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.login.SignupActivity;
-import com.ayata.purvamart.utils.GpsTracker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 

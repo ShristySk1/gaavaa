@@ -16,14 +16,18 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.HomeResponse;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.BaseResponse;
+import com.ayata.purvamart.data.network.response.HomeDetail;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.Slider;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAd;
 import com.ayata.purvamart.ui.Adapter.AdapterCategory;
 import com.ayata.purvamart.ui.Adapter.AdapterItem;
+import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
+import com.ayata.purvamart.ui.Fragment.shop.search.SearchActivity;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -55,7 +59,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * fragmentList.add(new FragmentPayment());//15
  * fragmentList.add(new FragmentThankyou());//16
  */
-public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener, NetworkResponseListener<HomeResponse> {
+public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener, NetworkResponseListener<BaseResponse<List<HomeDetail>>> {
     public static String TAG = "FragmentShop";
     public static final String SELECTED_CATEGORY = "SelectCategory";
     private View view;
@@ -183,20 +187,8 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             }
         });
         //api
-//        setItemCart();
-//        CartCount.addMyBooleanListener(new MainActivity.cartCountChangeListener() {
-//            @Override
-//            public void onCartCountChange(Integer count) {
-//                if(count!=null) {
-//                    Log.d(TAG, "onCartCountChange: " + count);
-//                    ((MainActivity) getActivity()).setBadge(String.valueOf(count));
-//                }
-//            }
-//        });
         ((MainActivity) getActivity()).setItemCart();
         getAllHomeList();
-
-
     }
 
     /*
@@ -273,35 +265,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         webView.loadUrl(url);
     }
 
-    @Override
-    public void onResponseReceived(HomeResponse homeResponse) {
-        shimmerFrameLayout.stopShimmerAnimation();
-        shimmerFrameLayout.setVisibility(View.GONE);
-        relativeLayout_main_view.setVisibility(View.VISIBLE);
-        List<ModelCategory> categories = homeResponse.getDetails().get(0).getCategory();
-        List<ProductDetail> productForYous = homeResponse.getDetails().get(0).getProductForYou();
-        List<Slider> ads = homeResponse.getDetails().get(0).getSliders();
-        populateCategoryList(categories);
-        populateAdList(ads);
-        populateMadeForYouList(productForYous);
-        pullRefreshLayout.setRefreshing(false);
-        Log.d(TAG, "onResponseReceived: " + homeResponse.getDetails().size());
-    }
-
-    @Override
-    public void onLoading() {
-    }
-
-    @Override
-    public void onError(String message) {
-        shimmerFrameLayout.setVisibility(View.GONE);
-        if (isAdded()) {
-            inflateLayout();
-            progress_error.setVisibility(View.GONE);
-            text_error.setText(message);
-        }
-    }
-
     //inflate pullRefreshLayout for error and progressbar
     void inflateLayout() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -325,8 +288,35 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onPause() {
         shimmerFrameLayout.stopShimmerAnimation();
         super.onPause();
+    }
+
+    @Override
+    public void onResponseReceived(BaseResponse<List<HomeDetail>> homeDetailList) {
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
+        relativeLayout_main_view.setVisibility(View.VISIBLE);
+        List<ModelCategory> categories = homeDetailList.getDetails().get(0).getCategory();
+        List<ProductDetail> productForYous = homeDetailList.getDetails().get(0).getProductForYou();
+        List<Slider> ads = homeDetailList.getDetails().get(0).getSliders();
+        populateCategoryList(categories);
+        populateAdList(ads);
+        populateMadeForYouList(productForYous);
+        pullRefreshLayout.setRefreshing(false);
+        Log.d(TAG, "onResponseReceived: " + homeDetailList.getDetails().size());
+    }
+
+    @Override
+    public void onLoading() {
 
     }
 
-
+    @Override
+    public void onError(String message) {
+        shimmerFrameLayout.setVisibility(View.GONE);
+        if (isAdded()) {
+            inflateLayout();
+            progress_error.setVisibility(View.GONE);
+            text_error.setText(message);
+        }
+    }
 }

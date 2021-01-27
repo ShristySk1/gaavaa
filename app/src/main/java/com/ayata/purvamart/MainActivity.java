@@ -14,16 +14,16 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.helper.NetworkResponseListener;
+import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
-import com.ayata.purvamart.ui.Fragment.account.FragmentDeliveryAddress;
-import com.ayata.purvamart.ui.Fragment.account.FragmentEditAddress;
-import com.ayata.purvamart.ui.Fragment.account.FragmentEditProfile;
-import com.ayata.purvamart.ui.Fragment.account.FragmentPrivacyPolicy;
+import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
+import com.ayata.purvamart.ui.Fragment.account.address.FragmentEditAddress;
+import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
+import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPolicy;
 import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
 import com.ayata.purvamart.ui.Fragment.cart.FragmentCartEmpty;
 import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
@@ -34,10 +34,9 @@ import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.ayata.purvamart.ui.Fragment.order.FragmentTrackOrder;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
-import com.ayata.purvamart.ui.Fragment.shop.FragmentCategory;
-import com.ayata.purvamart.ui.Fragment.shop.FragmentProduct;
+import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
-import com.ayata.purvamart.ui.Fragment.shop.SearchFragment;
 import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -168,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentDeliveryAddress());//18
         fragmentList.add(new FragmentEditAddress());//19//for add
         fragmentList.add(new FragmentOrderSummary());//20
-        fragmentList.add(new SearchFragment());//21//search
 
 
     }

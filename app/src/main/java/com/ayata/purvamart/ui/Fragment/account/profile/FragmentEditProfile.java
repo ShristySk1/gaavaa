@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.account;
+package com.ayata.purvamart.ui.Fragment.account.profile;
 
 import android.content.Intent;
 import android.os.Bundle;

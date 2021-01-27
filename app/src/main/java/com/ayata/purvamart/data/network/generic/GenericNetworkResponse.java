@@ -1,4 +1,6 @@
-package com.ayata.purvamart.data.network.helper;
+package com.ayata.purvamart.data.network.generic;
+
+import com.ayata.purvamart.data.network.exception.NoConnectivityException;
 
 import java.lang.ref.WeakReference;
 

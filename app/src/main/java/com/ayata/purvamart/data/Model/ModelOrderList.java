@@ -5,6 +5,9 @@ import com.ayata.purvamart.data.network.response.ProductDetail;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * my order
+ */
 public class ModelOrderList implements Serializable {
 
     private String image;

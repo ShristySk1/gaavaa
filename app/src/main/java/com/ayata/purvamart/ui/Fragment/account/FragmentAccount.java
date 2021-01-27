@@ -14,6 +14,9 @@ import com.ayata.purvamart.ui.Adapter.AdapterAccount;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.data.Model.ModelAccount;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
+import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPolicy;
+import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 
@@ -51,6 +54,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
     private Button btn_logout;
     private ImageView imageBtn_edit;
+    //main user
     private TextView acc_email,acc_name;
 
 
