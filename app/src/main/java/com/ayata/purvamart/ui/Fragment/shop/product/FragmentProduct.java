@@ -15,17 +15,19 @@ import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
 import com.ayata.purvamart.ui.login.SignupActivity;
-import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
+import com.rd.PageIndicatorView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +39,14 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     public static String TAG = "FragmentProduct";
     public static final String MODEL_ITEM = "param1";
     private ProductDetail modelItem;
+    //viewpager
+    ViewPager2 mViewPager;
+    PageIndicatorView pageIndicatorView;
+    // images array
+//    int[] images = {R.drawable.signup, R.drawable.signup, R.drawable.signup};
+    List<String> images;
+    // Creating Object of ViewPagerAdapter
+    ViewPagerAdapterProduct mViewPagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +84,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
         text_product_from = view.findViewById(R.id.text_product_from);
-        image_product = view.findViewById(R.id.image_product);
+//        image_product = view.findViewById(R.id.image_product);
         thumb_image = view.findViewById(R.id.thumb_image);
         thumb_text = view.findViewById(R.id.thumb_text);
         textProductNewPrice = view.findViewById(R.id.text_product_newPrice);
@@ -82,13 +92,25 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textProductTitle = view.findViewById(R.id.text_product_name);
         textWeight = view.findViewById(R.id.text_product_weight);
         btnAddToCart.setOnClickListener(this);
-        //setData
-        if (modelItem.getProductImage().size() > 0) {
-            Glide.with(getContext()).load(modelItem.getProductImage().get(0)).into(image_product);
-            Log.d(TAG, "initView: " + modelItem.getProductImage().get(0));
-        } else {
-            Glide.with(getContext()).asDrawable().load(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(image_product);
-        }
+        //setData-----
+        //viewpager image
+        images = new ArrayList<>();
+        mViewPager = view.findViewById(R.id.viewPager2);
+        pageIndicatorView = view.findViewById(R.id.pageIndicatorView);
+        // Initializing the ViewPagerAdapter
+        mViewPagerAdapter = new ViewPagerAdapterProduct(images);
+        // Adding the Adapter to the ViewPager
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                pageIndicatorView.setSelection(position);
+            }
+        });
+        images.addAll(modelItem.getProductImage());
+        mViewPagerAdapter.notifyDataSetChanged();
+        Log.d(TAG, "initView: " + images.size());
+        //rest of data
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
         textWeight.setText(modelItem.getUnit());
@@ -153,6 +175,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             }
         });
     }
+
     private void showDiscount() {
         textProductOldPrice.setVisibility(View.VISIBLE);
         textDiscount.setVisibility(View.VISIBLE);
@@ -160,6 +183,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textProductOldPrice.setText(modelItem.getOldPrice().toString());
         textProductOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
+
     private void hideDiscount() {
         textProductOldPrice.setVisibility(View.GONE);
         textDiscount.setVisibility(View.GONE);

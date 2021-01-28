@@ -37,7 +37,7 @@ public class OnboardingActivity extends AppCompatActivity {
         // Initializing the ViewPager Object
         mViewPager = findViewById(R.id.viewPager);
         pageIndicatorView = findViewById(R.id.pageIndicatorView);
-        tvGetStarted=findViewById(R.id.tvGetStarted);
+        tvGetStarted = findViewById(R.id.tvGetStarted);
         // Initializing the ViewPagerAdapter
         mViewPagerAdapter = new ViewPagerAdapter(images);
         // Adding the Adapter to the ViewPager
@@ -46,9 +46,9 @@ public class OnboardingActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 pageIndicatorView.setSelection(position);
-                if(position==images.length-1){
+                if (position == images.length - 1) {
                     tvGetStarted.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvGetStarted.setVisibility(View.GONE);
                 }
             }
@@ -65,7 +65,7 @@ public class OnboardingActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(PreferenceHandler.isUserAlreadyLoggedIn(this)){
+        if (PreferenceHandler.isUserAlreadyLoggedIn(this)) {
             Intent intent = (new Intent(OnboardingActivity.this, MainActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
