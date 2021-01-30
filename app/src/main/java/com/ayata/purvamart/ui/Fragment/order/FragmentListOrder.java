@@ -89,7 +89,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
 //        Toast.makeText(getContext(), "List Clicked Item--"+position, Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(order_item, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle,new FragmentTrackOrder());
 
     }
 }

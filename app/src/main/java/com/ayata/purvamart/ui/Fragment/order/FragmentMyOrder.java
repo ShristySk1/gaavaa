@@ -203,7 +203,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public void onItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ORDER_ITEM_FOR_TRACK, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle);
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle,new FragmentTrackOrder());
     }
 
     /**
@@ -225,6 +225,6 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public void onCompletedAndCancelledItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ORDER_ITEM_FOR_SUMMARY, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle);
+        ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle,new FragmentOrderSummary());
     }
 }

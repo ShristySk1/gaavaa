@@ -108,6 +108,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             }
         });
         images.addAll(modelItem.getProductImage());
+        pageIndicatorView.setCount(images.size());
         mViewPagerAdapter.notifyDataSetChanged();
         Log.d(TAG, "initView: " + images.size());
         //rest of data

@@ -18,10 +18,10 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 public class FragmentThankyou extends Fragment {
     public static String TAG = "FragmentThankyou";
-    ImageView tick;
-
-    AnimatedVectorDrawableCompat animatedVectorDrawableCompat;
-    AnimatedVectorDrawable animatedVectorDrawable;
+//    ImageView tick;
+//
+//    AnimatedVectorDrawableCompat animatedVectorDrawableCompat;
+//    AnimatedVectorDrawable animatedVectorDrawable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,15 +31,15 @@ public class FragmentThankyou extends Fragment {
 
         ((MainActivity) getActivity()).hideToolbar();
         ((MainActivity) getActivity()).showBottomNavBar(false);
-        tick = view.findViewById(R.id.tick);
-        Drawable drawable = tick.getDrawable();
-        if (drawable instanceof AnimatedVectorDrawableCompat) {
-            animatedVectorDrawableCompat = (AnimatedVectorDrawableCompat) drawable;
-            animatedVectorDrawableCompat.start();
-        } else if (drawable instanceof AnimatedVectorDrawable) {
-            animatedVectorDrawable = (AnimatedVectorDrawable) drawable;
-            animatedVectorDrawable.start();
-        }
+//        tick = view.findViewById(R.id.tick);
+//        Drawable drawable = tick.getDrawable();
+//        if (drawable instanceof AnimatedVectorDrawableCompat) {
+//            animatedVectorDrawableCompat = (AnimatedVectorDrawableCompat) drawable;
+//            animatedVectorDrawableCompat.start();
+//        } else if (drawable instanceof AnimatedVectorDrawable) {
+//            animatedVectorDrawable = (AnimatedVectorDrawable) drawable;
+//            animatedVectorDrawable.start();
+//        }
         Button btn_menu = view.findViewById(R.id.button_menu);
         Button btn_orderlist = view.findViewById(R.id.button_orderlist);
 

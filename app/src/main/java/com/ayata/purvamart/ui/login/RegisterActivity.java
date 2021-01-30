@@ -195,6 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void registerUser(ModelRegister details) {
+        showDialog();
         Log.d(TAG, "registerUser: " + details.getEmail());
         new Repository(new NetworkResponseListener<BaseResponse<RegisterDetail>>() {
             @Override
@@ -224,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onLoading() {
-                showDialog();
+
             }
 
             @Override

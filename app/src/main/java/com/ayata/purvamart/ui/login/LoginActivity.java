@@ -177,7 +177,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(intent);
                     return;
                 }else {
-                    hideDialog();
                     Toast.makeText(LoginActivity.this, detailBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -185,7 +184,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onLoading() {
                 showDialog();
+
             }
+
 
             @Override
             public void onError(String message) {

@@ -101,7 +101,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                             String orderId = response.getAsJsonObject("details").get("order_id").getAsString();
                             Log.d(TAG, "myOrderIdis: " + orderId);
                             PreferenceHandler.setOrderId(getContext(), orderId);
-                            ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, null);
+                            ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, null,new FragmentDeliveryAddress());
                         } else {
                             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
                         }
@@ -243,7 +243,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
     private void changeFragment(Fragment fragment) {
-        ((MainActivity) getActivity()).changeFragment(5, FragmentCart.TAG, null);
+        ((MainActivity) getActivity()).changeFragment(5, FragmentCart.TAG, null,new FragmentCart());
     }
 
     @Override

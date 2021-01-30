@@ -228,7 +228,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, list_madeforyou.get(position));
-        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle);
+        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
 
     }
 
@@ -251,7 +251,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void selectCategory(ModelCategory modelCategory) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-        ((MainActivity) getActivity()).changeFragment(9, FragmentCategory.TAG, bundle);
+        ((MainActivity) getActivity()).changeFragment(9, FragmentCategory.TAG, bundle,new FragmentCategory());
     }
 
     /**

@@ -72,6 +72,7 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onOtpCompleted(String otp) {
                 // do Stuff
+                showDialog();
                 verifyOtp(otp);
                 closeKeyboard();
                 Log.d("onOtpCompleted=>", otp);
@@ -111,7 +112,6 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onLoading() {
-                showDialog();
             }
 
             @Override

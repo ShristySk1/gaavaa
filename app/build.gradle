@@ -50,10 +50,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //circularimageview
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    //pageindicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
     implementation 'com.github.vipulasri:timelineview:1.1.5'
     //khalti
@@ -78,18 +80,13 @@ dependencies {
     //country picker
     implementation 'com.hbb20:ccp:2.4.4'
     //map place picker
-//    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.github.AkashG58:AKPlacePicker:1.0.0'
-    //search
-//    implementation 'br.com.mauker.materialsearchview:materialsearchview:2.0.0-alpha03'
-    implementation 'com.github.ShristySk1:search:6'
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
-
-    implementation 'com.github.claudiodegio:MsvSearch:1.0.0'
     //google signin
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation platform('com.google.firebase:firebase-bom:26.3.0')
     implementation 'com.google.firebase:firebase-analytics'
+    //lottie
+    implementation 'com.airbnb.android:lottie:3.6.0'
 
 
 }

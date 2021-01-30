@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             isFromSearchView = true;
             Bundle bundle = new Bundle();
             bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
-            changeFragment(8, FragmentProduct.TAG, bundle);
+            changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
             return;
         }
         //category from searchactivity
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             isFromSearchView = true;
             Bundle bundle = new Bundle();
             bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-            changeFragment(9, FragmentCategory.TAG, bundle);
+            changeFragment(9, FragmentCategory.TAG, bundle,new FragmentCategory());
             return;
         }
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             if (savedInstanceState != null) {
                 return;
             }
-            changeFragment(0, FragmentShop.TAG, null);
+            changeFragment(0, FragmentShop.TAG, null,new FragmentShop());
         }
     }
 
@@ -180,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                    int selectedFragment = 0;
+                    int selectedFragmentIndex = 0;
+                    Fragment selectedFragment=null;
                     String stack_text = null;
 
                     switch (menuItem.getItemId()) {
@@ -188,35 +189,35 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                             //samepagex
                             setToolbarType1(true);
                             stack_text = FragmentShop.TAG;
-                            selectedFragment = 0;
+                            selectedFragment = new FragmentShop();
+                            selectedFragmentIndex=0;
+
                             break;
 
                         case R.id.nav_cart:
                             setToolbarType3("Cart");
                             stack_text = FragmentCart.TAG;
-                            selectedFragment = 1;
+                            selectedFragmentIndex = 1;
+                            selectedFragment=new FragmentCart();
                             break;
 
                         case R.id.nav_order:
                             setToolbarType3("My Order");
                             stack_text = FragmentMyOrder.TAG;
-                            selectedFragment = 2;
+                            selectedFragmentIndex = 2;
+                            selectedFragment=new FragmentMyOrder();
                             break;
 
                         case R.id.nav_account:
                             setToolbarType3("Account");
                             stack_text = FragmentAccount.TAG;
-                            selectedFragment = 11;
+                            selectedFragmentIndex = 11;
+                            selectedFragment=new FragmentAccount();
                             break;
 
                     }
 //setItemCart();
-                    changeFragment(selectedFragment, stack_text, null);
-//
-//                    getSupportFragmentManager().beginTransaction()
-//                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
-//                            .replace(R.id.main_fragment, selectedFragment).commit();
-
+                    changeFragment(selectedFragmentIndex, stack_text, null,selectedFragment);
                     return true;
 
                 }
@@ -275,13 +276,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (isFromSearchView) {
-//                    onBackPressed();
-//                    onBackPressed();
-//                    isFromSearchView = false;
-//                } else {
-//                    onBackPressed();
-//                }
                 onBackPressed();
             }
         });
@@ -352,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle) {
+    public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle,Fragment fragment) {
         if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 11) {
             if (bundle != null) {
                 getFragmentForBundle(fragmentIndex).setArguments(bundle);
@@ -361,18 +355,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).commit();
         } else {
             if (bundle != null) {
-                getFragmentForBundle(fragmentIndex).setArguments(bundle);
+//                getFragmentForBundle(fragmentIndex).setArguments(bundle);
+                fragment.setArguments(bundle);
             }
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                    .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).addToBackStack(tag).commit();
+                    .replace(R.id.main_fragment, fragment).addToBackStack(tag).commit();
         }
-
     }
-
     public void changeFragmentThankyou(int fragmentIndex) {
         removeAllBackstacK();
         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).addToBackStack(FragmentThankyou.TAG).commit();
+                .replace(R.id.main_fragment, new FragmentThankyou()).addToBackStack(FragmentThankyou.TAG).commit();
     }
 
     private void removeAllBackstacK() {
@@ -385,7 +378,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public void selectMyOrderFragment() {
         getSupportFragmentManager().popBackStack(FragmentThankyou.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         bottomnav.setSelectedItemId(R.id.nav_order);
-//        changeFragment(2, FragmentMyOrder.TAG, null);
     }
 
     public void selectCartFragment() {
@@ -398,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     public void selectShopFragment() {
         bottomnav.setSelectedItemId(R.id.nav_shop);
-        changeFragment(0, FragmentShop.TAG, null);
+        changeFragment(0, FragmentShop.TAG, null,new FragmentShop());
     }
 
 

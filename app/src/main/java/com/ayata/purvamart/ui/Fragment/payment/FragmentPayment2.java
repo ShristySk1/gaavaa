@@ -150,6 +150,8 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
             //thankyou fragment
             if (isAdded())
                 ((MainActivity) getActivity()).changeFragmentThankyou(16);
+//                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+//                        .replace(R.id.main_fragment, new FragmentThankyou()).commit();
         } else {
             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
         }

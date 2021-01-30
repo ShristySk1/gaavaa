@@ -120,7 +120,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(13, FragmentEditProfile.TAG,null);
+                ((MainActivity) getActivity()).changeFragment(13, FragmentEditProfile.TAG,null,new FragmentEditProfile());
                 break;
 
             case R.id.acc_btn_logout:
@@ -142,7 +142,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(13,FragmentEditProfile.TAG,null);
+                ((MainActivity) getActivity()).changeFragment(13,FragmentEditProfile.TAG,null,new FragmentEditProfile());
                 break;
 
             case 1:
@@ -158,12 +158,12 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG,null);
+                ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG,null,new FragmentDeliveryAddress());
                 break;
 
             case 3:
                 //Terms, Privacy & Policy
-                ((MainActivity) getActivity()).changeFragment(14, FragmentPrivacyPolicy.TAG,null);
+                ((MainActivity) getActivity()).changeFragment(14, FragmentPrivacyPolicy.TAG,null,new FragmentPrivacyPolicy());
                 break;
 
             case 4:
