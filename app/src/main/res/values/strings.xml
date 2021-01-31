@@ -28,7 +28,8 @@
 
     <string name="eo_text1">You haven’t placed any orders yet.</string>
     <string name="eo_text2">When you do, their status will appear here.</string>
-    <string name="eo_text3">No orders has been cancelled yet.</string>
+    <string name="eo_text3">No orders has been completed yet.</string>
+    <string name="eo_text4">No orders has been cancelled yet.</string>
     <string name="ce_text1">Oops! Your cart is empty!</string>
     <string name="ce_text2">Check our bestsellers and find something for you.</string>
 

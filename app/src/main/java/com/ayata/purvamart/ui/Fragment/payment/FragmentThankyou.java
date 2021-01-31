@@ -13,7 +13,6 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 
 import androidx.fragment.app.Fragment;
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 
 public class FragmentThankyou extends Fragment {
@@ -31,15 +30,6 @@ public class FragmentThankyou extends Fragment {
 
         ((MainActivity) getActivity()).hideToolbar();
         ((MainActivity) getActivity()).showBottomNavBar(false);
-//        tick = view.findViewById(R.id.tick);
-//        Drawable drawable = tick.getDrawable();
-//        if (drawable instanceof AnimatedVectorDrawableCompat) {
-//            animatedVectorDrawableCompat = (AnimatedVectorDrawableCompat) drawable;
-//            animatedVectorDrawableCompat.start();
-//        } else if (drawable instanceof AnimatedVectorDrawable) {
-//            animatedVectorDrawable = (AnimatedVectorDrawable) drawable;
-//            animatedVectorDrawable.start();
-//        }
         Button btn_menu = view.findViewById(R.id.button_menu);
         Button btn_orderlist = view.findViewById(R.id.button_orderlist);
 

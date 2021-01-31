@@ -61,10 +61,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     BottomNavigationView bottomnav;
     View toolbar;
     RelativeLayout toolbarType1, toolbarType2, toolbarType3;
-    ProgressBar progressBar;
+    //fragments list
     FragmentManager manager;
     List<Fragment> fragmentList = new ArrayList<>();
-    static int badgeCount = 1;
     //cart and badge
     ImageView itemCart;
     //back button when came from search view
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             public void onCartCountChange(Integer count) {
                 if (count != null) {
                     Log.d(TAG, "onCartCountChange: " + count);
-//                    setBadge(String.valueOf(count));
                     Log.d(TAG, "setBadge: badgecalled");
                     LayerDrawable icon = (LayerDrawable) itemCart.getDrawable();
                     setBadgeCount(MainActivity.this, icon, count + "");
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         toolbarType2 = toolbar.findViewById(R.id.appbar2);
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
-        progressBar = findViewById(R.id.main_progressbar);
         showToolbar();
 
         setToolbarType1(true);
@@ -149,26 +146,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentList.add(new FragmentShop());//0
         fragmentList.add(new FragmentCart());//1
         fragmentList.add(new FragmentMyOrder());//2
-        fragmentList.add(new FragmentListOrder());//3
-        fragmentList.add(new FragmentEmptyOrder());//4
-        fragmentList.add(new FragmentCart());//5
-        fragmentList.add(new FragmentCartEmpty());//6
-        fragmentList.add(new FragmentCartFilled());//7
-        fragmentList.add(new FragmentProduct());//8
-        fragmentList.add(new FragmentCategory());//9
-        fragmentList.add(new FragmentTrackOrder());//10
-        fragmentList.add(new FragmentAccount());//11
-        fragmentList.add(new FragmentEditAddress());//12
-        fragmentList.add(new FragmentEditProfile());//13
-        fragmentList.add(new FragmentPrivacyPolicy());//14
-        fragmentList.add(new FragmentPayment());//15
-        fragmentList.add(new FragmentThankyou());//16
-        fragmentList.add(new FragmentPayment2());//17
-        fragmentList.add(new FragmentDeliveryAddress());//18
-        fragmentList.add(new FragmentEditAddress());//19//for add
-        fragmentList.add(new FragmentOrderSummary());//20
-
-
+        fragmentList.add(new FragmentAccount());//3
     }
 
     public Fragment getFragmentForBundle(int fragamentIndex) {
@@ -211,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         case R.id.nav_account:
                             setToolbarType3("Account");
                             stack_text = FragmentAccount.TAG;
-                            selectedFragmentIndex = 11;
+                            selectedFragmentIndex = 3;
                             selectedFragment=new FragmentAccount();
                             break;
 
                     }
-//setItemCart();
+                    //setItemCart();
                     changeFragment(selectedFragmentIndex, stack_text, null,selectedFragment);
                     return true;
 
@@ -243,18 +221,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 bottomnav.setSelectedItemId(R.id.nav_cart);
             }
         });
-
-//        RelativeLayout notification_layout;
-//        notification_layout = toolbar.findViewById(R.id.notification_layout);
-//
-//        ImageView itemCart;
-//        itemCart = toolbar.findViewById(R.id.notification);
-//        setBadge();
-
-//
-//        if (notification_dot_visible)
-//            notification_dot.setVisibility(View.VISIBLE);
-//        else notification_dot.setVisibility(View.GONE);
 
     }
 
@@ -346,8 +312,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
+    /**
+     * Used for changing fragments
+     * @param fragmentIndex index 0,1,2,3 for dashboard fragments that uses same instance of its fragments.
+     * @param tag Fragment tag
+     * @param bundle for passing value while fragment transition
+     * @param fragment new fragment to lay on top os stack.For fragments other than dashboard's fragments.
+     */
     public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle,Fragment fragment) {
-        if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 11) {
+        if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 3) {
             if (bundle != null) {
                 getFragmentForBundle(fragmentIndex).setArguments(bundle);
             }
@@ -355,7 +328,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     .replace(R.id.main_fragment, fragmentList.get(fragmentIndex)).commit();
         } else {
             if (bundle != null) {
-//                getFragmentForBundle(fragmentIndex).setArguments(bundle);
                 fragment.setArguments(bundle);
             }
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
@@ -382,7 +354,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     public void selectCartFragment() {
         Intent i = new Intent(this, MainActivity.class);
-// set the new task and clear flags
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 
@@ -423,7 +394,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 CartCount.setMyBoolean(0);
             } else {
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-//                        badgeCount =
                 Integer counter = myOrderResponse.getDetails().size();
                 Log.d(TAG, "onResponseReceived:counter " + counter);
                 CartCount.setMyBoolean(counter);

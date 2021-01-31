@@ -140,7 +140,6 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                                 listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
                                 break;
                         }
-
                     }
                 }
                 Log.d(TAG, "onResponseReceived: calcelled size" + listitemIsCancelled.size() + "onprogree" + listitemIsTaken.size());

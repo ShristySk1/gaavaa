@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelOrderList;
@@ -85,6 +86,7 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
             Log.d("checkordercompleted", "onBindViewHolder: " + isEmptyCompletedOrder);
             if (getEmptyCompletedOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
+                holder.empty_title.setText(context.getResources().getString(R.string.eo_text3));
             } else {
                 holder.emptyLayout.setVisibility(View.GONE);
                 AdapterOrderDetails ModelOrderListAdapter = new AdapterOrderDetails(context, onCompleted);
@@ -96,6 +98,8 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
             Log.d("checkordercancelled", "onBindViewHolder: " + isEmptyCancelledOrder);
             if (getEmptyCancelledOrder()) {
                 holder.emptyLayout.setVisibility(View.VISIBLE);
+                holder.empty_title.setText(context.getResources().getString(R.string.eo_text4));
+
             } else {
                 holder.emptyLayout.setVisibility(View.GONE);
                 AdapterOrderDetails ModelOrderListAdapter = new AdapterOrderDetails(context, onCancelled);
@@ -113,12 +117,14 @@ public class ViewPagerMyOrderAdapter extends RecyclerView.Adapter<ViewPagerMyOrd
 
         RecyclerView recyclerView;
         RelativeLayout emptyLayout;
+        TextView empty_title;
         Button button;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             recyclerView = itemView.findViewById(R.id.recycler_bus_passengers_item);
             emptyLayout = itemView.findViewById(R.id.empty_order);
+            empty_title = itemView.findViewById(R.id.text);
             button = itemView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         new ApiClient(new WeakReference<>(getApplicationContext()));
+        initView();
+        setToolbarType2("", false, false);
+    }
+
+    void initView() {
         textEmail = findViewById(R.id.input_register_email);
         textPassword = findViewById(R.id.input_register_password);
         textMobileNumber = findViewById(R.id.input_register_mobileno);
@@ -52,7 +57,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         toolbarType2 = toolbar.findViewById(R.id.appbar2);
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
-        setToolbarType2("", false, false);
         btn_google = findViewById(R.id.btn_create_google);
         btn_facebook = findViewById(R.id.btn_create_facebook);
         btn_login = findViewById(R.id.btn_create_account);
@@ -176,7 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, "User is logged in", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     return;
-                }else {
+                } else {
                     Toast.makeText(LoginActivity.this, detailBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
