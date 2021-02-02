@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.ar.sceneform.plugin'
 
 android {
     compileSdkVersion 30
@@ -88,5 +89,12 @@ dependencies {
     //lottie
     implementation 'com.airbnb.android:lottie:3.6.0'
 
+    //scene form
+    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.15.0"
+    implementation 'com.google.ar.sceneform:assets:1.15.0'
 
 }
+sceneform.asset('sampledata/BagTextured.fbx',
+        'default',
+        'sampledata/BagTextured.sfa',
+        'src/main/assets/ProductTextured')
