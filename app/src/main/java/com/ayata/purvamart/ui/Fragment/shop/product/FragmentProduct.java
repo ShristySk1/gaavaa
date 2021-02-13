@@ -2,12 +2,9 @@ package com.ayata.purvamart.ui.Fragment.shop.product;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,16 +19,7 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.node.DragTransformableNode;
 import com.ayata.purvamart.ui.login.SignupActivity;
-import com.google.ar.core.exceptions.CameraNotAvailableException;
-import com.google.ar.sceneform.HitTestResult;
-import com.google.ar.sceneform.Scene;
-import com.google.ar.sceneform.SceneView;
-import com.google.ar.sceneform.math.Vector3;
-import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.ux.FootprintSelectionVisualizer;
-import com.google.ar.sceneform.ux.TransformationSystem;
 import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;
 
@@ -54,14 +42,14 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     //viewpager
     ViewPager2 mViewPager;
     PageIndicatorView pageIndicatorView;
-    // images array
+//     images array
 //    int[] images = {R.drawable.signup, R.drawable.signup, R.drawable.signup};
     List<String> images;
     // Creating Object of ViewPagerAdapter
     ViewPagerAdapterProduct mViewPagerAdapter;
-    //scene
-    private SceneView mSceneView;
-    String localModel = "ProductTextured.sfb";
+//    //scene
+//    private SceneView mSceneView;
+//    String localModel = "ProductTextured.sfb";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +63,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     private static int quantity = 0;
     TextView textQuantity, textProductTitle, textProductNewPrice, textProductOldPrice, textWeight, textDiscount, textProductDescription, text_product_from;
     ImageButton btn_add, btn_minus;
-    ImageView image_product;
+//    ImageView image_product;
 
     //like
     ImageView thumb_image;
@@ -99,8 +87,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
         text_product_from = view.findViewById(R.id.text_product_from);
-//        image_product = view.findViewById(R.id.image_product);
-        mSceneView = view.findViewById(R.id.sceneView);
+//        image_product = view.findViewById(R.id.imagep);
+//        mSceneView = view.findViewById(R.id.sceneView);
         thumb_image = view.findViewById(R.id.thumb_image);
         thumb_text = view.findViewById(R.id.thumb_text);
         textProductNewPrice = view.findViewById(R.id.text_product_newPrice);
@@ -111,23 +99,23 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         //setData-----
         //viewpager image
         images = new ArrayList<>();
-        createScene();
-//        mViewPager = view.findViewById(R.id.viewPager2);
-//        pageIndicatorView = view.findViewById(R.id.pageIndicatorView);
-//        // Initializing the ViewPagerAdapter
-//        mViewPagerAdapter = new ViewPagerAdapterProduct(images);
-//        // Adding the Adapter to the ViewPager
-//        mViewPager.setAdapter(mViewPagerAdapter);
-//        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                pageIndicatorView.setSelection(position);
-//            }
-//        });
-//        images.addAll(modelItem.getProductImage());
-//        pageIndicatorView.setCount(images.size());
-//        mViewPagerAdapter.notifyDataSetChanged();
-//        Log.d(TAG, "initView: " + images.size());
+//        createScene();
+        mViewPager = view.findViewById(R.id.viewPager2);
+        pageIndicatorView = view.findViewById(R.id.pageIndicatorView);
+        // Initializing the ViewPagerAdapter
+        mViewPagerAdapter = new ViewPagerAdapterProduct(images);
+        // Adding the Adapter to the ViewPager
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                pageIndicatorView.setSelection(position);
+            }
+        });
+        images.addAll(modelItem.getProductImage());
+        pageIndicatorView.setCount(images.size());
+        mViewPagerAdapter.notifyDataSetChanged();
+        Log.d(TAG, "initView: " + images.size());
         //rest of data
         textProductTitle.setText(modelItem.getName());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
@@ -207,102 +195,102 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textDiscount.setVisibility(View.GONE);
     }
 
-    private void createScene() {
-        ModelRenderable.builder()
-                .setSource(getContext(), Uri.parse(localModel))
-                .setRegistryId(localModel)
-                .build()
-                .thenAccept(modelRenderable -> onRenderableLoaded(modelRenderable))
-                .exceptionally(throwable -> {
-                    Toast toast =
-                            Toast.makeText(getContext(), "Unable to load model", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return null;
-                });
-    }
-
-    void onRenderableLoaded(ModelRenderable model) {
-
-
-        if (mSceneView != null) {
-//            Node modelNode = new Node();
-//            modelNode.setRenderable(model);
-//            modelNode.setParent(mSceneView.getScene());
-//            modelNode.setLocalPosition(new Vector3(0, -0.1f, -1));
-//            modelNode.setLocalScale(new Vector3(2,2,2));
-//            mSceneView.getScene().addChild(modelNode);
-
-            TransformationSystem transformationSystem = makeTransformationSystem();
-            DragTransformableNode dragTransformableNode = new DragTransformableNode(1f, transformationSystem);
-            dragTransformableNode.setLocalScale(new Vector3(50f, 50f, 50f));
-
-            if (dragTransformableNode != null) {
-                dragTransformableNode.setRenderable(model);
-                mSceneView.getScene().addChild(dragTransformableNode);
-
-                //   mSceneView.getScene().aa
-                dragTransformableNode.select();
-                mSceneView.getScene().addOnPeekTouchListener(new Scene.OnPeekTouchListener() {
-                    @Override
-                    public void onPeekTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
-                        Log.d("touch", motionEvent.toString());
-
-                        try {
-                            transformationSystem.onTouch(hitTestResult, motionEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-//                mSceneView.getScene().setOnTouchListener(new Scene.OnTouchListener() {
+//    private void createScene() {
+//        ModelRenderable.builder()
+//                .setSource(getContext(), Uri.parse(localModel))
+//                .setRegistryId(localModel)
+//                .build()
+//                .thenAccept(modelRenderable -> onRenderableLoaded(modelRenderable))
+//                .exceptionally(throwable -> {
+//                    Toast toast =
+//                            Toast.makeText(getContext(), "Unable to load model", Toast.LENGTH_LONG);
+//                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                    toast.show();
+//                    return null;
+//                });
+//    }
+//
+//    void onRenderableLoaded(ModelRenderable model) {
+//
+//
+//        if (mSceneView != null) {
+////            Node modelNode = new Node();
+////            modelNode.setRenderable(model);
+////            modelNode.setParent(mSceneView.getScene());
+////            modelNode.setLocalPosition(new Vector3(0, -0.1f, -1));
+////            modelNode.setLocalScale(new Vector3(2,2,2));
+////            mSceneView.getScene().addChild(modelNode);
+//
+//            TransformationSystem transformationSystem = makeTransformationSystem();
+//            DragTransformableNode dragTransformableNode = new DragTransformableNode(1f, transformationSystem);
+//            dragTransformableNode.setLocalScale(new Vector3(50f, 50f, 50f));
+//
+//            if (dragTransformableNode != null) {
+//                dragTransformableNode.setRenderable(model);
+//                mSceneView.getScene().addChild(dragTransformableNode);
+//
+//                //   mSceneView.getScene().aa
+//                dragTransformableNode.select();
+//                mSceneView.getScene().addOnPeekTouchListener(new Scene.OnPeekTouchListener() {
 //                    @Override
-//                    public boolean onSceneTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
-//                      //  transformationSystem.onTouch(hitTestResult,motionEvent);
-//                        return false;
-//                    }});h
-
-
-            }
-
-
-        }
-
-
-    }
-
-    private TransformationSystem makeTransformationSystem() {
-
-        FootprintSelectionVisualizer footprintSelectionVisualizer = new FootprintSelectionVisualizer();
-        return new TransformationSystem(getResources().getDisplayMetrics(), footprintSelectionVisualizer);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            mSceneView.resume();
-        } catch (CameraNotAvailableException e) {
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mSceneView.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            mSceneView.destroy();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//                    public void onPeekTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
+//                        Log.d("touch", motionEvent.toString());
+//
+//                        try {
+//                            transformationSystem.onTouch(hitTestResult, motionEvent);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                });
+////                mSceneView.getScene().setOnTouchListener(new Scene.OnTouchListener() {
+////                    @Override
+////                    public boolean onSceneTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
+////                      //  transformationSystem.onTouch(hitTestResult,motionEvent);
+////                        return false;
+////                    }});h
+//
+//
+//            }
+//
+//
+//        }
+//
+//
+//    }
+//
+//    private TransformationSystem makeTransformationSystem() {
+//
+//        FootprintSelectionVisualizer footprintSelectionVisualizer = new FootprintSelectionVisualizer();
+//        return new TransformationSystem(getResources().getDisplayMetrics(), footprintSelectionVisualizer);
+//    }
+//
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        try {
+//            mSceneView.resume();
+//        } catch (CameraNotAvailableException e) {
+//        }
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        mSceneView.pause();
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            mSceneView.destroy();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

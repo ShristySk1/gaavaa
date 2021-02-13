@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="Let’s get started"
+                android:text="@string/let_s_get_started"
                 android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Create account to see our special offers!"
+                android:text="@string/create_account_to_see_our_special_offers"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -80,14 +80,14 @@
                     android:theme="@style/CustomTextInputStyle"
                     app:endIconDrawable="@drawable/ic_email"
                     app:endIconMode="custom"
-                    app:endIconTint="@color/colorGreen"
+                    app:endIconTint="@color/colorPrimary"
                     app:errorEnabled="false"
                     app:hintEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -99,14 +99,14 @@
                     android:theme="@style/CustomTextInputStyle"
                     app:endIconDrawable="@drawable/ic_phone"
                     app:endIconMode="custom"
-                    app:endIconTint="@color/colorGreen"
+                    app:endIconTint="@color/colorPrimary"
                     app:errorEnabled="false"
                     app:hintEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mobile no."
+                        android:hint="@string/mobile_no"
                         android:inputType="phone"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -120,12 +120,12 @@
                     app:hintEnabled="true"
                     app:passwordToggleDrawable="@drawable/password_toggle"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorGreen">
+                    app:passwordToggleTint="@color/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -140,12 +140,12 @@
                     app:hintEnabled="true"
                     app:passwordToggleDrawable="@drawable/password_toggle"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorGreen">
+                    app:passwordToggleTint="@color/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Confirm Password"
+                        android:hint="@string/confirm_password"
                         android:inputType="textPassword"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,7 +160,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Create Account"
+                android:text="@string/create_account"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -201,11 +201,11 @@
                     android:id="@+id/pf_tv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
                     android:clickable="false"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="Continue with Google"
+                    android:text="@string/continue_with_google"
                     android:textColor="@color/colorBlack" />
             </LinearLayout>
 
@@ -242,11 +242,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
                     android:clickable="false"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="Continue with Faceboook"
+                    android:text="@string/continue_with_faceboook"
                     android:textColor="@color/colorBlack" />
             </LinearLayout>
 
@@ -255,7 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="or"
+                android:text="@string/or"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/btn_create_account"
                 app:layout_constraintTop_toBottomOf="@+id/btn_create_account" />

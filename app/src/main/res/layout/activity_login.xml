@@ -5,8 +5,7 @@
     android:id="@+id/root_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.RegisterActivity">
-
+    tools:context=".ui.login.LoginActivity">
     <include
         android:id="@+id/toolbar_layout"
         layout="@layout/appbar"
@@ -46,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="Welcome Back"
+                android:text="@string/welcome_back"
                 android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -57,8 +56,8 @@
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Login to continue with your profile"
+                android:layout_marginTop="@dimen/margiTop_4dp"
+                android:text="@string/login_to_continue_with_your_profile"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -67,8 +66,8 @@
                 android:id="@+id/linear_form"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="8dp"
+                android:orientation="vertical"
                 android:theme="@style/CustomTextInputStyle"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -81,15 +80,15 @@
                     android:layout_marginTop="8dp"
                     app:endIconDrawable="@drawable/ic_phone"
                     app:endIconMode="custom"
-                    app:endIconTint="@color/colorGreen"
+                    app:endIconTint="@color/colorPrimary"
                     app:errorEnabled="false"
                     app:hintEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mobile no."
-                        android:inputType="phone"
+                        android:hint="@string/email_phone_number"
+                        android:inputType="text"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,12 +102,12 @@
                     app:hintEnabled="true"
                     app:passwordToggleDrawable="@drawable/password_toggle"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorGreen">
+                    app:passwordToggleTint="@color/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -122,7 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -167,7 +166,7 @@
                     android:clickable="false"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="Continue with Google"
+                    android:text="@string/continue_with_google"
                     android:textColor="@color/colorBlack" />
             </LinearLayout>
 
@@ -176,7 +175,7 @@
                 style="@style/CustomButtonWhite"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/marginBetnTextSameVerticle_8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/btn_create_google" />
@@ -199,16 +198,16 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:clickable="false"
-                    android:src="@drawable/ic_facebook" />
+                    app:srcCompat="@drawable/ic_facebook" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
                     android:clickable="false"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="Continue with Faceboook"
+                    android:text="@string/continue_with_faceboook"
                     android:textColor="@color/colorBlack" />
             </LinearLayout>
 
@@ -216,8 +215,8 @@
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="or"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/or"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/btn_create_account"
                 app:layout_constraintTop_toBottomOf="@+id/btn_create_account" />
@@ -234,8 +233,6 @@
                 app:layout_constraintStart_toStartOf="@id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/btn_create_facebook"
                 app:layout_constraintVertical_bias="1.0" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

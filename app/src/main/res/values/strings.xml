@@ -44,4 +44,35 @@
     <string name="GPSAlertDialogTitle">GPSAlertDialogTitle</string>
     <string name="GPSAlertDialogMessage">GPSAlertDialogMessage</string>
 
+<!--    //login-->
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_to_continue_with_your_profile">Login to continue with your profile</string>
+    <string name="email_phone_number">Email / Phone number</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="or">or</string>
+    <string name="continue_with_faceboook">Continue with Faceboook</string>
+    <string name="vegetables_are_important_sources_of_many_nutrients_including_potassium_dietart_fiber_folic_acid_vitamin_a_and_vitamin_c">Vegetables are important sources of many nutrients, including potassium, dietart fiber, folic acid, Vitamin A and Vitamin C.</string>
+    <string name="sign_up_with_facebook">Sign Up with Facebook</string>
+    <string name="sign_up_with_google">Sign Up with Google</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login_here">Login Here</string>
+    <string name="enter_code_sent_nto_your_number">Enter code sent\nto your number</string>
+    <string name="we_sent_it_to_the_number_977_9818000000">We sent it to the number +977 9818000000</string>
+    <string name="next">Next</string>
+    <string name="verifying">Verifying...</string>
+<!--    cart-->
+    <string name="shop_now">Shop Now</string>
+    <!--    //signup-->
+    <string name="let_s_get_started">Let’s get started</string>
+    <string name="create_account_to_see_our_special_offers">Create account to see our special offers!</string>
+    <string name="email">Email</string>
+    <string name="payment">Payment</string>
+    <string name="my_order">My Order</string>
+    <string name="mobile_no">Mobile no.</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_account">Create Account</string>
+
 </resources>

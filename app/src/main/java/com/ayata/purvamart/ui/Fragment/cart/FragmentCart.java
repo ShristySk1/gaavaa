@@ -134,7 +134,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
             Gson gson = new GsonBuilder().create();
             String empty = jsonObject.get("message").getAsString();
             Log.d(TAG, "onResponse: " + empty + "crt");
-            if (empty.equals("empty cart")) {
+            if (jsonObject.get("details").getAsJsonArray().size() == 0) {
                 if (isAdded())
                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
             } else {

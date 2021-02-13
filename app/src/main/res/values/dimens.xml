@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_start">15dp</dimen>
+    <dimen name="paddingHorizontal_16dp">16dp</dimen>
+    <dimen name="paddingVerticle_16dp">16dp</dimen>
+    <dimen name="marginHorizontal_16dp">16dp</dimen>
+    <dimen name="marginVerticle_16dp">16dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="marginBetnTextSameVerticle_8dp">8dp</dimen>
+    <dimen name="marginBetnTextDiffVerticle_16dp">16dp</dimen>
+    <dimen name="margiTop_4dp">4dp</dimen>
 </resources>

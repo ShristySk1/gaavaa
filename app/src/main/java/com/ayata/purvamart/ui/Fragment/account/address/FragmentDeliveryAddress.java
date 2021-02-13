@@ -66,7 +66,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
                     Toast.makeText(getContext(), "Address add limit exceeded", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(19, FragmentEditAddress.TAG2, null,new FragmentEditAddress());
+                ((MainActivity) getActivity()).changeFragment(19, FragmentEditAddress.TAG2, null, new FragmentEditAddress());
             }
         });
         return view;
@@ -110,7 +110,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentDeliveryAddress, modelAddress);
         bundle.putString(FragmentDeliveryAddressTitle, "Edit Address");
-        ((MainActivity) getActivity()).changeFragment(12, FragmentEditAddress.TAG, bundle,new FragmentEditAddress());
+        ((MainActivity) getActivity()).changeFragment(12, FragmentEditAddress.TAG, bundle, new FragmentEditAddress());
 
     }
 
@@ -118,7 +118,7 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     public void onAddressClick(ModelAddress modelAddress) {
         //setAddressId of clicked address
         PreferenceHandler.setAddressId(getContext(), modelAddress.getId().toString());
-        ((MainActivity) getActivity()).changeFragment(17, FragmentPayment2.TAG, null,new FragmentPayment2());
+        ((MainActivity) getActivity()).changeFragment(17, FragmentPayment2.TAG, null, new FragmentPayment2());
 
     }
 

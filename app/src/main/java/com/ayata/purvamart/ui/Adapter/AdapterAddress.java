@@ -4,10 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ayata.purvamart.data.Model.ModelAddress;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelAddress;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_billing_address, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_shipping_address, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -41,7 +42,7 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
         String postalCode = modelAddress.getPostalCode();
 
         //required in view
-        String address = "Address: "+streetAddress + "," + city + "," + country;
+        String address = "Address: " + streetAddress + "," + city + "," + country;
         String phone = modelAddress.getContactNumber();
         String name = modelAddress.getName();
         holder.address.setText(address);
@@ -57,15 +58,16 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvEdit, name, phone, address;
+        TextView name, phone, address;
+        ImageView ivEdit;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvEdit = itemView.findViewById(R.id.tvEdit);
+            ivEdit = itemView.findViewById(R.id.ivEdit);
             name = itemView.findViewById(R.id.name);
             phone = itemView.findViewById(R.id.phone);
             address = itemView.findViewById(R.id.address);
-            tvEdit.setOnClickListener(new View.OnClickListener() {
+            ivEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onEditClick(getAdapterPosition(), listitem.get(getAdapterPosition()));

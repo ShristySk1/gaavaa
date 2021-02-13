@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Estimated Delivery on 22 Dec"
-                    android:textColor="@color/colorGreen"
+                    android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_datetime"
                     app:layout_constraintTop_toBottomOf="@+id/text_datetime" />

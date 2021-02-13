@@ -45,7 +45,7 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.MyViewHo
         holder.tvPaymentMethod.setText(paymentName);
         Glide.with(context).load(paymentImage).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.ivPaymentImage);
         if (row_index == position) {
-            holder.recycler_main.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_green_border2));
+            holder.recycler_main.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_green_border_white));
         } else {
             holder.recycler_main.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_green_border3));
         }

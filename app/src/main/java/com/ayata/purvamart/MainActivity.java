@@ -1,47 +1,28 @@
 package com.ayata.purvamart;
 
 import android.content.Intent;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
-import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.data.network.response.UserCartResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
-import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
-import com.ayata.purvamart.ui.Fragment.account.address.FragmentEditAddress;
-import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
-import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPolicy;
 import com.ayata.purvamart.ui.Fragment.cart.FragmentCart;
-import com.ayata.purvamart.ui.Fragment.cart.FragmentCartEmpty;
-import com.ayata.purvamart.ui.Fragment.cart.FragmentCartFilled;
-import com.ayata.purvamart.ui.Fragment.order.FragmentEmptyOrder;
-import com.ayata.purvamart.ui.Fragment.order.FragmentListOrder;
 import com.ayata.purvamart.ui.Fragment.order.FragmentMyOrder;
-import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
-import com.ayata.purvamart.ui.Fragment.order.FragmentTrackOrder;
-import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentThankyou;
-import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
-import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
-import com.ayata.purvamart.ui.Fragment.unused.FragmentPayment;
+import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
+import com.ayata.purvamart.ui.Fragment.shop.notification.NotificationActivity;
+import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -54,9 +35,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import static com.ayata.purvamart.ui.Fragment.shop.FragmentShop.SELECTED_CATEGORY;
-import static com.ayata.purvamart.utils.BadgeDrawable.setBadgeCount;
 
-public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, NetworkResponseListener<JsonObject> {
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     private String TAG = "MainActivity";
     BottomNavigationView bottomnav;
     View toolbar;
@@ -64,10 +44,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     //fragments list
     FragmentManager manager;
     List<Fragment> fragmentList = new ArrayList<>();
-    //cart and badge
-    ImageView itemCart;
     //back button when came from search view
     static Boolean isFromSearchView = false;
+    ImageView notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +54,23 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setContentView(R.layout.activity_main);
         //for internet checking
         new ApiClient(new WeakReference<>(getApplicationContext()));
-        CartCount.addMyBooleanListener(new MainActivity.cartCountChangeListener() {
-            @Override
-            public void onCartCountChange(Integer count) {
-                if (count != null) {
-                    Log.d(TAG, "onCartCountChange: " + count);
-                    Log.d(TAG, "setBadge: badgecalled");
-                    LayerDrawable icon = (LayerDrawable) itemCart.getDrawable();
-                    setBadgeCount(MainActivity.this, icon, count + "");
-                    setBadgeCount(MainActivity.this, icon, count + "");
-                    Log.d(TAG, "setBadge: badgedone");
-                }
-            }
-        });
+//        CartCount.addMyBooleanListener(new MainActivity.cartCountChangeListener() {
+//            @Override
+//            public void onCartCountChange(Integer count) {
+//                if (count != null) {
+//                    Log.d(TAG, "onCartCountChange: " + count);
+//                    Log.d(TAG, "setBadge: badgecalled");
+//                    LayerDrawable icon = (LayerDrawable) itemCart.getDrawable();
+//                    setBadgeCount(MainActivity.this, icon, count + "");
+//                    setBadgeCount(MainActivity.this, icon, count + "");
+//                    Log.d(TAG, "setBadge: badgedone");
+//                }
+//            }
+//        });
         toolbar = findViewById(R.id.appbar_main);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         //image and badge
-        itemCart = toolbar.findViewById(R.id.notification);
+        notification = toolbar.findViewById(R.id.notification);
 
         toolbarType2 = toolbar.findViewById(R.id.appbar2);
         toolbarType3 = toolbar.findViewById(R.id.appbar3);
@@ -115,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             isFromSearchView = true;
             Bundle bundle = new Bundle();
             bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
-            changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
+            changeFragment(8, FragmentProduct.TAG, bundle, new FragmentProduct());
             return;
         }
         //category from searchactivity
@@ -124,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             isFromSearchView = true;
             Bundle bundle = new Bundle();
             bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-            changeFragment(9, FragmentCategory.TAG, bundle,new FragmentCategory());
+            changeFragment(9, FragmentCategory.TAG, bundle, new FragmentCategory());
             return;
         }
 
@@ -133,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             if (savedInstanceState != null) {
                 return;
             }
-            changeFragment(0, FragmentShop.TAG, null,new FragmentShop());
+            changeFragment(0, FragmentShop.TAG, null, new FragmentShop());
         }
     }
 
@@ -159,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                     int selectedFragmentIndex = 0;
-                    Fragment selectedFragment=null;
+                    Fragment selectedFragment = null;
                     String stack_text = null;
 
                     switch (menuItem.getItemId()) {
@@ -168,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                             setToolbarType1(true);
                             stack_text = FragmentShop.TAG;
                             selectedFragment = new FragmentShop();
-                            selectedFragmentIndex=0;
+                            selectedFragmentIndex = 0;
 
                             break;
 
@@ -176,26 +155,26 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                             setToolbarType3("Cart");
                             stack_text = FragmentCart.TAG;
                             selectedFragmentIndex = 1;
-                            selectedFragment=new FragmentCart();
+                            selectedFragment = new FragmentCart();
                             break;
 
                         case R.id.nav_order:
                             setToolbarType3("My Order");
                             stack_text = FragmentMyOrder.TAG;
                             selectedFragmentIndex = 2;
-                            selectedFragment=new FragmentMyOrder();
+                            selectedFragment = new FragmentMyOrder();
                             break;
 
                         case R.id.nav_account:
                             setToolbarType3("Account");
                             stack_text = FragmentAccount.TAG;
                             selectedFragmentIndex = 3;
-                            selectedFragment=new FragmentAccount();
+                            selectedFragment = new FragmentAccount();
                             break;
 
                     }
                     //setItemCart();
-                    changeFragment(selectedFragmentIndex, stack_text, null,selectedFragment);
+                    changeFragment(selectedFragmentIndex, stack_text, null, selectedFragment);
                     return true;
 
                 }
@@ -215,10 +194,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         toolbarType1.setVisibility(View.VISIBLE);
         toolbarType2.setVisibility(View.GONE);
         toolbarType3.setVisibility(View.GONE);
-        itemCart.setOnClickListener(new View.OnClickListener() {
+        notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomnav.setSelectedItemId(R.id.nav_cart);
+                //TODO NOTIFICATION
+                startActivity(new Intent(MainActivity.this, NotificationActivity.class));
             }
         });
 
@@ -314,12 +294,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     /**
      * Used for changing fragments
+     *
      * @param fragmentIndex index 0,1,2,3 for dashboard fragments that uses same instance of its fragments.
-     * @param tag Fragment tag
-     * @param bundle for passing value while fragment transition
-     * @param fragment new fragment to lay on top os stack.For fragments other than dashboard's fragments.
+     * @param tag           Fragment tag
+     * @param bundle        for passing value while fragment transition
+     * @param fragment      new fragment to lay on top os stack.For fragments other than dashboard's fragments.
      */
-    public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle,Fragment fragment) {
+    public synchronized void changeFragment(int fragmentIndex, String tag, Bundle bundle, Fragment fragment) {
         if (fragmentIndex == 0 || fragmentIndex == 1 || fragmentIndex == 2 || fragmentIndex == 3) {
             if (bundle != null) {
                 getFragmentForBundle(fragmentIndex).setArguments(bundle);
@@ -334,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     .replace(R.id.main_fragment, fragment).addToBackStack(tag).commit();
         }
     }
+
     public void changeFragmentThankyou(int fragmentIndex) {
         removeAllBackstacK();
         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -361,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     public void selectShopFragment() {
         bottomnav.setSelectedItemId(R.id.nav_shop);
-        changeFragment(0, FragmentShop.TAG, null,new FragmentShop());
+        changeFragment(0, FragmentShop.TAG, null, new FragmentShop());
     }
 
 
@@ -379,45 +361,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     }
 
-    public void setItemCart() {
-        new Repository(MainActivity.this, ApiClient.getApiService()).requestCart();
-    }
-
-    @Override
-    public void onResponseReceived(JsonObject jsonObject) {
-        Log.d(TAG, "onResponseReceived: run");
-        if (jsonObject.get("code").toString().equals("200")) {
-            Gson gson = new GsonBuilder().create();
-            String empty = jsonObject.get("message").getAsString();
-            Log.d(TAG, "onResponse: " + empty + "crt");
-            if (empty.equals("empty cart")) {
-                CartCount.setMyBoolean(0);
-            } else {
-                UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                Integer counter = myOrderResponse.getDetails().size();
-                Log.d(TAG, "onResponseReceived:counter " + counter);
-                CartCount.setMyBoolean(counter);
-            }
-        } else {
-            Log.d(TAG, "onResponseReceived:error ");
-        }
-    }
-
-    @Override
-    public void onLoading() {
-        Log.d(TAG, "onResponseReceived:loading ");
-    }
-
-    @Override
-    public void onError(String message) {
-        Log.d(TAG, "onResponseReceived:failed ");
-
-    }
-
-
-    public interface cartCountChangeListener {
-        void onCartCountChange(Integer count);
-    }
     //might need in future
 //    @Override
 //    public void onBackPressed() {

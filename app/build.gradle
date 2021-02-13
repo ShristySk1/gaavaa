@@ -88,7 +88,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     //lottie
     implementation 'com.airbnb.android:lottie:3.6.0'
-
+    //stories
+    implementation 'com.github.teresaholfeld:Stories:1.1.4'
+    //ticketview
+    implementation 'com.vipulasri:ticketview:1.1.2'
     //scene form
     implementation "com.google.ar.sceneform.ux:sceneform-ux:1.15.0"
     implementation 'com.google.ar.sceneform:assets:1.15.0'

@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bottom_border_gray"
-        app:tabSelectedTextColor="@color/colorGreen"
+        app:tabSelectedTextColor="@color/colorPrimary"
         app:tabTextColor="#BDBDBD"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"

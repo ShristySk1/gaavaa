@@ -7,6 +7,7 @@ import com.ayata.purvamart.data.Model.ModelRegister;
 import com.ayata.purvamart.data.network.response.BaseResponse;
 import com.ayata.purvamart.data.network.response.HomeDetail;
 import com.ayata.purvamart.data.network.response.LoginDetail;
+import com.ayata.purvamart.data.network.response.OrderSummaryDetail;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.ProfileDetail;
 import com.ayata.purvamart.data.network.response.RegisterDetail;
@@ -20,12 +21,13 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
     @POST("account/login/")
     @FormUrlEncoded
-    Call<BaseResponse<LoginDetail>> loginUser(@Field("mobile_number") String phone_no, @Field("password") String password);
+    Call<BaseResponse<LoginDetail>> loginUser(@Field("email") String phone_or_email, @Field("password") String password);
 
     @POST("account/register/")
     Call<BaseResponse<RegisterDetail>> registerUser(@Body ModelRegister details);
@@ -33,6 +35,7 @@ public interface ApiService {
     @POST("account/verify/")
     @FormUrlEncoded
     Call<BaseResponse<String>> verifyOtp(@Field("otp") String otp);
+
     @GET("category-list/")
     Call<BaseResponse<List<ModelCategory>>> getCategoryList();
 
@@ -58,6 +61,11 @@ public interface ApiService {
     @POST("checkout/")
     @FormUrlEncoded
     Call<JsonObject> addToOrder(@Field("products_id") String modelItemList);
+
+    @GET("order-summary")
+    Call<BaseResponse<List<OrderSummaryDetail>>> getOrderSummary(@Query("order_id") String orderId,
+                                                                 @Query("address_id") String addressId,
+                                                                 @Query("gateway") String gateway);
 
     @POST("addproductto-cart/")
     @FormUrlEncoded

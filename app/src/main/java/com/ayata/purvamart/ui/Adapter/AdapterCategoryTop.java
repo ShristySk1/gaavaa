@@ -43,7 +43,7 @@ public class AdapterCategoryTop extends RecyclerView.Adapter<AdapterCategoryTop.
             holder.text.setTextColor(ContextCompat.getColor(context,R.color.colorBlack));
             holder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.colorBlack));
         }else{
-            holder.text.setTextColor(ContextCompat.getColor(context,R.color.colorGray));
+            holder.text.setTextColor(ContextCompat.getColor(context,R.color.colorStrikeThroughPrice));
             holder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.colorGrayLight));
         }
     }

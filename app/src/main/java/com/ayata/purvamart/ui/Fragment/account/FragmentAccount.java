@@ -17,6 +17,7 @@ import com.ayata.purvamart.R;
 import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
 import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPolicy;
 import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
+import com.ayata.purvamart.ui.Fragment.account.promos.FragmentPromos;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 
@@ -27,23 +28,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- *         fragmentList.add(new FragmentShop());//0
- *         fragmentList.add(new FragmentCart());//1
- *         fragmentList.add(new FragmentMyOrder());//2
- *         fragmentList.add(new FragmentListOrder());//3
- *         fragmentList.add(new FragmentEmptyOrder());//4
- *         fragmentList.add(new FragmentCart());//5
- *         fragmentList.add(new FragmentCartEmpty());//6
- *         fragmentList.add(new FragmentCartFilled());//7
- *         fragmentList.add(new FragmentProduct());//8
- *         fragmentList.add(new FragmentCategory());//9
- *         fragmentList.add(new FragmentTrackOrder());//10
- *         fragmentList.add(new FragmentAccount());//11
- *         fragmentList.add(new FragmentEditAddress());//12
- *         fragmentList.add(new FragmentEditProfile());//13
- *         fragmentList.add(new FragmentPrivacyPolicy());//14
- */
 public class FragmentAccount extends Fragment implements View.OnClickListener, AdapterAccount.OnLayoutClickListener {
     public static String TAG="FragmentAccount";
     private View view;
@@ -148,6 +132,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
             case 1:
                 //promos
                 Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).changeFragment(14, FragmentPromos.TAG,null,new FragmentPromos());
+
                 break;
 
             case 2:

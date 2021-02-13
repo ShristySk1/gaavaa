@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayata.purvamart.data.Constants.Constants;
@@ -83,7 +84,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.modelV
         OnCategoryClickListener onCategoryClickListener;
         ImageView image;
         TextView text;
-        LinearLayout background;
+        RelativeLayout background;
 
         public modelViewHolder(@NonNull View itemView, OnCategoryClickListener onCategoryClickListener) {
             super(itemView);

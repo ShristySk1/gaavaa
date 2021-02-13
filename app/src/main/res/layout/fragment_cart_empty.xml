@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/CustomButtonGreen"
-        android:text="Shop Now"
+        android:text="@string/shop_now"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorWhite"

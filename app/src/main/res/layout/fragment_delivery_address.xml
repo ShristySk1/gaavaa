@@ -11,7 +11,7 @@
         android:id="@+id/ll_add_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fafafa"
+        android:background="@drawable/background_grey"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="20dp"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        tools:listitem="@layout/layout_billing_address" />
+         />
 
     <TextView
         android:id="@+id/textView10"

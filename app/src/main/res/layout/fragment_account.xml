@@ -34,7 +34,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/background_green_border">
+                    android:background="@drawable/background_green_border_transparent">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:layout_width="match_parent"
@@ -50,10 +50,10 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
-                        android:background="@drawable/background_blue_border"
+                        android:background="@drawable/background_blue_border_profileedit"
                         android:padding="7dp"
                         android:src="@drawable/ic_edit"
-                        app:tint="@color/colorBlue" />
+                        app:tint="@color/colorEditBorderProfile" />
                 </RelativeLayout>
 
 

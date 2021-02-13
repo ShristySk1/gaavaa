@@ -70,7 +70,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
 //                break;
 
             default:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreen));
+                holder.background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreenLight));
                 holder.button.setBackground(ContextCompat.getDrawable(context, R.drawable.button_yellow));
                 count = 1;
                 break;

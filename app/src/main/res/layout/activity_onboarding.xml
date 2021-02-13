@@ -31,7 +31,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Vegetables are important sources of many nutrients, including potassium, dietart fiber, folic acid, Vitamin A and Vitamin C."
+        android:text="@string/vegetables_are_important_sources_of_many_nutrients_including_potassium_dietart_fiber_folic_acid_vitamin_a_and_vitamin_c"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -55,7 +55,7 @@
         app:piv_interactiveAnimation="true"
         app:piv_padding="12dp"
         app:piv_radius="5dp"
-        app:piv_selectedColor="@color/colorGreen"
+        app:piv_selectedColor="@color/colorPrimary"
         app:piv_unselectedColor="@color/colorGrayLight"
         app:piv_viewPager="@id/viewPager" />
 
@@ -81,7 +81,7 @@
         android:paddingLeft="16dp"
         android:paddingVertical="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/colorGreen"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/pageIndicatorView"
         app:layout_constraintEnd_toEndOf="parent"

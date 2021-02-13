@@ -14,12 +14,11 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelPayment;
-import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.ConfirmCheckoutResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterPayment;
+import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.esewa.android.sdk.payment.ESewaConfiguration;
 import com.esewa.android.sdk.payment.ESewaPayment;
 import com.esewa.android.sdk.payment.ESewaPaymentActivity;
@@ -46,7 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * This fragment displays all payments required.
  */
-public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMethodClickListener, NetworkResponseListener<JsonObject> {
+public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMethodClickListener {
     RecyclerView recyclerView;
     List<ModelPayment> listitem;
     AdapterPayment adapterPayment;
@@ -84,10 +83,10 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
                     Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //thankyou fragment
                 String orderId = PreferenceHandler.getOrderId(getContext());
                 String addressId = PreferenceHandler.getAddressId(getContext());
-                new Repository(FragmentPayment2.this, ApiClient.getApiService()).requestConfirmOrder(orderId, paymentName, addressId);
+//ordersummary
+
             }
         });
         return view;
@@ -116,58 +115,28 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
             case 0:
                 paymentName = "CASHONDELIVERY";
                 Toast.makeText(getContext(), "Available", Toast.LENGTH_SHORT).show();
-
+                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
                 break;
             case 1:
                 paymentName = "ESEWA";
                 Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
 //                setForEsewa();
                 break;
             case 2:
                 paymentName = "KHALTI";
                 Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
 //                setForKhalti();
                 break;
             default:
                 paymentName = "CASHONDELIVERY";
+                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
         }
 //        Toast.makeText(getContext(), paymentName, Toast.LENGTH_SHORT).show();
     }
 
 
-    @Override
-    public void onResponseReceived(JsonObject response) {
-        if (response.get("code").getAsString().equals("200")) {
-            Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-            Gson gson = new GsonBuilder().create();
-            TypeToken<List<ConfirmCheckoutResponse>> responseTypeToken = new TypeToken<List<ConfirmCheckoutResponse>>() {
-            };
-//            List<ConfirmCheckoutResponse> details = gson.fromJson(gson.toJson(response.getAsJsonArray("details")), responseTypeToken.getType());
-//            String orderId = details.get(0).getOrderId();
-//            String merchantId = details.get(0).getMerchantId();
-//            String merchantSecrete = details.get(0).getMerchantSecret();
-//            String scd = details.get(0).getScd();
-            //thankyou fragment
-            if (isAdded())
-                ((MainActivity) getActivity()).changeFragmentThankyou(16);
-//                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-//                        .replace(R.id.main_fragment, new FragmentThankyou()).commit();
-        } else {
-            Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-
-    @Override
-    public void onLoading() {
-
-    }
-
-    @Override
-    public void onError(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
 
 
     private void setForKhalti() {

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Select your payment method"
             android:textStyle="bold"
-            android:textColor="@color/colorGrayDark"
+            android:textColor="@color/colorGrayTextDark"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <LinearLayout
@@ -39,7 +39,7 @@
             android:paddingBottom="15dp"
             android:paddingStart="25dp"
             android:paddingEnd="30dp"
-            android:background="@drawable/bluebackground_light">
+            android:background="@drawable/background_blue_light">
 
 
             <androidx.cardview.widget.CardView
@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Payment Method"
-                    android:textColor="@color/colorGrayDark"
+                    android:textColor="@color/colorGrayTextDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
             </LinearLayout>

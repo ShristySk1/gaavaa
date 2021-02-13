@@ -20,8 +20,8 @@ public class Repository {
         apiService.registerUser(registerDetail).enqueue(new GenericNetworkResponse<>(listener));
     }
 
-    public void requestLogin(String mobile, String password) {
-        apiService.loginUser(mobile, password).enqueue(new GenericNetworkResponse<>(listener));
+    public void requestLogin(String mobile_or_email, String password) {
+        apiService.loginUser(mobile_or_email, password).enqueue(new GenericNetworkResponse<>(listener));
     }
 
     public void requestVerification(String otp) {
@@ -44,8 +44,8 @@ public class Repository {
         apiService.getMyOrder().enqueue(new GenericNetworkResponse<>(listener));
     }
 
-    public void requestMyOrder() {
-        apiService.getMyOrder().enqueue(new GenericNetworkResponse<>(listener));
+    public void requestMyOrderSummary(String orderId,String addressId,String gateway) {
+        apiService.getOrderSummary(orderId,addressId,gateway).enqueue(new GenericNetworkResponse<>(listener));
     }
 
     public void requestConfirmOrder(String orderId, String paymentName, String addressId) {

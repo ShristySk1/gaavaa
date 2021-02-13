@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textColor="@color/colorGrayText" />
+                   />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_register_email"
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Username"
-                    android:textColor="@color/colorGrayText" />
+                    />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_register_username"
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile Number"
-                    android:textColor="@color/colorGrayText" />
+                    />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_register_phone"

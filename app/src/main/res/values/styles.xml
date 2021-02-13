@@ -9,18 +9,18 @@
 
     <style name="NavBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorGreen</item>
-        <item name="colorPrimaryDark">@color/colorGray</item>
-        <item name="colorAccent">@color/colorGray</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorNavPrimaryDarkGray</item>
+        <item name="colorAccent">@color/colorNavAccentGray</item>
     </style>
 
 <!--    login-->
     <style name="CustomTextInputStyle">
-        <!--        <item name="boxStrokeColor">@color/text_input_stroke</item>-->
+<!--                <item name="boxStrokeColor">@color/text_input_box_stroke</item>-->
         <item name="colorControlNormal">@android:color/tertiary_text_dark</item>
-        <item name="colorControlActivated">@color/colorGreen</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:textColorHint">#ccc</item>
-        <item name="errorTextColor">@color/colorYellow</item>
+        <item name="errorTextColor">@color/colorTextErrorRed</item>
     </style>
 
 
@@ -28,7 +28,6 @@
     <style name="CustomButtonWhite" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_white_gray_border</item>
     </style>
-
     <!--    for all green button-->
     <style name="CustomButtonGreen" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_green</item>
@@ -59,8 +58,8 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="ToolBarStyle" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">#000</item>
-        <item name="android:textColorSecondary">#000</item>
-        <item name="actionMenuTextColor">#000</item>
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColorSecondary">@color/colorBlack</item>
+        <item name="actionMenuTextColor">@color/colorBlack</item>
     </style>
 </resources>

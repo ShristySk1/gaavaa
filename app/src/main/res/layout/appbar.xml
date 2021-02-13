@@ -25,12 +25,12 @@
         <ImageView
             android:id="@+id/notification"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:padding="16dp"
-            app:srcCompat="@drawable/ic_menu_cart" />
+            app:srcCompat="@drawable/ic_bell" />
 
     </RelativeLayout>
 
@@ -47,8 +47,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:background="@color/colorWhite"
-            android:scaleType="fitXY"
             android:padding="14dp"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_left_arrow" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="53dp"
             android:layout_toEndOf="@+id/back"
-            android:text="Payment"
+            android:text="@string/payment"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorBlack"
@@ -74,7 +74,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_like_outline" />
+            app:srcCompat="@drawable/ic_like_outline"
+            android:focusable="true" />
 
         <ImageView
             android:id="@+id/filter"
@@ -86,7 +87,8 @@
             android:layout_marginEnd="15dp"
             android:clickable="true"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_filter" />
+            app:srcCompat="@drawable/ic_filter"
+            android:focusable="true" />
 
     </RelativeLayout>
 
@@ -103,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="My Order"
+            android:text="@string/my_order"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"
             android:textStyle="bold" />

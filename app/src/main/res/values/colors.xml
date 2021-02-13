@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-<!--    //main colors-->
+    <!--    //main colors-->
     <color name="colorPrimary">#0CC565</color>
     <color name="colorPrimaryDark">#0CC565</color>
     <color name="colorAccent">#0CC565</color>
-
-    <color name="colorBlack">#000</color>
-    <color name="colorGreen">#0CC565</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="colorGray">#C4C4C4</color>
-    <color name="colorGrayBorder">#E5E5E5</color>
-    <color name="colorGrayText">#A6A6A6</color>
+    <color name="colorGrayDark">#A6A6A6</color>
     <color name="colorGrayLight">#F2F2F2</color>
-    <color name="colorGrayDark">#464646</color>
-
-    <color name="colorLime">#08C25E</color>
-    <color name="colorOrange">#FDB64F</color>
-    <color name="colorPurple">#6C5EC6</color>
-    <color name="colorYellow">#FFB229</color>
-    <color name="colorPink">#FF435B</color>
-
+    <color name="colorBlack">#000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <!--    //button-->
+    <color name="colorButtonWhiteGrayBorder">#E5E5E5</color>
+    <!--    //text-->
+    <color name="colorGrayTextDark">#464646</color>
+    <!--    //nav-->
+    <color name="colorNavPrimaryDarkGray">#C4C4C4</color>
+    <color name="colorNavAccentGray">#C4C4C4</color>
+    <!--   //not used yet-->
+    <color name="colorPriceTag">#FDB64F</color>
+    <!--     //login-->
+    <color name="colorTextErrorRed">#F44336</color>
+    <!--    //advertisement-->
     <color name="colorAd1">#E1EAC7</color>
     <color name="colorAd2">#FAE3C2</color>
     <color name="colorAd3">#FFCE56</color>
-
-    <color name="colorLightGreen">#DFFEED</color>
-
+    <!--    //category-->
+    <color name="colorGreenLight">#DFFEED</color>
+    <color name="colorGrayLightest">#F0F0F0</color>
+    <color name="colorRedLight">#FDF2EF</color>
     <color name="colorCat_text1">#EE704C</color>
     <color name="colorCat_text2">#08C25E</color>
     <color name="colorCat_text3">#848484</color>
-
-    <color name="colorBlue">#3B97D3</color>
-
-    <color name="whiteTransparent">#D9FFFFFF</color>
-
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorGrayBorder</color>
-
-
+    <!--    //add address-->
+    <color name="colorBlueLight">#AAe1effb</color>
+    <!--    editaddress-->
+    <color name="colorEditTextGrayBackground">#F2F2F2</color>
+    <!--    //edit/add address textinputlayout style-->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#E5E5E5</color>
+    <color name="colorEditTextGrayBorder">#E5E5E5</color>
+    <!--    //strike through-->
+    <color name="colorStrikeThroughPrice">#C4C4C4</color>
+    <!--//account-->
+    <color name="colorEditBorderProfile">#3B97D3</color>
 </resources>

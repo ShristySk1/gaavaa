@@ -46,13 +46,13 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
             holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorGrayLight));
             holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorGrayLight));
         } else if (modelOrderTrack.getBeingProcessed()) {
-            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorLime));
-            holder.title.setTextColor(context.getResources().getColor(R.color.colorLime));
-            holder.desc.setTextColor(context.getResources().getColor(R.color.colorLime));
-            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorLime));
+            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.desc.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorPrimary));
         } else {
-            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorOrange));
-            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorOrange));
+            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorPriceTag));
+            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorPriceTag));
 
         }
     }

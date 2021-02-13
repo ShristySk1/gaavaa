@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.ayata.purvamart.ui.login.PortalActivity;
 
@@ -110,6 +111,13 @@ public class PreferenceHandler {
         editor.apply();
     }
 
+    public static void setPaymentGateway(Context context, String paymentGateway) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("PaymentGateway", paymentGateway);
+        editor.apply();
+    }
+
     public static String getOrderId(Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getString("OrderId", "");
@@ -118,5 +126,10 @@ public class PreferenceHandler {
     public static String getAddressId(Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getString("AddressId", "");
+    }
+
+    public static String getPaymentGateway(Context context) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getString("PaymentGateway", "");
     }
 }

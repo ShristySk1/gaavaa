@@ -17,20 +17,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/button_discount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_green"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="4dp"
-            android:rotation="-90"
-            android:text="15% Off"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:translationX="-20dp"
-            android:translationY="17dp" />
 
         <ImageView
             android:id="@+id/image"
@@ -45,6 +31,20 @@
             android:layout_marginBottom="10dp"
             android:scaleType="fitCenter"
           />
+        <TextView
+            android:id="@+id/button_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_green"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:rotation="-90"
+            android:text="15% Off"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:translationX="-20dp"
+            android:translationY="17dp" />
 
         <LinearLayout
             android:id="@+id/layout1"
@@ -69,7 +69,7 @@
                 android:layout_marginStart="12dp"
                 android:text="1 kg"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/colorGrayDark"
+                android:textColor="@color/colorGrayTextDark"
                 android:textSize="12sp" />
 
             <LinearLayout

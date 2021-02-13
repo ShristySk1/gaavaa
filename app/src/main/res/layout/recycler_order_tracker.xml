@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
-        app:endLineColor="@color/colorGrayText"
+        app:endLineColor="@color/colorGrayDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:linePadding="2dp"
         app:lineWidth="2dp"
         app:markerSize="10dp"
-        app:startLineColor="@color/colorGrayText" />
+        app:startLineColor="@color/colorGrayDark" />
 
     <ImageView
         android:id="@+id/image_tint"

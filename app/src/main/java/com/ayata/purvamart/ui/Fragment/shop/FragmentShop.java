@@ -40,25 +40,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * fragmentList.add(new FragmentShop());//0
- * fragmentList.add(new FragmentCart());//1
- * fragmentList.add(new FragmentMyOrder());//2
- * fragmentList.add(new FragmentListOrder());//3
- * fragmentList.add(new FragmentEmptyOrder());//4
- * fragmentList.add(new FragmentCart());//5
- * fragmentList.add(new FragmentCartEmpty());//6
- * fragmentList.add(new FragmentCartFilled());//7
- * fragmentList.add(new FragmentProduct());//8
- * fragmentList.add(new FragmentCategory());//9
- * fragmentList.add(new FragmentTrackOrder());//10
- * fragmentList.add(new FragmentAccount());//11
- * fragmentList.add(new FragmentEditAddress());//12
- * fragmentList.add(new FragmentEditProfile());//13
- * fragmentList.add(new FragmentPrivacyPolicy());//14
- * fragmentList.add(new FragmentPayment());//15
- * fragmentList.add(new FragmentThankyou());//16
- */
 public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener, NetworkResponseListener<BaseResponse<List<HomeDetail>>> {
     public static String TAG = "FragmentShop";
     public static final String SELECTED_CATEGORY = "SelectCategory";
@@ -187,7 +168,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             }
         });
         //api
-        ((MainActivity) getActivity()).setItemCart();
         getAllHomeList();
     }
 

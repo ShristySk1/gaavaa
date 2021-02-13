@@ -121,9 +121,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mobileInput.isEmpty()) {
             textMobileNumber.setError("Field can't be empty");
             return false;
-        } else if (!isValidNumber(mobileInput)) {
-            textMobileNumber.setError("Invalid Phone number");
-            return false;
         } else {
             textMobileNumber.setError(null);
             return true;
@@ -146,6 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 String password = textPassword.getEditText().getText().toString().trim();
                 String phone = textMobileNumber.getEditText().getText().toString().trim();
+                Log.d(TAG, "onClick:email "+phone);
                 loginUser(phone, password);
 
                 break;
@@ -160,8 +158,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void loginUser(String phone_no, String password) {
-        Log.d(TAG, "registerUser: " + phone_no);
+    private void loginUser(String phone_no_email, String password) {
+        Log.d(TAG, "registerUser: " + phone_no_email);
         new Repository(new NetworkResponseListener<BaseResponse<LoginDetail>>() {
             @Override
             public void onResponseReceived(BaseResponse<LoginDetail> detailBaseResponse) {
@@ -197,7 +195,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 hideDialog();
                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
             }
-        }, ApiClient.getApiService()).requestLogin(phone_no, password);
+        }, ApiClient.getApiService()).requestLogin(phone_no_email, password);
     }
 
     void showDialog() {
