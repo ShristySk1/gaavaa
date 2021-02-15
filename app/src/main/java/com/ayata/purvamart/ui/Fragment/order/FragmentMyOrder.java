@@ -137,7 +137,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
 //                                listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
                                 break;
                             default:
-                                listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type(), orderDetails.getConditional_status()));
+                                listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type(), orderDetails.getActual_condition()));
                                 break;
                         }
                     }
