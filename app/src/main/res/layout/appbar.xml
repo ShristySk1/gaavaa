@@ -30,8 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:padding="16dp"
-            app:srcCompat="@drawable/ic_bell" />
-
+            app:srcCompat="@drawable/ic_notification_with_bagde" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -39,8 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
-
-
         <ImageButton
             android:id="@+id/back"
             android:layout_width="48dp"

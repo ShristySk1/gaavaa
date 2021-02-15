@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@drawable/customcartbackground_blue"
+            android:background="@drawable/background_blue_lightest"
             android:padding="18dp"
             android:text="Here we need to know your address details for trouble-free delivery. Please verify your address corretly."
             android:textColor="@color/colorBlack"

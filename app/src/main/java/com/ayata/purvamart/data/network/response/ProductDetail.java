@@ -29,26 +29,26 @@ public class ProductDetail implements Serializable {
     private Integer productLikes = null;
     @SerializedName("quantity")
     @Expose
-    private String quantity;
+    private String quantity=null;
     @SerializedName("description")
     @Expose
-    private String description;
+    private String description=null;
     @SerializedName("from")
     @Expose
     private String from;
 
     @SerializedName("product_discount")
     @Expose
-    private String productDiscount;
+    private String productDiscount=null;
     @SerializedName("old_price")
     @Expose
-    private Double oldPrice;
+    private Double oldPrice=null;
     @SerializedName("unit")
     @Expose
-    private String unit;
+    private String unit=null;
     @SerializedName("product_price")
     @Expose
-    private Double productPrice;
+    private Double productPrice=null;
     @SerializedName("is_ordered")
     @Expose
     private Boolean isOrdered = null;

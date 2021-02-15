@@ -11,7 +11,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorNavPrimaryDarkGray</item>
-        <item name="colorAccent">@color/colorNavAccentGray</item>
+        <item name="colorAccent">@color/colorGrayDrawable</item>
     </style>
 
 <!--    login-->

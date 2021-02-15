@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_main"
     android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
@@ -19,12 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
+
             <TextView
                 android:id="@+id/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start"
                 android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/drawable_prefix"
+                android:drawablePadding="8dp"
                 android:text="@string/os_text1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorBlack" />
@@ -195,14 +198,14 @@
                         android:layout_height="24dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/esewa" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <TextView
                         android:id="@+id/tvPaymentMethod"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="eSewa Mobile Wallet"
+                        android:text="Ayata"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ivPaymentImage"
@@ -222,7 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_start"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="8dp"
                     android:text="Delivery Address"
                     android:textColor="@color/colorGrayTextDark"
                     android:textStyle="bold" />

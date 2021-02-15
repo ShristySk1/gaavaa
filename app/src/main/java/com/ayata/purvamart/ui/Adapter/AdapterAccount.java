@@ -6,19 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.ayata.purvamart.data.Model.ModelAccount;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelAccount;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelViewHolder> {
 
     private Context context;
     private List<ModelAccount> listitem;
     private OnLayoutClickListener onLayoutClickListener;
+    Integer row_index = -1;
 
     public AdapterAccount(Context context, List<ModelAccount> listitem, OnLayoutClickListener onLayoutClickListener) {
         this.context = context;
@@ -29,8 +30,8 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelVie
     @NonNull
     @Override
     public modelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.recycler_account,parent,false);
-        return new modelViewHolder(view,onLayoutClickListener);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_account, parent, false);
+        return new modelViewHolder(view, onLayoutClickListener);
     }
 
     @Override
@@ -38,6 +39,11 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelVie
 
         holder.title.setText(listitem.get(position).getTitle());
         holder.body.setText(listitem.get(position).getBody());
+        if (row_index == position) {
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorGrayDrawable));;
+        } else {
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorBlack));;
+        }
     }
 
     @Override
@@ -49,23 +55,28 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelVie
 
         private OnLayoutClickListener onLayoutClickListener;
 
-        TextView title,body;
+        TextView title, body;
 
         public modelViewHolder(@NonNull View itemView, OnLayoutClickListener onLayoutClickListener) {
             super(itemView);
-            this.onLayoutClickListener=onLayoutClickListener;
+            this.onLayoutClickListener = onLayoutClickListener;
             itemView.setOnClickListener(this);
-            title=itemView.findViewById(R.id.text1);
-            body= itemView.findViewById(R.id.text2);
+            title = itemView.findViewById(R.id.text1);
+            body = itemView.findViewById(R.id.text2);
         }
 
         @Override
         public void onClick(View view) {
-            onLayoutClickListener.onLayoutClick(getAdapterPosition());
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                onLayoutClickListener.onLayoutClick(getAdapterPosition());
+                row_index = position;
+                notifyDataSetChanged();
+            }
         }
     }
 
-    public interface OnLayoutClickListener{
+    public interface OnLayoutClickListener {
         void onLayoutClick(int position);
     }
 }

@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ayata.purvamart.data.Model.ModelOrderTrack;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelOrderTrack;
 import com.github.vipulasri.timelineview.TimelineView;
-
 
 import java.util.List;
 
@@ -40,20 +39,16 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
         ModelOrderTrack modelOrderTrack = listitem.get(position);
-        holder.title.setText(modelOrderTrack.getOrderTrackType());
+        holder.title.setText(modelOrderTrack.getOrderTrackTitle());
         holder.desc.setText(modelOrderTrack.getOrderTrackDescription());
-        if (modelOrderTrack.getCompleted()) {
+        if (modelOrderTrack.getOrdertype()==ModelOrderTrack.ORDER_TYPE_NONE) {
             holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorGrayLight));
             holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorGrayLight));
-        } else if (modelOrderTrack.getBeingProcessed()) {
+        } else {
             holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorPrimary));
             holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             holder.desc.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorPrimary));
-        } else {
-            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorPriceTag));
-            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorPriceTag));
-
         }
     }
 

@@ -11,64 +11,65 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="15dp"
-        android:paddingHorizontal="15dp">
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:id="@+id/image_notification"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            app:srcCompat="@drawable/ic_bell"
-            android:padding="8dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/background_notification_circle_green"
-            app:tint="@color/white" />
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_notification"
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="18sp"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/image_notification"
-            android:textColor="@color/colorBlack" />
+            android:text="@string/app_name"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/desp"
-            android:layout_below="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/image_notification"
             android:maxLines="3"
             android:text="This is the description of each notification.This is the description of each notification."
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textStyle="normal"
-            android:layout_toEndOf="@+id/image_notification"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="normal" />
 
         <ImageView
             android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:layout_below="@+id/desp"
-            android:layout_toEndOf="@id/image_notification"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/image_notification"
             android:scaleType="fitXY"
-            android:src="@color/colorGrayLight"
-            android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:src="@color/colorGrayLight" />
 
         <TextView
             android:id="@+id/date"
-            android:layout_below="@+id/image"
-            android:layout_toEndOf="@id/image_notification"
-            android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/image_notification"
+            android:text="2020-04-10"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textStyle="bold"
-            android:text="2020-04-10" />
+            android:textStyle="bold" />
     </RelativeLayout>
 
 

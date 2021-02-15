@@ -105,7 +105,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
         @Override
         public void onClick(View view) {
             Toast.makeText(context, listitem.get(getAdapterPosition()).getTitle(), Toast.LENGTH_SHORT).show();
-            listener.onAddClick(getAdapterPosition(), listitem.get(getAdapterPosition()).getUrl());
+            listener.onAdClick(getAdapterPosition(), listitem.get(getAdapterPosition()).getUrl());
         }
     }
 
@@ -114,6 +114,6 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
     }
 
     public interface setOnAddListener {
-        void onAddClick(int position, String url);
+        void onAdClick(int position, String url);
     }
 }

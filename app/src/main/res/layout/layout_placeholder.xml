@@ -3,13 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
+
     <RelativeLayout
-        android:id="@+id/pl_search_layout"
+        android:id="@+id/pl_title_layout"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:background="@color/colorStrikeThroughPrice"
+        android:background="@drawable/background_grey_placeholder"
+        android:clickable="true"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp">
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/pl_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/pl_title_layout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_grey_placeholder"
         android:clickable="true"
         android:paddingHorizontal="15dp"
         android:paddingVertical="10dp">
@@ -43,8 +56,8 @@
                 android:id="@+id/background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorStrikeThroughPrice"
-                android:paddingStart="20dp"/>
+                android:background="@drawable/background_grey_placeholder"
+                android:paddingStart="20dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,7 +73,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorStrikeThroughPrice"
+                android:background="@drawable/background_grey_placeholder"
                 android:paddingStart="20dp" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
@@ -72,7 +85,7 @@
         android:layout_below="@id/placeholder_ad"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:background="@color/colorStrikeThroughPrice"
+        android:background="@drawable/background_grey_placeholder"
         android:text="Categories"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorBlack"
@@ -86,7 +99,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/colorStrikeThroughPrice"
+        android:background="@drawable/background_grey_placeholder"
         android:paddingStart="15dp"
         android:paddingTop="5dp"
         android:text="See All"
@@ -110,6 +123,9 @@
 
         <include layout="@layout/layout_placeholder2" />
 
+        <include layout="@layout/layout_placeholder2" />
+
+
     </LinearLayout>
 
     <View
@@ -119,7 +135,7 @@
         android:layout_below="@id/placeholder_cat"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:background="@color/colorStrikeThroughPrice"
+        android:background="@drawable/background_grey_placeholder"
         android:text="Made For You"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorBlack"

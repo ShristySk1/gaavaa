@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/placeholder"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.Fragment.shop.notification.NotificationActivity"></activity>
+        <activity android:name=".ui.Fragment.shop.stories.StoryActivity"></activity>
+        <activity android:name=".ui.Fragment.shop.notification.NotificationActivity" />
         <activity android:name=".ui.Fragment.shop.search.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

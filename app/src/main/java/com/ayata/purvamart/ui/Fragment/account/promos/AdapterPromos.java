@@ -36,9 +36,9 @@ public class AdapterPromos extends RecyclerView.Adapter<AdapterPromos.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         ModelPromos modelPromos = listitem.get(position);
-        holder.ticketView.setBackgroundColor(modelPromos.getImage());
+        holder.ticketView.setBackgroundColor(context.getResources().getColor(modelPromos.getImage()));
+
     }
 
     @Override

@@ -131,13 +131,13 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                     if (orderDetails.getConditional_status() != null) {
                         switch (orderDetails.getConditional_status()) {
                             case "Delivered":
-                                listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+//                                listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
                                 break;
-                            case "Ordered":
+                            case "Order Placed":
                                 listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
                                 break;
                             case "Cancelled":
-                                listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+//                                listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
                                 break;
                         }
                     }
@@ -202,7 +202,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public void onItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ORDER_ITEM_FOR_TRACK, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle,new FragmentTrackOrder());
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle, new FragmentTrackOrder());
     }
 
     /**
@@ -224,6 +224,6 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public void onCompletedAndCancelledItemClick(int position, ModelOrderList modelOrderList) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ORDER_ITEM_FOR_SUMMARY, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle,new FragmentOrderSummary());
+        ((MainActivity) getActivity()).changeFragment(20, FragmentOrderSummary.TAG, bundle, new FragmentOrderSummary());
     }
 }

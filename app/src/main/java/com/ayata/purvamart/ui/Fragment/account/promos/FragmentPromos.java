@@ -47,14 +47,14 @@ public class FragmentPromos extends Fragment implements AdapterPromos.OnPromosCl
     }
 
     private void dataPrepare() {
-        listitem.add(new ModelPromos(R.color.error_red, "E-ticketing",
-                "This is the description of each notification.This is the description of each notification.",
+        listitem.add(new ModelPromos(R.color.colorCat_text1, "Gaavaa",
+                "This is the description of each promos.This is the description of each promos.",
                 "2020-08-29"));
-        listitem.add(new ModelPromos(R.color.colorEditBorderProfile, "E-ticketing",
-                "This is the description of each notification.This is the description of each notification.",
+        listitem.add(new ModelPromos(R.color.colorCat_text2, "Gaavaa",
+                "This is the description of each notification.This is the description of each promos.",
                 "2020-08-29"));
-        listitem.add(new ModelPromos(R.color.colorAccent, "E-ticketing",
-                "This is the description of each notification.This is the description of each notification.",
+        listitem.add(new ModelPromos(R.color.colorCat_text3, "Gaavaa",
+                "This is the description of each promos.This is the description of each promos.",
                 "2020-08-29"));
         adapterPromos.notifyDataSetChanged();
     }

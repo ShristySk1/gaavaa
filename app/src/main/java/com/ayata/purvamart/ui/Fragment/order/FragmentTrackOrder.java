@@ -1,6 +1,7 @@
 package com.ayata.purvamart.ui.Fragment.order;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.data.Model.ModelOrderTrack;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
+import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderTracker;
@@ -95,17 +97,42 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
     }
 
     private void populateData() {
-
-        list_orderTrack.add(new ModelOrderTrack("Placed", "The Product is placed", false, false, true));
-        list_orderTrack.add(new ModelOrderTrack("Confirmed", "The Product is confirmed", false, true, false));
-        list_orderTrack.add(new ModelOrderTrack("Processed", "The Product is being processded", true, false, false));
-        list_orderTrack.add(new ModelOrderTrack("Shipped", "The Product is shipped", true, false, false));
-        list_orderTrack.add(new ModelOrderTrack("Out For Delivery", "The Product is out for delivery", true, false, false));
-
+        String testString = "Order placed";
+        String[] titles = {
+                "Order Placed",
+                "Order Confirmed",
+                "Order Processed",
+                "Ready to Ship",
+                "Out For Delivery",
+                "Delivered"};
+        String[] descriptions = {
+                "We have rerceived your order on 20 Dec,2020",
+                "Order has been confirmed on 20 Dec,2020",
+                "We are preparing your order",
+                "Your Product is ready for shipping",
+                "Your Product is out for delivery",
+                "The Product is out for delivery"
+        };
+        Boolean setNone = false;
+        for (int i = 0; i < titles.length; i++) {
+            if (!(titles[i].toLowerCase().trim().equals(testString.toLowerCase().trim()))) {
+                if (setNone) {
+                    Log.d(TAG, "populateData: setrest as none" + titles[i]);
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], ModelOrderTrack.ORDER_TYPE_NONE));
+                } else {
+                    Log.d(TAG, "populateData: add orderlist" + titles[i]);
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], i));
+                }
+            } else {
+                Log.d(TAG, "populateData: orderlistfound" + titles[i]);
+                list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], i));
+                setNone = true;
+            }
+        }
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(ProductDetail productDetail) {
 
     }
 

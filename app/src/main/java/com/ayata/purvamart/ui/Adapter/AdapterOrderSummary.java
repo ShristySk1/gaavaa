@@ -54,12 +54,12 @@ public class AdapterOrderSummary extends RecyclerView.Adapter<AdapterOrderSummar
         holder.textSubTotal.setText(subTotal);
         holder.textCount.setText(count);
         //handle discount
-        if (modelItem.getDiscount()) {
-            holder.text_summary_productDiscount.setVisibility(View.VISIBLE);
-            holder.text_summary_productDiscount.setText(discount);
-        } else {
-            holder.text_summary_productDiscount.setVisibility(View.GONE);
-        }
+//        if (modelItem.getDiscount()) {
+//            holder.text_summary_productDiscount.setVisibility(View.VISIBLE);
+//            holder.text_summary_productDiscount.setText(discount);
+//        } else {
+//            holder.text_summary_productDiscount.setVisibility(View.GONE);
+//        }
         Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
     }
 

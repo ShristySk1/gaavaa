@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.CartCount;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
@@ -91,9 +92,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         layout_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent
-                //get data accepted for checkout
-//                Cart.modelItems = adapterCart.getAllDataFromCart();
                 requestCheckOut(new NetworkResponseListener<JsonObject>() {
                     @Override
                     public void onResponseReceived(JsonObject response) {
@@ -165,7 +163,6 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
 
     public void requestCheckOut(NetworkResponseListener<JsonObject> listener, ApiService api, List<ProductDetail> modelItemList) {
         api.addToOrder(new Gson().toJson(modelItemList)).enqueue(new GenericNetworkResponse<>(listener));
-//        api.addToOrder(PreferenceHandler.getToken(getContext()),modelItemList).enqueue(new NetworkResponse<>(listener));
 
     }
 
@@ -199,6 +196,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                 String grandTotal = myOrderResponse.getGrandTotal().toString();
                 PreferenceHandler.setGrandTotal(getContext(), grandTotal);
                 textTotal.setText(grandTotal);
+                CartCount.setMyBoolean(myOrderResponse.getDetails().size());
                 isItemDeleted = false;
             }
             Log.d(TAG, "onResponseReceivednotdelete: " + modelItemList.size());
@@ -210,8 +208,8 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                     changeFragment(new FragmentCartEmpty());
             } else {
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                if (isAdded())
-                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
+//                if (isAdded())
+//                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                 for (ProductDetail orderDetail : myOrderResponse.getDetails()) {
                     if (orderDetail.getId() == id) {
 //                        String nullCheckImage = "";

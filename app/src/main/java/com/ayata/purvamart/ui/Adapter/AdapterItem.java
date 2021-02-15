@@ -105,7 +105,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            onItemClickListener.onItemClick(getAdapterPosition());
+            onItemClickListener.onItemClick(listitem.get(getAdapterPosition()));
         }
     }
 
@@ -153,7 +153,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(ProductDetail productDetail);
     }
 
 }

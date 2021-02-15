@@ -27,12 +27,12 @@
         android:background="@drawable/button_lime"
         android:paddingHorizontal="15dp"
         android:paddingVertical="4dp"
-
         android:rotation="-90"
         android:text="10% Off"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:translationX="-37dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,12 +41,11 @@
         android:id="@+id/image_cart_productImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/text_cart_productName"
-     />
+        app:layout_constraintTop_toTopOf="@+id/text_cart_productName" />
 
     <TextView
         android:id="@+id/text_cart_productName"

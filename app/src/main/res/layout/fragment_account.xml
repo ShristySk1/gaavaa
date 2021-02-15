@@ -34,26 +34,50 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/background_green_border_transparent">
+                    >
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
+<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_margin="15dp"-->
+<!--                        android:src="@drawable/hacker"-->
+<!--                        app:civ_border="true"-->
+<!--                        app:civ_border_color="@color/colorGrayLight"-->
+<!--                        app:civ_border_width="0.5dp" />-->
+                    <RelativeLayout
+                        android:id="@+id/layout_pic"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="15dp"
-                        android:src="@drawable/hacker"
-                        app:civ_border="true"
-                        app:civ_border_color="@color/colorGrayLight"
-                        app:civ_border_width="0.5dp" />
+                        android:layout_centerHorizontal="true">
 
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/profile_image"
+                            app:srcCompat="@drawable/ic_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+
+                        <TextView
+                            android:id="@+id/profile_name_placeholder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="RS"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textSize="28dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorGrayDrawable"
+                            android:background="@drawable/background_gray_circle"/>
+                    </RelativeLayout>
                     <ImageView
                         android:id="@+id/acc_btn_edit"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
-                        android:background="@drawable/background_blue_border_profileedit"
+                        android:background="@drawable/background_notification_circle_green"
                         android:padding="7dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="@color/colorEditBorderProfile" />
+                        app:srcCompat="@drawable/ic_edit"
+                        />
                 </RelativeLayout>
 
 
@@ -77,8 +101,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@id/acc_image"
                     android:text="ronesh@ayata.com.np"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 
                 <androidx.recyclerview.widget.RecyclerView

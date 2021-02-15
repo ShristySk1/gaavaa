@@ -14,18 +14,12 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelPayment;
-import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.ConfirmCheckoutResponse;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.ui.Adapter.AdapterPayment;
 import com.ayata.purvamart.ui.Fragment.order.FragmentOrderSummary;
 import com.esewa.android.sdk.payment.ESewaConfiguration;
 import com.esewa.android.sdk.payment.ESewaPayment;
 import com.esewa.android.sdk.payment.ESewaPaymentActivity;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.khalti.checkout.helper.Config;
 import com.khalti.checkout.helper.KhaltiCheckOut;
 import com.khalti.checkout.helper.OnCheckOutListener;
@@ -85,7 +79,9 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
                 }
                 String orderId = PreferenceHandler.getOrderId(getContext());
                 String addressId = PreferenceHandler.getAddressId(getContext());
-//ordersummary
+                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
+                //ordersummary
+                ((MainActivity) getActivity()).changeFragment(8, FragmentOrderSummary.TAG, null, new FragmentOrderSummary());
 
             }
         });
@@ -115,28 +111,22 @@ public class FragmentPayment2 extends Fragment implements AdapterPayment.OnPayMe
             case 0:
                 paymentName = "CASHONDELIVERY";
                 Toast.makeText(getContext(), "Available", Toast.LENGTH_SHORT).show();
-                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
                 break;
             case 1:
                 paymentName = "ESEWA";
                 Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
-                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
 //                setForEsewa();
                 break;
             case 2:
                 paymentName = "KHALTI";
                 Toast.makeText(getContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
-                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
 //                setForKhalti();
                 break;
             default:
                 paymentName = "CASHONDELIVERY";
-                PreferenceHandler.setPaymentGateway(getContext(), paymentName);
         }
 //        Toast.makeText(getContext(), paymentName, Toast.LENGTH_SHORT).show();
     }
-
-
 
 
     private void setForKhalti() {

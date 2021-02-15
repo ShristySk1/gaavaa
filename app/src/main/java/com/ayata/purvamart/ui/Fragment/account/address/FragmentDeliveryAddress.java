@@ -17,6 +17,7 @@ import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAddress;
+import com.ayata.purvamart.ui.Fragment.account.FragmentAccount;
 import com.ayata.purvamart.ui.Fragment.payment.FragmentPayment2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,6 +47,9 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
     TextView text_error;
     ProgressBar progress_error;
 
+    //if to make address layout clickable
+    Boolean isClickableAddress = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +63,12 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(false);
         initRecycler(view);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String argument = getArguments().getString(FragmentAccount.TAG);
+            isClickableAddress = false;
+
+        }
         ll_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,10 +126,13 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
 
     @Override
     public void onAddressClick(ModelAddress modelAddress) {
-        //setAddressId of clicked address
-        PreferenceHandler.setAddressId(getContext(), modelAddress.getId().toString());
-        ((MainActivity) getActivity()).changeFragment(17, FragmentPayment2.TAG, null, new FragmentPayment2());
 
+        if (isClickableAddress) {
+            //setAddressId of clicked address
+            PreferenceHandler.setAddressId(getContext(), modelAddress.getId().toString());
+            ((MainActivity) getActivity()).changeFragment(17, FragmentPayment2.TAG, null, new FragmentPayment2());
+
+        }
     }
 
     @Override
@@ -144,6 +157,5 @@ public class FragmentDeliveryAddress extends Fragment implements AdapterAddress.
         text_error.setText(message);
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
-
 
 }

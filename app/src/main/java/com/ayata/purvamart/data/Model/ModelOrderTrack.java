@@ -1,54 +1,40 @@
 package com.ayata.purvamart.data.Model;
 
 public class ModelOrderTrack {
-    //    enum OrderTrackType{
-//        OUT_FOR_DELIVERY,SHIPPED,PROCESSED,CONFIRMED,PLACED,
-//    }
-//    private OrderTrackType orderTrackType;
-    private String orderTrackType;
+
+    public static final int ORDER_TYPE_PLACED = 0;
+    public static final int ORDER_TYPE_CONFIRMED = 1;
+    public static final int ORDER_TYPE_PROCESS = 2;
+    public static final int ORDER_TYPE_SHIP = 3;
+    public static final int ORDER_TYPE_DELIVERY = 4;
+    public static final int ORDER_TYPE_DELIVERED = 5;
+    public static final int ORDER_TYPE_NONE = 6;
+
+
+    private String orderTrackTitle;
     private String orderTrackDescription;
-    private Boolean isCompleted;
-    private Boolean isBeingProcessed;
-    private Boolean isStillLeft;
+    private int ordertype;
 
-    public ModelOrderTrack(String orderTrackType, String orderTrackDescription, Boolean isCompleted, Boolean isBeingProcessed, Boolean isStillLeft) {
-        this.orderTrackType = orderTrackType;
+    public ModelOrderTrack(String orderTrackTitle, String orderTrackDescription, int ordertype) {
+        this.orderTrackTitle = orderTrackTitle;
         this.orderTrackDescription = orderTrackDescription;
-        this.isCompleted = isCompleted;
-        this.isBeingProcessed = isBeingProcessed;
-        this.isStillLeft = isStillLeft;
+        this.ordertype = ordertype;
     }
 
-    public Boolean getCompleted() {
-        return isCompleted;
+    public int getOrdertype() {
+        return ordertype;
     }
 
-    public void setCompleted(Boolean completed) {
-        isCompleted = completed;
+    public void setOrdertype(int ordertype) {
+        this.ordertype = ordertype;
     }
 
-    public Boolean getBeingProcessed() {
-        return isBeingProcessed;
+    public String getOrderTrackTitle() {
+        return orderTrackTitle;
     }
 
-    public void setBeingProcessed(Boolean beingProcessed) {
-        isBeingProcessed = beingProcessed;
-    }
-
-    public Boolean getStillLeft() {
-        return isStillLeft;
-    }
-
-    public void setStillLeft(Boolean stillLeft) {
-        isStillLeft = stillLeft;
-    }
-
-    public String getOrderTrackType() {
-        return orderTrackType;
-    }
-
-    public void setOrderTrackType(String orderTrackType) {
-        this.orderTrackType = orderTrackType;
+    public void setOrderTrackTitle(String orderTrackTitle) {
+        this.orderTrackTitle = orderTrackTitle;
     }
 
     public String getOrderTrackDescription() {
@@ -58,4 +44,5 @@ public class ModelOrderTrack {
     public void setOrderTrackDescription(String orderTrackDescription) {
         this.orderTrackDescription = orderTrackDescription;
     }
+
 }

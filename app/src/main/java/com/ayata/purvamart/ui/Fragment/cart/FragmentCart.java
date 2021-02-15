@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ayata.purvamart.CartCount;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.network.ApiClient;
@@ -135,31 +136,12 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
             String empty = jsonObject.get("message").getAsString();
             Log.d(TAG, "onResponse: " + empty + "crt");
             if (jsonObject.get("details").getAsJsonArray().size() == 0) {
-                if (isAdded())
-                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
             } else {
                 UserCartResponse myOrderResponse = gson.fromJson(gson.toJson(jsonObject), UserCartResponse.class);
-                if (isAdded())
-                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onResponseReceived1: " + myOrderResponse.getDetails().size());
-//                CartCount.setMyBoolean(myOrderResponse.getDetails().size());
+                CartCount.setMyBoolean(myOrderResponse.getDetails().size());
                 totalPrice = myOrderResponse.getGrandTotal();
-//                for (ProductDetail orderDetail : myOrderResponse.getDetails()) {
-//                    String nullCheckImage = "";
-//                    if (orderDetail.getProductImage().size() > 0) {
-//                        nullCheckImage = orderDetail.getProductImage().get(0);
-//                    }
-//                    modelItemList.add(orderDetail)
-//                    modelItemList.add(new ModelItem(orderDetail.getId(),
-//                            orderDetail.getName(), String.valueOf(orderDetail.getTotalPrice()),
-//                            String.valueOf(orderDetail.getProductPrice()),
-//                            nullCheckImage, orderDetail.getProductQuantity().toString(),
-//                            true, orderDetail.getProductDiscount(), orderDetail.getProductQuantity(), orderDetail.getUnit()));
-//
-//                }
                 modelItemList.addAll(myOrderResponse.getDetails());
-                if (isAdded())
-                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_SHORT).show();
             }
         }
         if (isAdded())

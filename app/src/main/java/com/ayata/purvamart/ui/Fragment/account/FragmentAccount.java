@@ -10,16 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ayata.purvamart.ui.Adapter.AdapterAccount;
 import com.ayata.purvamart.MainActivity;
-import com.ayata.purvamart.data.Model.ModelAccount;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Model.ModelAccount;
+import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.Adapter.AdapterAccount;
 import com.ayata.purvamart.ui.Fragment.account.address.FragmentDeliveryAddress;
+import com.ayata.purvamart.ui.Fragment.account.help.FragmentHelp;
 import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPolicy;
 import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
 import com.ayata.purvamart.ui.Fragment.account.promos.FragmentPromos;
 import com.ayata.purvamart.ui.login.SignupActivity;
-import com.ayata.purvamart.data.preference.PreferenceHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentAccount extends Fragment implements View.OnClickListener, AdapterAccount.OnLayoutClickListener {
-    public static String TAG="FragmentAccount";
+    public static String TAG = "FragmentAccount";
     private View view;
     private RecyclerView recyclerView;
     private AdapterAccount adapterAccount;
@@ -39,7 +40,9 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     private Button btn_logout;
     private ImageView imageBtn_edit;
     //main user
-    private TextView acc_email,acc_name;
+    private TextView acc_email, acc_name;
+    //placeholder name
+    TextView profile_name_placeholder;
 
 
     @Override
@@ -53,7 +56,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         //bottom nav bar
         ((MainActivity) getActivity()).showBottomNavBar(true);
         acc_email = view.findViewById(R.id.acc_email);
-        acc_name=view.findViewById(R.id.acc_name);
+        acc_name = view.findViewById(R.id.acc_name);
         imageBtn_edit = view.findViewById(R.id.acc_btn_edit);
         imageBtn_edit.setOnClickListener(this);
         btn_logout = view.findViewById(R.id.acc_btn_logout);
@@ -65,9 +68,12 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     }
 
     private void initView() {
+        profile_name_placeholder = view.findViewById(R.id.profile_name_placeholder);
         recyclerView = view.findViewById(R.id.acc_recycler);
         acc_email.setText(PreferenceHandler.getEmail(getContext()));
-        acc_name.setText(PreferenceHandler.getUsername(getContext()));
+        String name = PreferenceHandler.getUsername(getContext());
+        acc_name.setText(name);
+        profile_name_placeholder.setText(getFirstLetterFromEachWordInSentence(name));
 
         listitem = new ArrayList<>();
         prepareData();
@@ -93,6 +99,23 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                 getResources().getString(R.string.acc_rv_text52)));
     }
 
+    /**
+     * Gets the first character of every word in the sentence.
+     *
+     * @param fullname
+     * @return
+     */
+    public static String getFirstLetterFromEachWordInSentence(final String fullname) {
+        if (fullname == null) {
+            return null;
+        }
+        StringBuilder initials = new StringBuilder();
+        for (String s : fullname.split(" ")) {
+            initials.append(s.charAt(0));
+        }
+        return initials.toString().trim();
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -104,7 +127,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(13, FragmentEditProfile.TAG,null,new FragmentEditProfile());
+                ((MainActivity) getActivity()).changeFragment(13, FragmentEditProfile.TAG, null, new FragmentEditProfile());
                 break;
 
             case R.id.acc_btn_logout:
@@ -117,7 +140,6 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
 
     @Override
     public void onLayoutClick(int position) {
-
         switch (position) {
             case 0:
                 //profile setting
@@ -126,16 +148,13 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(13,FragmentEditProfile.TAG,null,new FragmentEditProfile());
+                ((MainActivity) getActivity()).changeFragment(13, FragmentEditProfile.TAG, null, new FragmentEditProfile());
                 break;
-
             case 1:
                 //promos
                 Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).changeFragment(14, FragmentPromos.TAG,null,new FragmentPromos());
-
+                ((MainActivity) getActivity()).changeFragment(14, FragmentPromos.TAG, null, new FragmentPromos());
                 break;
-
             case 2:
                 //My Delivery Address
                 //check token
@@ -144,17 +163,18 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     startActivity(new Intent(getContext(), SignupActivity.class));
                     return;
                 }
-                ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG,null,new FragmentDeliveryAddress());
+                Bundle bundle = new Bundle();
+                bundle.putString(FragmentAccount.TAG, "NOTCLICKABLE");
+                ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, bundle, new FragmentDeliveryAddress());
                 break;
 
             case 3:
                 //Terms, Privacy & Policy
-                ((MainActivity) getActivity()).changeFragment(14, FragmentPrivacyPolicy.TAG,null,new FragmentPrivacyPolicy());
+                ((MainActivity) getActivity()).changeFragment(14, FragmentPrivacyPolicy.TAG, null, new FragmentPrivacyPolicy());
                 break;
-
             case 4:
                 //Help & Support
-                Toast.makeText(getContext(), listitem.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).changeFragment(13, FragmentHelp.TAG, null, new FragmentHelp());
                 break;
         }
 

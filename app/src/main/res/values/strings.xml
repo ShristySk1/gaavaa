@@ -44,7 +44,7 @@
     <string name="GPSAlertDialogTitle">GPSAlertDialogTitle</string>
     <string name="GPSAlertDialogMessage">GPSAlertDialogMessage</string>
 
-<!--    //login-->
+    <!--    //login-->
     <string name="welcome_back">Welcome Back</string>
     <string name="login_to_continue_with_your_profile">Login to continue with your profile</string>
     <string name="email_phone_number">Email / Phone number</string>
@@ -63,7 +63,7 @@
     <string name="we_sent_it_to_the_number_977_9818000000">We sent it to the number +977 9818000000</string>
     <string name="next">Next</string>
     <string name="verifying">Verifying...</string>
-<!--    cart-->
+    <!--    cart-->
     <string name="shop_now">Shop Now</string>
     <!--    //signup-->
     <string name="let_s_get_started">Let’s get started</string>

@@ -3,9 +3,10 @@ package com.ayata.purvamart.data.network.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderSummaryDetail {
+public class OrderSummaryDetail implements Serializable {
 
     @SerializedName("product")
     @Expose

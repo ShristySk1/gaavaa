@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +58,8 @@ public class FragmentOrderSummary extends Fragment {
     //error
     TextView text_error;
     ProgressBar progress_error;
+    //view to make gone until api gets data
+    NestedScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +67,8 @@ public class FragmentOrderSummary extends Fragment {
         // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_order_summary, container, false);
         initAppbar();
+        scrollView = view.findViewById(R.id.scrollview);
+        scrollView.setVisibility(View.GONE);
         inflateLayout(view);
         initView(view);
         initRecycler(view);
@@ -158,9 +164,11 @@ public class FragmentOrderSummary extends Fragment {
                 @Override
                 public void onResponseReceived(BaseResponse<List<OrderSummaryDetail>> response) {
                     progress_error.setVisibility(View.GONE);
-                    OrderSummaryDetail orderSummaryDetail = (OrderSummaryDetail) response.getDetails();
+                    scrollView.setVisibility(View.VISIBLE);
+                    OrderSummaryDetail orderSummaryDetail = (OrderSummaryDetail) response.getDetails().get(0);
                     pay_orderPrice.setText(orderSummaryDetail.getGrandTotal());
                     pay_total.setText(orderSummaryDetail.getGrandTotal());
+                    text_address.setText(orderSummaryDetail.getAddress().getFullAddress());
                     if (response.getCode().toString().equals("200")) {
                         listitem.addAll(orderSummaryDetail.getProduct());
                         switch (orderSummaryDetail.getPaymentMethod()) {

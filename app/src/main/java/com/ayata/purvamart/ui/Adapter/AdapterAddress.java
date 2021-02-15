@@ -48,7 +48,6 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
         holder.address.setText(address);
         holder.name.setText(name);
         holder.phone.setText(phone);
-
     }
 
     @Override
@@ -71,7 +70,6 @@ public class AdapterAddress extends RecyclerView.Adapter<AdapterAddress.MyViewHo
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onEditClick(getAdapterPosition(), listitem.get(getAdapterPosition()));
-
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {

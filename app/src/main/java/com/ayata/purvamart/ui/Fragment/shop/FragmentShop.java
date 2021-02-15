@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
+import com.ayata.purvamart.data.Model.Stories;
 import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
 import com.ayata.purvamart.data.network.response.BaseResponse;
@@ -25,9 +26,11 @@ import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterAd;
 import com.ayata.purvamart.ui.Adapter.AdapterCategory;
 import com.ayata.purvamart.ui.Adapter.AdapterItem;
+import com.ayata.purvamart.ui.Adapter.AdapterStories;
 import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.search.SearchActivity;
+import com.ayata.purvamart.ui.Fragment.shop.stories.StoryActivity;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -36,24 +39,18 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener, NetworkResponseListener<BaseResponse<List<HomeDetail>>> {
+public class FragmentShop extends Fragment implements AdapterCategory.OnCategoryClickListener, AdapterItem.OnItemClickListener, AdapterAd.setOnAddListener, AdapterStories.setOnStoryListener, NetworkResponseListener<BaseResponse<List<HomeDetail>>>, AdapterShop.OnSeeAllClickListener {
     public static String TAG = "FragmentShop";
     public static final String SELECTED_CATEGORY = "SelectCategory";
     private View view;
-    private RecyclerView recyclerView_ad, recyclerView_category, recyclerView_madeforyou;
-    private List<Slider> list_ad;
-    private LinearLayoutManager linearLayoutManager_ad;
-    private AdapterAd adapterAd;
-
+    private RecyclerView recyclerView_all;
     private static List<ModelCategory> list_category;
-    private LinearLayoutManager LayoutManager_category;
-    private AdapterCategory adapterCategory;
-
     private static List<ProductDetail> list_madeforyou;
+    List<Stories> storiesList = new ArrayList<>();
+
 
     public static List<ModelCategory> getList_category() {
         return list_category;
@@ -62,9 +59,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public static List<ProductDetail> getList_madeforyou() {
         return list_madeforyou;
     }
-
-    private GridLayoutManager linearLayoutManager_madeforyou;
-    private AdapterItem adapterItem_madeforyou;
 
     private RelativeLayout search_layout;
     WebView webView;
@@ -77,6 +71,9 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     ShimmerFrameLayout shimmerFrameLayout;
     RelativeLayout relativeLayout_main_view;
     Toolbar toolbar;
+    //adaptersgop
+    AdapterShop adapterShop;
+    List<ModelShop> list_shop;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,6 +96,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             @Override
             public void onRefresh() {
                 // start refresh
+                list_shop.clear();
                 getAllHomeList();
             }
         });
@@ -108,12 +106,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
                 //search method
                 Toast.makeText(getContext(), "Search clicked", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), SearchActivity.class));
-//                //toolbar
-//                ((MainActivity) getActivity()).hideToolbar();
-//                //bottom nav
-//                ((MainActivity) getActivity()).showBottomNavBar(false);
-//                ((MainActivity)getActivity()).changeFragment(21,SearchFragment.TAG, null);
-
             }
         });
         toolbar = view.findViewById(R.id.toolbar);
@@ -123,51 +115,22 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     private void initView() {
         webView = view.findViewById(R.id.webView);
         search_layout = view.findViewById(R.id.search_layout);
-        recyclerView_ad = view.findViewById(R.id.recycler_ad);
-        recyclerView_category = view.findViewById(R.id.recycler_category);
-        recyclerView_madeforyou = view.findViewById(R.id.recycler_type1);
-        //main view other than shimmer
+        recyclerView_all = view.findViewById(R.id.recycler_all);
+//        //main view other than shimmer
         relativeLayout_main_view = view.findViewById(R.id.rl_main_view);
-        //shimmer init
+//        //shimmer init
         shimmerFrameLayout = view.findViewById(R.id.shimmerlayout);
         relativeLayout_main_view.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
 
-        //recycler--advertisement
-        list_ad = new ArrayList<>();
-        linearLayoutManager_ad = new LinearLayoutManager(getContext());
-        linearLayoutManager_ad.setOrientation(RecyclerView.HORIZONTAL);
-
-        AdapterAd.setAddListener(this);
-        adapterAd = new AdapterAd(getContext(), list_ad);
-        recyclerView_ad.setAdapter(adapterAd);
-        recyclerView_ad.setLayoutManager(linearLayoutManager_ad);
-
-        //recycler--categories grid
-        list_category = new ArrayList<>();
-        LayoutManager_category = new LinearLayoutManager(getContext());
-        LayoutManager_category.setOrientation(RecyclerView.HORIZONTAL);
-        adapterCategory = new AdapterCategory(getContext(), list_category, this);
-        recyclerView_category.setLayoutManager(LayoutManager_category);
-        recyclerView_category.setAdapter(adapterCategory);
-
-        //recycler--made for you--list
-        list_madeforyou = new ArrayList<>();
-        linearLayoutManager_madeforyou = new GridLayoutManager(getContext(), 2);
-        adapterItem_madeforyou = new AdapterItem(getContext(), list_madeforyou, this);
-        recyclerView_madeforyou.setAdapter(adapterItem_madeforyou);
-        recyclerView_madeforyou.setLayoutManager(linearLayoutManager_madeforyou);
-
-        //category seeall
-        TextView category_see_all = view.findViewById(R.id.category_see_all);
-        category_see_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ModelCategory modelCategory = new ModelCategory(0, "All", "", true);
-                selectCategory(modelCategory);
-            }
-        });
+        //setRecyclerview
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
+        recyclerView_all.setLayoutManager(manager);
+        list_shop = new ArrayList<>();
+        adapterShop = new AdapterShop(getContext(), list_shop, this);
+        recyclerView_all.setAdapter(adapterShop);
         //api
+        ((MainActivity)getActivity()).setItemCart();
         getAllHomeList();
     }
 
@@ -179,36 +142,16 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         repository.requestAllHome();
     }
 
-
-    private void populateAdList(List<Slider> ads) {
-        list_ad.clear();
-        list_ad.addAll(ads);
-        adapterAd.notifyDataSetChanged();
-    }
-
-    private void populateCategoryList(List<ModelCategory> modelCategoryList) {
-        list_category.clear();
-        list_category.addAll(modelCategoryList);
-        adapterCategory.notifyDataSetChanged();
-    }
-
-    private void populateMadeForYouList(List<ProductDetail> productDetailList) {
-        list_madeforyou.clear();
-        list_madeforyou.addAll(productDetailList);
-        adapterItem_madeforyou.notifyDataSetChanged();
-    }
-
     /**
      * on single product click
      *
-     * @param position
+     * @param productDetail
      */
     @Override
-    public void onItemClick(int position) {
-        Toast.makeText(getContext(), "Item--" + list_madeforyou.get(position).getName(), Toast.LENGTH_SHORT).show();
+    public void onItemClick(ProductDetail productDetail) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(FragmentProduct.MODEL_ITEM, list_madeforyou.get(position));
-        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
+        bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
+        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle, new FragmentProduct());
 
     }
 
@@ -231,7 +174,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void selectCategory(ModelCategory modelCategory) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(SELECTED_CATEGORY, modelCategory);
-        ((MainActivity) getActivity()).changeFragment(9, FragmentCategory.TAG, bundle,new FragmentCategory());
+        ((MainActivity) getActivity()).changeFragment(9, FragmentCategory.TAG, bundle, new FragmentCategory());
     }
 
     /**
@@ -241,11 +184,13 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
      * @param url
      */
     @Override
-    public void onAddClick(int position, String url) {
+    public void onAdClick(int position, String url) {
         webView.loadUrl(url);
     }
 
-    //inflate pullRefreshLayout for error and progressbar
+    /**
+     * inflate layout for error and progressbar
+     */
     void inflateLayout() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
@@ -278,11 +223,27 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         List<ModelCategory> categories = homeDetailList.getDetails().get(0).getCategory();
         List<ProductDetail> productForYous = homeDetailList.getDetails().get(0).getProductForYou();
         List<Slider> ads = homeDetailList.getDetails().get(0).getSliders();
-        populateCategoryList(categories);
-        populateAdList(ads);
-        populateMadeForYouList(productForYous);
+        populateWholeList(ads, categories, productForYous);
         pullRefreshLayout.setRefreshing(false);
         Log.d(TAG, "onResponseReceived: " + homeDetailList.getDetails().size());
+    }
+
+    private void populateWholeList(List<Slider> ads, List<ModelCategory> categories, List<ProductDetail> productForYous) {
+        list_category = categories;
+        list_madeforyou = productForYous;
+        storiesList.clear();
+//        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg"));
+//        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg"));
+//        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg"));
+//        list_shop.add(new ModelShop(ModelShop.STORY_TYPE, storiesList, this));
+        list_shop.add(new ModelShop(ModelShop.AD_TYPE, ads, this));
+        list_shop.add(new ModelShop(ModelShop.TTTLE_TYPE, "Categories", this));
+        list_shop.add(new ModelShop(ModelShop.CATEGORY_TYPE, categories, this));
+        list_shop.add(new ModelShop(ModelShop.TTTLE_TYPE, "Made For You", this));
+        list_shop.add(new ModelShop(ModelShop.PRODUCT_TYPE, productForYous, this));
+
+        Log.d(TAG, "populateWholeList: " + list_shop.size());
+        adapterShop.notifyDataSetChanged();
     }
 
     @Override
@@ -298,5 +259,17 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
             progress_error.setVisibility(View.GONE);
             text_error.setText(message);
         }
+    }
+
+    @Override
+    public void onSeeAllClick() {
+        ModelCategory modelCategory = new ModelCategory(0, "All", "", true);
+        selectCategory(modelCategory);
+    }
+
+    @Override
+    public void onStoryClick(int position, String url) {
+        Toast.makeText(getContext(), "story clicked", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getActivity(), StoryActivity.class));
     }
 }

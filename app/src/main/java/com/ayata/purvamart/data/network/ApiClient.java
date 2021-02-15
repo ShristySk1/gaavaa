@@ -5,10 +5,14 @@ import android.content.Context;
 import com.ayata.purvamart.data.network.interceptor.NetworkConnectionInterceptor;
 import com.ayata.purvamart.data.network.interceptor.OkHttpHeaderInterceptor;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,8 +35,16 @@ public class ApiClient {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new NetworkConnectionInterceptor(context))
                 .addInterceptor(new OkHttpHeaderInterceptor(context))
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder().addHeader("Connection", "close").build();
+                        return chain.proceed(request);
+                    }
+                })
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
+//                .retryOnConnectionFailure(true)
                 .addInterceptor(logging)
                 .build();
 

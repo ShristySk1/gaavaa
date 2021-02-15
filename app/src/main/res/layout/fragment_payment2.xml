@@ -24,7 +24,8 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 android:text="Payment methods"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorGrayTextDark"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -16,7 +16,7 @@ import com.ayata.purvamart.R;
 import androidx.core.content.ContextCompat;
 
 /**
- * For Cart badge
+ * For Notification badge
  */
 public class BadgeDrawable extends Drawable {
 

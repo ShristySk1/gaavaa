@@ -187,11 +187,11 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
     //when clicked on products of that category
     @Override
-    public void onItemClick(int position) {
-        Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
+    public void onItemClick(ProductDetail productDetail) {
+//        Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(FragmentProduct.MODEL_ITEM, filterlist.get(position));
-        Log.d(TAG, "onItemClick: " + filterlist.get(position).getProductImage());
+        bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
+        Log.d(TAG, "onItemClick: " + productDetail.getProductImage());
         ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG, bundle,new FragmentEditProfile());
     }
 
