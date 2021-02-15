@@ -29,26 +29,26 @@ public class ProductDetail implements Serializable {
     private Integer productLikes = null;
     @SerializedName("quantity")
     @Expose
-    private String quantity=null;
+    private String quantity = null;
     @SerializedName("description")
     @Expose
-    private String description=null;
+    private String description = null;
     @SerializedName("from")
     @Expose
     private String from;
 
     @SerializedName("product_discount")
     @Expose
-    private String productDiscount=null;
+    private String productDiscount = null;
     @SerializedName("old_price")
     @Expose
-    private Double oldPrice=null;
+    private Double oldPrice = null;
     @SerializedName("unit")
     @Expose
-    private String unit=null;
+    private String unit = null;
     @SerializedName("product_price")
     @Expose
-    private Double productPrice=null;
+    private Double productPrice = null;
     @SerializedName("is_ordered")
     @Expose
     private Boolean isOrdered = null;
@@ -64,6 +64,17 @@ public class ProductDetail implements Serializable {
     @SerializedName("created_date")
     @Expose
     private String createdDate = null;
+    @SerializedName("stock")
+    @Expose
+    private String stock = null;
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
 
     public String getFrom() {
         return from;

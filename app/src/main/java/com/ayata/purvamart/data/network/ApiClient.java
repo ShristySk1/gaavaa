@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Retrofit instance creation for api calls
  */
 public class ApiClient {
-    public static final String BASE_URL = "http://142.93.221.85/api/v1/";
+    public static final String BASE_URL = "https://gaavaa.com/api/v1/";
     private static Retrofit retrofit = null;
     private static WeakReference<Context> context;
 

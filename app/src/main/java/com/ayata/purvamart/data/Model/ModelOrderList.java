@@ -18,6 +18,15 @@ public class ModelOrderList implements Serializable {
     private List<ProductDetail> productDetails;
     private String grand_total;
     private String payment_type;
+    private String actualCondition;
+
+    public String getActualCondition() {
+        return actualCondition;
+    }
+
+    public void setActualCondition(String actualCondition) {
+        this.actualCondition = actualCondition;
+    }
 
     public String getPayment_type() {
         return payment_type;
@@ -43,15 +52,18 @@ public class ModelOrderList implements Serializable {
         this.grand_total = grand_total;
     }
 
-    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date, List<ProductDetail> productDetails, String grand_total,String payment_type) {
+    public ModelOrderList(String image, String order_id, String date, String time, String delivery_date,
+                          List<ProductDetail> productDetails, String grand_total, String payment_type
+            , String conditionalStatus) {
         this.image = image;
         this.order_id = order_id;
         this.date = date;
         this.time = time;
         this.delivery_date = delivery_date;
         this.productDetails = productDetails;
-        this.grand_total=grand_total;
-        this.payment_type=payment_type;
+        this.grand_total = grand_total;
+        this.payment_type = payment_type;
+        this.actualCondition = conditionalStatus;
     }
 
     public String getImage() {

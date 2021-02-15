@@ -55,8 +55,6 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
         ImageView imageView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-
             text_order_id= itemView.findViewById(R.id.text_order);
             text_date=itemView.findViewById(R.id.text_date_time);
             text_delivery= itemView.findViewById(R.id.text_delivery);

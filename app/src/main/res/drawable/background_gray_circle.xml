@@ -6,6 +6,6 @@
     <size android:width="50dp"
         android:height="50dp"/>
     <stroke android:color="@color/colorGrayDrawable"
-        android:width="2dp"/>
+        android:width="1.5dp"/>
 
 </shape>

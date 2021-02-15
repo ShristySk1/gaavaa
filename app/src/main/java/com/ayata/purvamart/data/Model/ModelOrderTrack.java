@@ -2,30 +2,40 @@ package com.ayata.purvamart.data.Model;
 
 public class ModelOrderTrack {
 
-    public static final int ORDER_TYPE_PLACED = 0;
-    public static final int ORDER_TYPE_CONFIRMED = 1;
-    public static final int ORDER_TYPE_PROCESS = 2;
-    public static final int ORDER_TYPE_SHIP = 3;
-    public static final int ORDER_TYPE_DELIVERY = 4;
-    public static final int ORDER_TYPE_DELIVERED = 5;
-    public static final int ORDER_TYPE_NONE = 6;
+    public static final String ORDER_TYPE_PLACED = "Order Placed";
+    public static final String ORDER_TYPE_CONFIRMED = "Order Confirmed";
+    public static final String ORDER_TYPE_PROCESS = "Order Processed";
+    public static final String ORDER_TYPE_SHIP = "Ready to Ship";
+    public static final String ORDER_TYPE_DELIVERY = "Out For Delivery";
+    public static final String ORDER_TYPE_DELIVERED = "Delivered";
+    public static final String ORDER_TYPE_NONE = "None";
 
 
     private String orderTrackTitle;
     private String orderTrackDescription;
-    private int ordertype;
+    private String ordertype;
+    private int color;
 
-    public ModelOrderTrack(String orderTrackTitle, String orderTrackDescription, int ordertype) {
+    public ModelOrderTrack(String orderTrackTitle, String orderTrackDescription, String ordertype, int color) {
         this.orderTrackTitle = orderTrackTitle;
         this.orderTrackDescription = orderTrackDescription;
         this.ordertype = ordertype;
+        this.color = color;
     }
 
-    public int getOrdertype() {
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public String getOrdertype() {
         return ordertype;
     }
 
-    public void setOrdertype(int ordertype) {
+    public void setOrdertype(String ordertype) {
         this.ordertype = ordertype;
     }
 

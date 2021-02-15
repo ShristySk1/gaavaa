@@ -1,6 +1,7 @@
 package com.ayata.purvamart.ui.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,33 +50,8 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.modelViewHolder> {
         Glide.with(context).load(listitem.get(position).getImage()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImage());
         Log.d(TAG, "onBindViewHolder: ");
-
-        switch (count) {
-            case 0:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAd1));
-                holder.button.setBackground(ContextCompat.getDrawable(context, R.drawable.button_yellow));
-                count = 1;
-                break;
-
-            case 1:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAd2));
-                holder.button.setBackground(ContextCompat.getDrawable(context, R.drawable.button_yellow));
-                count = 0;
-                break;
-
-//            case 2:
-//                holder.background.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPurple));
-//                holder.button.setBackground(ContextCompat.getDrawable(context,R.drawable.button_green));
-//                count=0;
-//                break;
-
-            default:
-                holder.background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreenLight));
-                holder.button.setBackground(ContextCompat.getDrawable(context, R.drawable.button_yellow));
-                count = 1;
-                break;
-        }
-
+        holder.background.setBackgroundColor(Color.parseColor("#" + listitem.get(position).getBackgroundColor()));
+        holder.button.setBackground(ContextCompat.getDrawable(context, R.drawable.button_yellow));
     }
 
     @Override

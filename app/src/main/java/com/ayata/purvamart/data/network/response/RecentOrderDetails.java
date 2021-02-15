@@ -22,6 +22,10 @@ public class RecentOrderDetails {
     @SerializedName("conditional_status")
     @Expose
     private String conditional_status;
+
+    @SerializedName("actual_condition")
+    @Expose
+    private String actual_condition;
     @Expose
     private String payment_type = null;
     @SerializedName("total")
@@ -30,6 +34,14 @@ public class RecentOrderDetails {
 
     public String getTotal() {
         return total;
+    }
+
+    public String getActual_condition() {
+        return actual_condition;
+    }
+
+    public void setActual_condition(String actual_condition) {
+        this.actual_condition = actual_condition;
     }
 
     public void setTotal(String total) {

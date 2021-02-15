@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,10 +38,12 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
     private LinearLayoutManager linearLayoutManager;
     private AdapterOrderTracker adapterItem;
     private List<ModelOrderTrack> list_orderTrack;
-    Button cancel_order;
+    ImageView cancel_order;
     //error
     TextView text_error;
     ProgressBar progress_error;
+    //condional status
+    String conditionalStatus = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +86,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
             text_delivery.setText("Estimated Delivery on" + " " + listitem.getDelivery_date());
             text_datetime.setText(listitem.getDate() + ", " + listitem.getTime());
             text_orderid.setText("Order#:" + " " + listitem.getOrder_id());
+            conditionalStatus = listitem.getActualCondition();
             Glide.with(getContext()).load(listitem.getImage()).placeholder(Constants.PLACEHOLDER).into(image_item);
             cancel_order.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,14 +99,14 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
     }
 
     private void populateData() {
-        String testString = "Order placed";
+//        String testString = "Order placed";
         String[] titles = {
-                "Order Placed",
-                "Order Confirmed",
-                "Order Processed",
-                "Ready to Ship",
-                "Out For Delivery",
-                "Delivered"};
+                ModelOrderTrack.ORDER_TYPE_PLACED,
+                ModelOrderTrack.ORDER_TYPE_CONFIRMED,
+                ModelOrderTrack.ORDER_TYPE_PROCESS,
+                ModelOrderTrack.ORDER_TYPE_SHIP,
+                ModelOrderTrack.ORDER_TYPE_DELIVERY,
+                ModelOrderTrack.ORDER_TYPE_DELIVERED};
         String[] descriptions = {
                 "We have rerceived your order on 20 Dec,2020",
                 "Order has been confirmed on 20 Dec,2020",
@@ -115,17 +117,18 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         };
         Boolean setNone = false;
         for (int i = 0; i < titles.length; i++) {
-            if (!(titles[i].toLowerCase().trim().equals(testString.toLowerCase().trim()))) {
+            Log.d(TAG, "populateData:conditional status " + conditionalStatus);
+            if (!(titles[i].toLowerCase().trim().equals(conditionalStatus.toLowerCase().trim()))) {
                 if (setNone) {
                     Log.d(TAG, "populateData: setrest as none" + titles[i]);
-                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], ModelOrderTrack.ORDER_TYPE_NONE));
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], ModelOrderTrack.ORDER_TYPE_NONE, R.color.colorGrayLight));
                 } else {
                     Log.d(TAG, "populateData: add orderlist" + titles[i]);
-                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], i));
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], R.color.colorPriceTag));
                 }
             } else {
                 Log.d(TAG, "populateData: orderlistfound" + titles[i]);
-                list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], i));
+                list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], R.color.colorPrimary));
                 setNone = true;
             }
         }
@@ -147,13 +150,6 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         progress_error.setVisibility(View.GONE);
         Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
         getFragmentManager().popBackStackImmediate();
-//        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(FragmentMyOrder.TAG);
-//
-//        if (fragment != null && fragment instanceof FragmentMyOrder)
-//            ((FragmentMyOrder) fragment).setCurrentPositionViewPager(2);
-//        else
-//            Log.e(TAG, "cannot change tab its null...");
-
     }
 
     @Override

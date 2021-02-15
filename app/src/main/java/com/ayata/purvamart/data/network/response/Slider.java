@@ -19,6 +19,17 @@ public class Slider {
     @SerializedName("slider_type")
     @Expose
     private String sliderType;
+    @SerializedName("background_color")
+    @Expose
+    private String backgroundColor;
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
     public Integer getId() {
         return id;

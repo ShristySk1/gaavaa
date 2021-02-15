@@ -1,6 +1,7 @@
 package com.ayata.purvamart.ui.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +42,20 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
         ModelOrderTrack modelOrderTrack = listitem.get(position);
         holder.title.setText(modelOrderTrack.getOrderTrackTitle());
         holder.desc.setText(modelOrderTrack.getOrderTrackDescription());
-        if (modelOrderTrack.getOrdertype()==ModelOrderTrack.ORDER_TYPE_NONE) {
+        if (modelOrderTrack.getOrdertype() == ModelOrderTrack.ORDER_TYPE_NONE) {
             holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorGrayLight));
             holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorGrayLight));
         } else {
-            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorPrimary));
-            holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            holder.desc.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorPrimary));
+            int color = listitem.get(position).getColor();
+            holder.mTimelineView.setMarkerColor(context.getResources().getColor(color));
+            holder.title.setTextColor(context.getResources().getColor(color));
+            holder.desc.setTextColor(context.getResources().getColor(color));
+            holder.mTimelineView.setEndLineColor(context.getResources().getColor(color), 1);
+            if (position != 0) {
+                holder.mTimelineView.setStartLineColor(context.getResources().getColor(color), 0);
+            }
+            Log.d("sizenadposition", "onBindViewHolder: position: "+position+"size"+listitem.size());
+            holder.imageView.setColorFilter(context.getResources().getColor(color));
         }
     }
 

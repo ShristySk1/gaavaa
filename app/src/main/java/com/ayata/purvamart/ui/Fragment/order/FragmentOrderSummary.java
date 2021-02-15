@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -151,12 +150,17 @@ public class FragmentOrderSummary extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
+            //requirements
+            scrollView.setVisibility(View.VISIBLE);
+            btn_placeOrder.setVisibility(View.GONE);
+
             ModelOrderList modelOrderList = (ModelOrderList) bundle.getSerializable(FragmentMyOrder.ORDER_ITEM_FOR_SUMMARY);
-//            Glide.with(getContext()).load(modelOrderList.getPayment_type()).placeholder(R.drawable.placeholder).into(image_pay_type);
-//            image_pay_type.setText(modelOrderList.getPayment_type());
             pay_orderPrice.setText(modelOrderList.getGrand_total());
             pay_total.setText(modelOrderList.getGrand_total());
+//            text_address.setText(modelOrderList.ge());
             listitem.addAll(modelOrderList.getProductDetails());
+            setPaymentMethod("CASHONDELIVERY");
+            Log.d(TAG, "dataPrepare: " + modelOrderList.getPayment_type());
             adapterOrderSummary.notifyDataSetChanged();
         } else {
             new Repository(new NetworkResponseListener<BaseResponse<List<OrderSummaryDetail>>>() {
@@ -165,26 +169,13 @@ public class FragmentOrderSummary extends Fragment {
                 public void onResponseReceived(BaseResponse<List<OrderSummaryDetail>> response) {
                     progress_error.setVisibility(View.GONE);
                     scrollView.setVisibility(View.VISIBLE);
-                    OrderSummaryDetail orderSummaryDetail = (OrderSummaryDetail) response.getDetails().get(0);
-                    pay_orderPrice.setText(orderSummaryDetail.getGrandTotal());
-                    pay_total.setText(orderSummaryDetail.getGrandTotal());
-                    text_address.setText(orderSummaryDetail.getAddress().getFullAddress());
                     if (response.getCode().toString().equals("200")) {
+                        OrderSummaryDetail orderSummaryDetail = (OrderSummaryDetail) response.getDetails().get(0);
+                        pay_orderPrice.setText(orderSummaryDetail.getGrandTotal());
+                        pay_total.setText(orderSummaryDetail.getGrandTotal());
+                        text_address.setText(orderSummaryDetail.getAddress().getFullAddress());
                         listitem.addAll(orderSummaryDetail.getProduct());
-                        switch (orderSummaryDetail.getPaymentMethod()) {
-                            case "CASHONDELIVERY":
-                                text_payamentMethod.setText("Cash On Delivery");
-                                Glide.with(getContext()).load(R.drawable.cash_on_delivery).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
-                                break;
-                            case "ESEWA":
-                                text_payamentMethod.setText("Esewa");
-                                Glide.with(getContext()).load(R.drawable.esewa).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
-                                break;
-                            case "KHALTI":
-                                text_payamentMethod.setText("Khalti");
-                                Glide.with(getContext()).load(R.drawable.khalti).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
-                                break;
-                        }
+                        setPaymentMethod(orderSummaryDetail.getPaymentMethod());
                     }
                     adapterOrderSummary.notifyDataSetChanged();
                 }
@@ -203,6 +194,23 @@ public class FragmentOrderSummary extends Fragment {
             }, ApiClient.getApiService()).requestMyOrderSummary(orderId, addressId, paymentGateway);
         }
 
+    }
+
+    private void setPaymentMethod(String paymentMethod) {
+        switch (paymentMethod) {
+            case "CASHONDELIVERY":
+                text_payamentMethod.setText("Cash On Delivery");
+                Glide.with(getContext()).load(R.drawable.cash_on_delivery).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
+                break;
+            case "ESEWA":
+                text_payamentMethod.setText("Esewa");
+                Glide.with(getContext()).load(R.drawable.esewa).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
+                break;
+            case "KHALTI":
+                text_payamentMethod.setText("Khalti");
+                Glide.with(getContext()).load(R.drawable.khalti).placeholder(R.drawable.placeholder).fallback(Constants.FALLBACKIMAGE).into(image_pay_type);
+                break;
+        }
     }
 
     //inflate pullRefreshLayout for error and progressbar

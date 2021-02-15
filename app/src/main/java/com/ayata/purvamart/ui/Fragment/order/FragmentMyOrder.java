@@ -130,14 +130,14 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
                     String estimatedTime = orderDetails.getEstimatedDate();
                     if (orderDetails.getConditional_status() != null) {
                         switch (orderDetails.getConditional_status()) {
-                            case "Delivered":
-//                                listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+                            case "Order Delivered":
+                                listitemIsOrdered.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type(), orderDetails.getActual_condition()));
                                 break;
-                            case "Order Placed":
-                                listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
-                                break;
-                            case "Cancelled":
+                            case "Order Cancelled":
 //                                listitemIsCancelled.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type()));
+                                break;
+                            default:
+                                listitemIsTaken.add(new ModelOrderList("", orderId, date, "", estimatedTime, orderDetails.getItems(), orderDetails.getTotal(), orderDetails.getPayment_type(), orderDetails.getConditional_status()));
                                 break;
                         }
                     }
@@ -192,7 +192,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     }
 
     /**
-     * Go to order tracking Fragment when clicked on OnProgress Tab
+     * Go to order tracking Fragment when clicked on OnProgress order Tab
      *
      * @param position
      * @param modelOrderList
