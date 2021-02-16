@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponseReceived(BaseResponse<LoginDetail> detailBaseResponse) {
                 hideDialog();
+                Log.d(TAG, "onResponseReceived: "+"success response");
                 LoginDetail loginDetail = detailBaseResponse.getDetails();
                 if (loginDetail != null) {
                     String token = loginDetail.getToken();

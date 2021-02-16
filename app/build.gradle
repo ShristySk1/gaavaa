@@ -93,11 +93,11 @@ dependencies {
     //ticketview
     implementation 'com.vipulasri:ticketview:1.1.2'
     //scene form
-    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.15.0"
-    implementation 'com.google.ar.sceneform:assets:1.15.0'
+    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.17.1"
+    implementation 'com.google.ar.sceneform:assets:1.17.1'
 
 }
-sceneform.asset('sampledata/BagTextured.fbx',
+sceneform.asset('sampledata/PaperBag.obj',
         'default',
-        'sampledata/BagTextured.sfa',
-        'src/main/assets/ProductTextured')
+        'sampledata/PaperBag.sfa',
+        'src/main/assets/PaperBag')

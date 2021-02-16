@@ -43,7 +43,7 @@ public class AdapterStories extends RecyclerView.Adapter<AdapterStories.modelVie
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
 
 //        holder.title.setText(listitem.get(position).getTitle());
-        Glide.with(context).load(listitem.get(position).getImageUrl()).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImageUrl()).centerCrop().placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImageUrl());
 
     }

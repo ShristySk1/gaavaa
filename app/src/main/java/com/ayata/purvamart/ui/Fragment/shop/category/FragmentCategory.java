@@ -192,7 +192,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
         Log.d(TAG, "onItemClick: " + productDetail.getProductImage());
-        ((MainActivity) getActivity()).changeFragment(8, FragmentEditProfile.TAG, bundle,new FragmentEditProfile());
+        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
     }
 
 

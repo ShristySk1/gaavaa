@@ -2,6 +2,7 @@ package com.ayata.purvamart.ui.Fragment.shop.product;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.ThreeDActivity;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;
@@ -42,7 +44,9 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     //viewpager
     ViewPager2 mViewPager;
     PageIndicatorView pageIndicatorView;
-//     images array
+    //360
+    ImageView iv360;
+    //     images array
 //    int[] images = {R.drawable.signup, R.drawable.signup, R.drawable.signup};
     List<String> images;
     // Creating Object of ViewPagerAdapter
@@ -87,6 +91,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
         text_product_from = view.findViewById(R.id.text_product_from);
+        iv360 = view.findViewById(R.id.iv360);
 //        image_product = view.findViewById(R.id.imagep);
 //        mSceneView = view.findViewById(R.id.sceneView);
         thumb_image = view.findViewById(R.id.thumb_image);
@@ -125,6 +130,19 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         text_product_from.setText(modelItem.getFrom());
         Log.d(TAG, "initView: " + modelItem.getFrom());
         thumb_image.setOnClickListener(this);
+
+        iv360.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                    Intent intent = new Intent(getContext(), ThreeDActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(),"Sorry! Your device doesn't support 3D view",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void handleDiscount() {
@@ -195,102 +213,5 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textDiscount.setVisibility(View.GONE);
     }
 
-//    private void createScene() {
-//        ModelRenderable.builder()
-//                .setSource(getContext(), Uri.parse(localModel))
-//                .setRegistryId(localModel)
-//                .build()
-//                .thenAccept(modelRenderable -> onRenderableLoaded(modelRenderable))
-//                .exceptionally(throwable -> {
-//                    Toast toast =
-//                            Toast.makeText(getContext(), "Unable to load model", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.CENTER, 0, 0);
-//                    toast.show();
-//                    return null;
-//                });
-//    }
-//
-//    void onRenderableLoaded(ModelRenderable model) {
-//
-//
-//        if (mSceneView != null) {
-////            Node modelNode = new Node();
-////            modelNode.setRenderable(model);
-////            modelNode.setParent(mSceneView.getScene());
-////            modelNode.setLocalPosition(new Vector3(0, -0.1f, -1));
-////            modelNode.setLocalScale(new Vector3(2,2,2));
-////            mSceneView.getScene().addChild(modelNode);
-//
-//            TransformationSystem transformationSystem = makeTransformationSystem();
-//            DragTransformableNode dragTransformableNode = new DragTransformableNode(1f, transformationSystem);
-//            dragTransformableNode.setLocalScale(new Vector3(50f, 50f, 50f));
-//
-//            if (dragTransformableNode != null) {
-//                dragTransformableNode.setRenderable(model);
-//                mSceneView.getScene().addChild(dragTransformableNode);
-//
-//                //   mSceneView.getScene().aa
-//                dragTransformableNode.select();
-//                mSceneView.getScene().addOnPeekTouchListener(new Scene.OnPeekTouchListener() {
-//                    @Override
-//                    public void onPeekTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
-//                        Log.d("touch", motionEvent.toString());
-//
-//                        try {
-//                            transformationSystem.onTouch(hitTestResult, motionEvent);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                    }
-//                });
-////                mSceneView.getScene().setOnTouchListener(new Scene.OnTouchListener() {
-////                    @Override
-////                    public boolean onSceneTouch(HitTestResult hitTestResult, MotionEvent motionEvent) {
-////                      //  transformationSystem.onTouch(hitTestResult,motionEvent);
-////                        return false;
-////                    }});h
-//
-//
-//            }
-//
-//
-//        }
-//
-//
-//    }
-//
-//    private TransformationSystem makeTransformationSystem() {
-//
-//        FootprintSelectionVisualizer footprintSelectionVisualizer = new FootprintSelectionVisualizer();
-//        return new TransformationSystem(getResources().getDisplayMetrics(), footprintSelectionVisualizer);
-//    }
-//
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        try {
-//            mSceneView.resume();
-//        } catch (CameraNotAvailableException e) {
-//        }
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mSceneView.pause();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        try {
-//            mSceneView.destroy();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+
 }

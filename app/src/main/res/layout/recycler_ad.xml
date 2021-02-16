@@ -60,7 +60,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/text_discount"
-            android:scaleType="fitEnd"
           />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

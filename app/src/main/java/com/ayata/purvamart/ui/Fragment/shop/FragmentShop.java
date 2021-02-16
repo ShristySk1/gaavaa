@@ -232,10 +232,13 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         list_category = categories;
         list_madeforyou = productForYous;
         storiesList.clear();
-//        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg"));
-//        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg"));
-//        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg"));
-//        list_shop.add(new ModelShop(ModelShop.STORY_TYPE, storiesList, this));
+        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg"));
+        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg"));
+        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg"));
+        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg"));
+        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg"));
+        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg"));
+        list_shop.add(new ModelShop(ModelShop.STORY_TYPE, storiesList, this));
         list_shop.add(new ModelShop(ModelShop.AD_TYPE, ads, this));
         list_shop.add(new ModelShop(ModelShop.TTTLE_TYPE, "Categories", this));
         list_shop.add(new ModelShop(ModelShop.CATEGORY_TYPE, categories, this));

@@ -13,8 +13,8 @@
         android:background="@drawable/background_grey_placeholder"
         android:clickable="true"
         android:paddingHorizontal="15dp"
-        android:paddingVertical="10dp">
-    </RelativeLayout>
+        android:paddingVertical="10dp"></RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/pl_search_layout"
         android:layout_width="match_parent"
@@ -29,13 +29,28 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/placeholder_story"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pl_search_layout"
+        android:orientation="horizontal">
+
+        <include layout="@layout/layout_placeholder3" />
+
+        <include layout="@layout/layout_placeholder3" />
+
+        <include layout="@layout/layout_placeholder3" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/placeholder_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pl_search_layout"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/placeholder_story"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:minHeight="165dp"
         android:nestedScrollingEnabled="false"
