@@ -1,10 +1,13 @@
 package com.ayata.purvamart.ui.Fragment.order;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,11 +18,7 @@ import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.data.Model.ModelOrderTrack;
-import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.ProductDetail;
-import com.ayata.purvamart.data.repository.Repository;
-import com.ayata.purvamart.ui.Adapter.AdapterItem;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderTracker;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
@@ -32,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemClickListener, AdapterOrderTracker.OnCategoryClickListener, NetworkResponseListener<JsonObject> {
+public class FragmentTrackOrder extends Fragment implements NetworkResponseListener<JsonObject> {
     public static String TAG = "FragmentTrackOrder";
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -42,13 +41,12 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
     //error
     TextView text_error;
     ProgressBar progress_error;
-    //condional status
+    //conditional status
     String conditionalStatus = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the pullRefreshLayout for this fragment
         View view = inflater.inflate(R.layout.fragment_track_order, container, false);
         inflateLayout(view);
         list_orderTrack = new ArrayList<>();
@@ -62,7 +60,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         populateData();
         recyclerView = view.findViewById(R.id.recycler_order_tracker);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        adapterItem = new AdapterOrderTracker(getContext(), list_orderTrack, this);
+        adapterItem = new AdapterOrderTracker(getContext(), list_orderTrack);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterItem);
         return view;
@@ -77,10 +75,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         text_orderid = view.findViewById(R.id.text_order_id);
         image_item = view.findViewById(R.id.image);
         cancel_order = view.findViewById(R.id.cancel_order);
-
-
         Bundle bundle = getArguments();
-
         if (bundle != null) {
             ModelOrderList listitem = (ModelOrderList) bundle.getSerializable(FragmentListOrder.order_item);
             text_delivery.setText("Estimated Delivery on" + " " + listitem.getDelivery_date());
@@ -91,15 +86,43 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
             cancel_order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new Repository(FragmentTrackOrder.this, ApiClient.getApiService()).requestCancelOrder(listitem.getOrder_id());
+//                    new Repository(FragmentTrackOrder.this, ApiClient.getApiService()).requestCancelOrder(listitem.getOrder_id());
+                    showAlertDialog();
                 }
             });
         }
 
     }
 
+    void showAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = (getActivity()).getLayoutInflater();
+        builder.setCancelable(false);
+        View v = inflater.inflate(R.layout.dialog_alert, null);
+        builder.setView(v);
+        Button yes = v.findViewById(R.id.btn_yes);
+        Button no = v.findViewById(R.id.btn_no);
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.background_dialog_margin);
+        dialog.show();
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+    }
+
     private void populateData() {
-//        String testString = "Order placed";
         String[] titles = {
                 ModelOrderTrack.ORDER_TYPE_PLACED,
                 ModelOrderTrack.ORDER_TYPE_CONFIRMED,
@@ -108,42 +131,32 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
                 ModelOrderTrack.ORDER_TYPE_DELIVERY,
                 ModelOrderTrack.ORDER_TYPE_DELIVERED};
         String[] descriptions = {
-                "We have rerceived your order on 20 Dec,2020",
+                "We have received your order on 20 Dec,2020",
                 "Order has been confirmed on 20 Dec,2020",
                 "We are preparing your order",
                 "Your Product is ready for shipping",
                 "Your Product is out for delivery",
                 "The Product is out for delivery"
         };
+        int colorInComplete = R.color.colorGrayLight;
+        int colorCompleted = R.color.colorPriceTag;
+        int colorCurrent = R.color.colorPrimary;
         Boolean setNone = false;
         for (int i = 0; i < titles.length; i++) {
             Log.d(TAG, "populateData:conditional status " + conditionalStatus);
             if (!(titles[i].toLowerCase().trim().equals(conditionalStatus.toLowerCase().trim()))) {
                 if (setNone) {
-                    Log.d(TAG, "populateData: setrest as none" + titles[i]);
-                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], ModelOrderTrack.ORDER_TYPE_NONE, R.color.colorGrayLight));
+                    //set rest to grayed out
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], ModelOrderTrack.ORDER_TYPE_NONE, colorInComplete, false));
                 } else {
-                    Log.d(TAG, "populateData: add orderlist" + titles[i]);
-                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], R.color.colorPriceTag));
+                    list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], colorCompleted, false));
                 }
             } else {
-                Log.d(TAG, "populateData: orderlistfound" + titles[i]);
-                list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], R.color.colorPrimary));
-                setNone = true;
+                list_orderTrack.add(new ModelOrderTrack(titles[i], descriptions[i], titles[i], colorCurrent, true));
+                setNone = true;//set it to true after we found the exact title
             }
         }
     }
-
-    @Override
-    public void onItemClick(ProductDetail productDetail) {
-
-    }
-
-    @Override
-    public void onCategoryClick(int position) {
-
-    }
-
 
     @Override
     public void onResponseReceived(JsonObject response) {
@@ -164,7 +177,7 @@ public class FragmentTrackOrder extends Fragment implements AdapterItem.OnItemCl
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    //inflate pullRefreshLayout for error and progressbar
+    //inflate layout for error and progressbar
     void inflateLayout(View view) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout

@@ -40,9 +40,9 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelVie
         holder.title.setText(listitem.get(position).getTitle());
         holder.body.setText(listitem.get(position).getBody());
         if (row_index == position) {
-            holder.title.setTextColor(context.getResources().getColor(R.color.colorGrayDrawable));;
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorGrayDrawable));
         } else {
-            holder.title.setTextColor(context.getResources().getColor(R.color.colorBlack));;
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorBlack));
         }
     }
 
@@ -69,6 +69,8 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.modelVie
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
+                //to show text grayed out first then click
+                title.setSelected(true);
                 onLayoutClickListener.onLayoutClick(getAdapterPosition());
                 row_index = position;
                 notifyDataSetChanged();

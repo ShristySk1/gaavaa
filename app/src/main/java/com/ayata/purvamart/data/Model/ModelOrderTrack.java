@@ -15,12 +15,22 @@ public class ModelOrderTrack {
     private String orderTrackDescription;
     private String ordertype;
     private int color;
+    private Boolean isActual;
 
-    public ModelOrderTrack(String orderTrackTitle, String orderTrackDescription, String ordertype, int color) {
+    public ModelOrderTrack(String orderTrackTitle, String orderTrackDescription, String ordertype, int color, Boolean isActual) {
         this.orderTrackTitle = orderTrackTitle;
         this.orderTrackDescription = orderTrackDescription;
         this.ordertype = ordertype;
         this.color = color;
+        this.isActual = isActual;
+    }
+
+    public Boolean getActual() {
+        return isActual;
+    }
+
+    public void setActual(Boolean actual) {
+        isActual = actual;
     }
 
     public int getColor() {

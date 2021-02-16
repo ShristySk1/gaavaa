@@ -21,12 +21,10 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
 
     private Context context;
     private List<ModelOrderTrack> listitem;
-    private OnCategoryClickListener onCategoryClickListener;
 
-    public AdapterOrderTracker(Context context, List<ModelOrderTrack> listitem, OnCategoryClickListener onCategoryClickListener) {
+    public AdapterOrderTracker(Context context, List<ModelOrderTrack> listitem) {
         this.context = context;
         this.listitem = listitem;
-        this.onCategoryClickListener = onCategoryClickListener;
     }
 
     @NonNull
@@ -34,7 +32,7 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
     public modelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.recycler_order_tracker, parent, false);
-        return new modelViewHolder(view, viewType, onCategoryClickListener);
+        return new modelViewHolder(view, viewType);
     }
 
     @Override
@@ -42,19 +40,30 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
         ModelOrderTrack modelOrderTrack = listitem.get(position);
         holder.title.setText(modelOrderTrack.getOrderTrackTitle());
         holder.desc.setText(modelOrderTrack.getOrderTrackDescription());
-        if (modelOrderTrack.getOrdertype() == ModelOrderTrack.ORDER_TYPE_NONE) {
-            holder.mTimelineView.setMarkerColor(context.getResources().getColor(R.color.colorGrayLight));
-            holder.imageView.setColorFilter(context.getResources().getColor(R.color.colorGrayLight));
+        int color = listitem.get(position).getColor();
+        if (modelOrderTrack.getOrdertype().equals(ModelOrderTrack.ORDER_TYPE_NONE)) {
+            holder.mTimelineView.setMarkerColor(context.getResources().getColor(color));
+            holder.imageView.setColorFilter(context.getResources().getColor(color));
         } else {
-            int color = listitem.get(position).getColor();
             holder.mTimelineView.setMarkerColor(context.getResources().getColor(color));
             holder.title.setTextColor(context.getResources().getColor(color));
             holder.desc.setTextColor(context.getResources().getColor(color));
-            holder.mTimelineView.setEndLineColor(context.getResources().getColor(color), 1);
-            if (position != 0) {
-                holder.mTimelineView.setStartLineColor(context.getResources().getColor(color), 0);
+            if (position == 0) {
+                if(!modelOrderTrack.getActual()){
+                    holder.mTimelineView.setEndLineColor(context.getResources().getColor(color), 1);
+                }
+                //do nothing
+            } else {
+                if (!(listitem.get(position).getActual())) {
+                    //already completed
+                    holder.mTimelineView.setStartLineColor(context.getResources().getColor(color), 0);
+                    holder.mTimelineView.setEndLineColor(context.getResources().getColor(color), 0);
+                } else {
+                    //current
+                    holder.mTimelineView.setStartLineColor(context.getResources().getColor(listitem.get(position - 1).getColor()), 0);
+                }
             }
-            Log.d("sizenadposition", "onBindViewHolder: position: "+position+"size"+listitem.size());
+            Log.d("sizenadposition", "onBindViewHolder: position: " + position + "size" + listitem.size());
             holder.imageView.setColorFilter(context.getResources().getColor(color));
         }
     }
@@ -64,38 +73,25 @@ public class AdapterOrderTracker extends RecyclerView.Adapter<AdapterOrderTracke
         return listitem.size();
     }
 
-    public class modelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class modelViewHolder extends RecyclerView.ViewHolder {
 
-        OnCategoryClickListener onCategoryClickListener;
         public TimelineView mTimelineView;
         TextView title, desc;
         ImageView imageView;
 
-        public modelViewHolder(@NonNull View itemView, int viewType, OnCategoryClickListener onCategoryClickListener) {
+        public modelViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
-            this.onCategoryClickListener = onCategoryClickListener;
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             title = itemView.findViewById(R.id.title);
             desc = itemView.findViewById(R.id.desc);
             imageView = itemView.findViewById(R.id.image_tint);
             mTimelineView.initLine(viewType);
-            itemView.setOnClickListener(this);
 
-        }
-
-        @Override
-        public void onClick(View view) {
-            onCategoryClickListener.onCategoryClick(getAdapterPosition());
         }
     }
 
     @Override
     public int getItemViewType(int position) {
         return TimelineView.getTimeLineViewType(position, getItemCount());
-    }
-
-    public interface OnCategoryClickListener {
-
-        void onCategoryClick(int position);
     }
 }

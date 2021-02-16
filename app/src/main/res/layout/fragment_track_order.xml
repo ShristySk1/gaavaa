@@ -128,12 +128,12 @@
                             android:layout_marginHorizontal="16dp"
                             android:layout_marginVertical="16dp"
                             android:clickable="true"
-                            android:background="@drawable/background_notification_circle_green"
                             android:gravity="center_vertical"
                             android:padding="6dp"
-                            android:backgroundTint="@color/error_red"
-                            app:srcCompat="@drawable/ic_cancel_myorder" />
+                            app:srcCompat="@drawable/ic_close"
+                            app:tint="@color/colorTextErrorRed" />
                     </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_order_tracker"
                         android:layout_width="match_parent"

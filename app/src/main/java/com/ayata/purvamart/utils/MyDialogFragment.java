@@ -18,8 +18,6 @@ import androidx.fragment.app.DialogFragment;
  * For dialog used during login,sign up and verification
  */
 public class MyDialogFragment extends DialogFragment {
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
