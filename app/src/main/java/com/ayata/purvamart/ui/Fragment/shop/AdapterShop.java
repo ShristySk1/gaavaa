@@ -210,6 +210,7 @@ public class AdapterShop extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             RecyclerView.LayoutManager manager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
             AdapterStories.setAddListener((AdapterStories.setOnStoryListener) listitem.get(getAdapterPosition()).getListener());
             AdapterStories adapterStories = new AdapterStories(context, (List<Stories>) listitem.get(getAdapterPosition()).getData());
+            Log.d("setmystoryr", "bindStory: "+"setstory");
             rvStory.setAdapter(adapterStories);
             rvStory.setLayoutManager(manager);
             adapterStories.notifyDataSetChanged();
