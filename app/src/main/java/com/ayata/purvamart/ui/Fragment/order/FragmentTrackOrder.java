@@ -37,7 +37,7 @@ public class FragmentTrackOrder extends Fragment implements NetworkResponseListe
     private LinearLayoutManager linearLayoutManager;
     private AdapterOrderTracker adapterItem;
     private List<ModelOrderTrack> list_orderTrack;
-    ImageView cancel_order;
+    Button cancel_order;
     //error
     TextView text_error;
     ProgressBar progress_error;

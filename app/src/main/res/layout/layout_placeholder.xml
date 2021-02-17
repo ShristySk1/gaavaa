@@ -42,6 +42,8 @@
         <include layout="@layout/layout_placeholder3" />
 
         <include layout="@layout/layout_placeholder3" />
+        <include layout="@layout/layout_placeholder3" />
+
 
     </LinearLayout>
 
