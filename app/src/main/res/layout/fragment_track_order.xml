@@ -115,23 +115,21 @@
                             android:gravity="center"
                             android:paddingLeft="16dp"
                             android:text="Track Order"
-                            android:textAlignment="viewStart"
+                            android:textAlignment="textStart"
                             android:textColor="@color/colorBlack"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <ImageView
+                        <Button
                             android:id="@+id/cancel_order"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginHorizontal="16dp"
                             android:layout_marginVertical="16dp"
-                            android:clickable="true"
-                            android:gravity="center_vertical"
-                            android:padding="6dp"
-                            app:srcCompat="@drawable/ic_close"
-                            app:tint="@color/colorTextErrorRed" />
+                            android:layout_marginRight="8dp"
+                            android:text="Cancel Order"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:textColor="@color/colorTextErrorRed" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView

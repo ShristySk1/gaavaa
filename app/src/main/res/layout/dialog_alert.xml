@@ -12,7 +12,7 @@
     android:layout_alignParentTop="true"
     android:layout_gravity="center"
     android:elevation="20dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="5dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -27,9 +27,8 @@
             android:id="@+id/title_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="18dp"
-            android:textAlignment="center"
+            android:paddingHorizontal="24dp"
+            android:layout_marginTop="8dp"
             android:text="Cancel Order!"
             android:textColor="#000000"
             android:textSize="17sp"
@@ -41,42 +40,33 @@
             android:id="@+id/warningmsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:paddingHorizontal="28dp"
+            android:paddingHorizontal="24dp"
             android:text="Are you sure you want to cancel your order?" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginHorizontal="28dp"
+            android:layout_marginHorizontal="16dp"
             android:gravity="end"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_no"
-                android:background="@drawable/button_ripple_background_white_dialog"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="16dp"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_height="wrap_content"
-                android:text="Keep Order" />
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_yes"
-                android:background="@drawable/button_ripple_bacakground_red_dialaog"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel Order"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorTextErrorRed" />
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_height="wrap_content"
+                android:text="Keep Order" />
         </LinearLayout>
 
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 
-    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

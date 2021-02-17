@@ -79,8 +79,8 @@ public class ThreeDActivity extends AppCompatActivity {
             // Maxscale must be greater than minscale
 
             if (dragTransformableNode != null) {
-                dragTransformableNode.getScaleController().setMaxScale(20f);
-                dragTransformableNode.getScaleController().setMinScale(5f);
+                dragTransformableNode.getScaleController().setMaxScale(0.25f);
+                dragTransformableNode.getScaleController().setMinScale(0.10f);
                 dragTransformableNode.setRenderable(model);
                 mSceneView.getScene().addChild(dragTransformableNode);
 

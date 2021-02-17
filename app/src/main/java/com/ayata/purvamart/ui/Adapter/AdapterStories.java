@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import android.widget.TextView;
+
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.Stories;
@@ -40,7 +42,7 @@ public class AdapterStories extends RecyclerView.Adapter<AdapterStories.modelVie
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
 
-//        holder.title.setText(listitem.get(position).getTitle());
+        holder.title.setText(listitem.get(position).getTitle());
         Glide.with(context).load(listitem.get(position).getImageUrl()).centerCrop().placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImageUrl());
 
@@ -54,10 +56,12 @@ public class AdapterStories extends RecyclerView.Adapter<AdapterStories.modelVie
     public class modelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView image;
+        TextView title;
 
         public modelViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.ivStoryImage);
+            title = itemView.findViewById(R.id.tvStoryTitle);
             image.setOnClickListener(this);
         }
 
