@@ -98,7 +98,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
     public void onNext() {
         Toast.makeText(this, "onNext", Toast.LENGTH_SHORT).show();
         image.setImageResource(resources[++counter]);
-
     }
 
     @Override
