@@ -124,9 +124,9 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                    Intent intent = new Intent(getContext(), ThreeDActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), ThreeDActivity.class);
+//                    startActivity(intent);
+                    ((MainActivity) getActivity()).changeFragment3d();
                 } else {
                     Toast.makeText(getContext(), "Sorry! Your device doesn't support 3D view", Toast.LENGTH_SHORT).show();
                 }

@@ -26,6 +26,7 @@ import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
 import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.shop.notification.NotificationActivity;
 import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
+import com.ayata.purvamart.ui.Fragment.shop.product.ThreeDFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -347,6 +348,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(0);
             manager.popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+    }
+
+    public void changeFragment3d() {
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.main_fragment, new ThreeDFragment()).addToBackStack(null).commit();
     }
 
     public void selectMyOrderFragment() {

@@ -1,12 +1,16 @@
 package com.ayata.purvamart.ui.Fragment.account;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +26,16 @@ import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
 import com.ayata.purvamart.ui.Fragment.account.promos.FragmentPromos;
 import com.ayata.purvamart.ui.login.SignupActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class FragmentAccount extends Fragment implements View.OnClickListener, AdapterAccount.OnLayoutClickListener {
     public static String TAG = "FragmentAccount";
@@ -43,6 +51,12 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     private TextView acc_email, acc_name;
     //placeholder name
     TextView profile_name_placeholder;
+
+    //bitmap
+    private static final int IMAGE_REQUEST = 100;
+    Bitmap bitmap = null;
+    ImageView db_photo;
+    RelativeLayout layout_photo;
 
 
     @Override
@@ -61,9 +75,9 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         imageBtn_edit.setOnClickListener(this);
         btn_logout = view.findViewById(R.id.acc_btn_logout);
         btn_logout.setOnClickListener(this);
-
         initView();
-
+        setDefaultProfileImage();
+        newImageListener();
         return view;
     }
 
@@ -74,6 +88,8 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
         String name = PreferenceHandler.getUsername(getContext());
         acc_name.setText(name);
         profile_name_placeholder.setText(getFirstLetterFromEachWordInSentence(name));
+        db_photo = view.findViewById(R.id.ivProfileImage);
+        layout_photo = view.findViewById(R.id.layout_pic);
 
         listitem = new ArrayList<>();
         prepareData();
@@ -86,7 +102,6 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     }
 
     private void prepareData() {
-
         listitem.add(new ModelAccount(getResources().getString(R.string.acc_rv_text11),
                 getResources().getString(R.string.acc_rv_text12)));
         listitem.add(new ModelAccount(getResources().getString(R.string.acc_rv_text21),
@@ -178,5 +193,46 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                 break;
         }
 
+    }
+
+    private void setDefaultProfileImage() {
+        bitmap = PreferenceHandler.getImage(getContext());
+        if (bitmap != null) {
+            profile_name_placeholder.setVisibility(View.GONE);
+            db_photo.setImageBitmap(bitmap);
+        }
+    }
+
+    private void newImageListener() {
+        layout_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, IMAGE_REQUEST);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri path = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), path);
+                profile_name_placeholder.setVisibility(View.GONE);
+                db_photo.setImageBitmap(bitmap);
+                saveToPreference();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveToPreference() {
+        PreferenceHandler.saveImage(getContext(), bitmap);
     }
 }

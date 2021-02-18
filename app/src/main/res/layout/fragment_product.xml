@@ -246,17 +246,19 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="IN STOCK"
-                        android:textAllCaps="true" />
+                        android:textAllCaps="true"
+                        android:textStyle="normal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvAvailability"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="4dp"
                         android:text="Order Now to ship Today" />
 
                     <ImageView
+                        android:id="@+id/ivInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvStock"

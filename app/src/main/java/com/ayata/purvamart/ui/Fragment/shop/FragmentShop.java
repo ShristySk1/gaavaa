@@ -162,7 +162,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
      */
     @Override
     public void onCategoryClick(ModelCategory selectedItem) {
-        Toast.makeText(getContext(), "Item--" + selectedItem.getName(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Item--" + selectedItem.getName(), Toast.LENGTH_SHORT).show();
         selectCategory(selectedItem);
     }
 

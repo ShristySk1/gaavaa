@@ -47,11 +47,12 @@
                     <RelativeLayout
                         android:id="@+id/layout_pic"
                         android:layout_width="match_parent"
+                        android:clickable="true"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true">
 
                         <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/profile_image"
+                            android:id="@+id/ivProfileImage"
                             app:srcCompat="@drawable/ic_user"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

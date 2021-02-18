@@ -5,12 +5,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.node.DragTransformableNode;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
@@ -21,44 +22,39 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.FootprintSelectionVisualizer;
 import com.google.ar.sceneform.ux.TransformationSystem;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class ThreeDActivity extends AppCompatActivity {
-    private static final String TAG = "ThreeDActivity";
+public class ThreeDFragment extends Fragment {
+    public static final String TAG = "ThreeDFragment";
     //scene
     private SceneView mSceneView;
     String localModel = "PaperBag.sfb";
-    ImageButton back;
-    TextView title;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_three_d);
-        mSceneView = findViewById(R.id.sceneView);
-        back = findViewById(R.id.back);
-        title=findViewById(R.id.text_header);
-        title.setText("");
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-//        createScene();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_three_d, container, false);
+        mSceneView = view.findViewById(R.id.sceneView);
+        //toolbar
+        ((MainActivity) getActivity()).showToolbar();
+        ((MainActivity) getActivity()).setToolbarType2("", false, false);
+        Log.d(TAG, "onCreateView: ");
+        createScene();
+        return view;
     }
 
     private void createScene() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ModelRenderable.builder()
-                    .setSource(this, Uri.parse(localModel))
+                    .setSource(getContext(), Uri.parse(localModel))
                     .setRegistryId(localModel)
                     .build()
                     .thenAccept(modelRenderable -> onRenderableLoaded(modelRenderable))
                     .exceptionally(throwable -> {
                         Toast toast =
-                                Toast.makeText(this, "Unable to load model", Toast.LENGTH_LONG);
+                                Toast.makeText(getContext(), "Unable to load model", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         return null;
@@ -127,30 +123,26 @@ public class ThreeDActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-//        try {
-//            mSceneView.resume();
-//        } catch (CameraNotAvailableException e) {
-//        }
-        createScene();
+        try {
+            mSceneView.resume();
+        } catch (CameraNotAvailableException e) {
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        mSceneView.pause();
-        try {
-            Log.d(TAG, "onPause: ");
-            mSceneView.destroy();
-        } catch (Exception e) {
-            Log.d(TAG, "onPause: exception");
-            e.printStackTrace();
-        }
+        mSceneView.pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        try {
+            mSceneView.destroy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

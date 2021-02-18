@@ -3,10 +3,15 @@ package com.ayata.purvamart.data.preference;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
+import android.util.Base64;
+import android.util.Log;
 
 import com.ayata.purvamart.ui.login.PortalActivity;
+
+import java.io.ByteArrayOutputStream;
 
 
 public class PreferenceHandler {
@@ -47,6 +52,31 @@ public class PreferenceHandler {
         editor.apply();
     }
 
+    public static void saveImage(Context context, Bitmap bitmap) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("image", encodeTobase64((Bitmap) bitmap));
+        editor.apply();
+    }
+
+    // method for bitmap to base64
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
+
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
     public static void logout(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -70,6 +100,15 @@ public class PreferenceHandler {
     public static String getEmail(Context context) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getString("email", "");
+    }
+
+    public static Bitmap getImage(Context context) {
+        String imageBitmap = PreferenceManager.getDefaultSharedPreferences(context).getString("image", "-1");
+        Bitmap bitmap = null;
+        if (!(imageBitmap.equals("-1"))) {
+            bitmap = decodeBase64(imageBitmap);
+        }
+        return bitmap;
     }
 
     public static String getUsername(Context context) {

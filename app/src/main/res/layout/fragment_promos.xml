@@ -7,6 +7,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPromos"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
+        android:paddingVertical="8dp"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

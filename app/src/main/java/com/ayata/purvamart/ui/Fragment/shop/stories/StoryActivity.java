@@ -1,6 +1,7 @@
 package com.ayata.purvamart.ui.Fragment.shop.stories;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,9 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
     };
     private Long pressTime = 0L;
     private Long limit = 500L;
+
+    float firstX_point, firstY_point;
+
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
