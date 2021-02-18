@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui;
+package com.ayata.purvamart.ui.Fragment.shop.product;
 
 import android.net.Uri;
 import android.os.Build;

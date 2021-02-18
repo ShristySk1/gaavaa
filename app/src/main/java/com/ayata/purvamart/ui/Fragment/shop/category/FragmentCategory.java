@@ -20,7 +20,6 @@ import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterCategoryTop;
 import com.ayata.purvamart.ui.Adapter.AdapterItem;
-import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
 import com.ayata.purvamart.ui.Fragment.shop.FragmentShop;
 import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 
@@ -88,6 +87,12 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         layoutManager_category.setOrientation(RecyclerView.HORIZONTAL);
         recyclerView_category.setLayoutManager(layoutManager_category);
         recyclerView_category.setAdapter(adapterCategoryTop);
+//        recyclerView_category.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                recyclerView_category.smoothScrollToPosition(adapter.getItemCount() - 1);
+//            }
+//        });
 
         //bottom recycler
         listitem = new ArrayList<>();
@@ -173,7 +178,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
         Log.d(TAG, "onItemClick: " + productDetail.getProductImage());
-        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle,new FragmentProduct());
+        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle, new FragmentProduct());
     }
 
 

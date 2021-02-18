@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/placeholder"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ThreeDActivity"
+        <activity android:name=".ui.Fragment.shop.product.ThreeDActivity"
             ></activity>
         <activity android:name=".ui.Fragment.shop.search.SearchActivity">
             <intent-filter>

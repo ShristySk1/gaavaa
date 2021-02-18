@@ -88,7 +88,6 @@ public class FragmentOrderSummary extends Fragment {
                     @Override
                     public void onResponseReceived(JsonObject response) {
                         if (response.get("code").getAsString().equals("200")) {
-                            Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                             Gson gson = new GsonBuilder().create();
                             TypeToken<List<ConfirmCheckoutResponse>> responseTypeToken = new TypeToken<List<ConfirmCheckoutResponse>>() {
                             };

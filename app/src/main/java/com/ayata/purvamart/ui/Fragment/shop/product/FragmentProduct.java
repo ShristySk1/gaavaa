@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
-import com.ayata.purvamart.ui.ThreeDActivity;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;
@@ -46,14 +44,9 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     PageIndicatorView pageIndicatorView;
     //360
     ImageView iv360;
-    //     images array
-//    int[] images = {R.drawable.signup, R.drawable.signup, R.drawable.signup};
     List<String> images;
     // Creating Object of ViewPagerAdapter
     ViewPagerAdapterProduct mViewPagerAdapter;
-//    //scene
-//    private SceneView mSceneView;
-//    String localModel = "ProductTextured.sfb";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +58,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 
     Button btnAddToCart;
     private static int quantity = 0;
-    TextView textQuantity, textProductTitle, textProductNewPrice, textProductOldPrice, textWeight, textDiscount, textProductDescription, text_product_from;
-    ImageButton btn_add, btn_minus;
-//    ImageView image_product;
-
+    TextView tvStock, textProductTitle, textProductNewPrice, textProductOldPrice, textWeight, textDiscount, textProductDescription, text_product_from;
     //like
     ImageView thumb_image;
     TextView thumb_text;
@@ -92,8 +82,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
         text_product_from = view.findViewById(R.id.text_product_from);
         iv360 = view.findViewById(R.id.iv360);
-//        image_product = view.findViewById(R.id.imagep);
-//        mSceneView = view.findViewById(R.id.sceneView);
+        tvStock = view.findViewById(R.id.tvStock);
         thumb_image = view.findViewById(R.id.thumb_image);
         thumb_text = view.findViewById(R.id.thumb_text);
         textProductNewPrice = view.findViewById(R.id.text_product_newPrice);
@@ -123,6 +112,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         Log.d(TAG, "initView: " + images.size());
         //rest of data
         textProductTitle.setText(modelItem.getName());
+        tvStock.setText(modelItem.getStock());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
         textWeight.setText(modelItem.getUnit());
         textProductDescription.setText(modelItem.getDescription());
@@ -138,8 +128,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
 
                     Intent intent = new Intent(getContext(), ThreeDActivity.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getContext(),"Sorry! Your device doesn't support 3D view",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Sorry! Your device doesn't support 3D view", Toast.LENGTH_SHORT).show();
                 }
             }
         });

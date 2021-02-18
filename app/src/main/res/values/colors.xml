@@ -44,4 +44,7 @@
     <color name="colorStrikeThroughPrice">#C4C4C4</color>
     <!--//account-->
     <color name="colorEditBorderProfile">#3B97D3</color>
+    <!--    product points-->
+    <color name="colorYellowLightPoints">#2FFFEB3B</color>
+    <color name="colorYellowDarkPoints">#FFC107</color>
 </resources>

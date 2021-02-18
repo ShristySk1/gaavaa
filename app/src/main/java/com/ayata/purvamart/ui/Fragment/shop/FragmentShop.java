@@ -272,7 +272,6 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
 
     @Override
     public void onStoryClick(int position, String url) {
-        Toast.makeText(getContext(), "story clicked", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getActivity(), StoryActivity.class));
     }
 }
