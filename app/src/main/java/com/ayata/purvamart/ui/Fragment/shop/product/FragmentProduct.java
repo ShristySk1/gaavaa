@@ -93,7 +93,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         //setData-----
         //viewpager image
         images = new ArrayList<>();
-//        createScene();
         mViewPager = view.findViewById(R.id.viewPager2);
         pageIndicatorView = view.findViewById(R.id.pageIndicatorView);
         // Initializing the ViewPagerAdapter

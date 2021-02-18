@@ -10,12 +10,13 @@ public class Constants {
     public static String OTP = "OTP_TOKEN";
     public static String USER_PHONE_NUMBER = "USER_PHONE_NUMBER";
     //change this for default
-    public static final int PLACEHOLDER= R.drawable.placeholder;
-    public static final int FALLBACKIMAGE =R.drawable.placeholder;
+    //no placeholder in product page
+    public static final int PLACEHOLDER = R.drawable.placeholder;
+    public static final int FALLBACKIMAGE = R.drawable.placeholder;
     public static String API = "AIzaSyBxgzdayzSw2xEtgqNI1FJFxqXaCJ-lTeg";
     //default lat lon
-    public static  Double latitude=27.7172;
-    public static  Double longitude=85.3240;
+    public static Double latitude = 27.7172;
+    public static Double longitude = 85.3240;
 
 
 }

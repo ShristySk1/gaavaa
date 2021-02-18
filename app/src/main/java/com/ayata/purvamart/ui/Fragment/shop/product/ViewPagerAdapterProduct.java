@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ViewPagerAdapterProduct extends RecyclerView.Adapter<ViewPagerAdapterProduct.myViewHolder> {
-    private static final String TAG ="ViewPagerAdapterProduct" ;
+    private static final String TAG = "ViewPagerAdapterProduct";
     List<String> images;
 
 
@@ -34,13 +35,15 @@ public class ViewPagerAdapterProduct extends RecyclerView.Adapter<ViewPagerAdapt
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-            Log.d("ViewPageraapter", "onBindViewHolder: "+position);
-            Glide.with(holder.ivImage).load(images.get(position)).placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.ivImage);
+        Log.d("ViewPageraapter", "onBindViewHolder: " + position);
+        Glide.with(holder.ivImage).load(images.get(position))
+                .transition(DrawableTransitionOptions.withCrossFade()).
+                fallback(Constants.FALLBACKIMAGE).into(holder.ivImage);
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: "+images.size());
+        Log.d(TAG, "getItemCount: " + images.size());
         return images.size();
     }
 

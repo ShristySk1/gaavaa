@@ -53,6 +53,8 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
     TextView text_error;
     ProgressBar progress_error;
 
+    int myCategoryIndex;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,12 +89,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         layoutManager_category.setOrientation(RecyclerView.HORIZONTAL);
         recyclerView_category.setLayoutManager(layoutManager_category);
         recyclerView_category.setAdapter(adapterCategoryTop);
-//        recyclerView_category.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                recyclerView_category.smoothScrollToPosition(adapter.getItemCount() - 1);
-//            }
-//        });
+
 
         //bottom recycler
         listitem = new ArrayList<>();
@@ -198,6 +195,16 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
         for (ModelCategory modelCategory : categoryTopList) {
             if (selectedItem.getName().equals(modelCategory.getName())) {
                 modelCategory.setSelected(true);
+                myCategoryIndex = categoryTopList.indexOf(modelCategory);
+                recyclerView_category.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run:scrollindex "+myCategoryIndex);
+                        recyclerView_category.scrollToPosition(myCategoryIndex);
+                        // Here adapter.getItemCount()== child count
+                    }
+                });
+                adapterCategoryTop.notifyDataSetChanged();
                 ((MainActivity) getActivity()).setToolbarType2(modelCategory.getName(), false, true);
             } else {
                 modelCategory.setSelected(false);
