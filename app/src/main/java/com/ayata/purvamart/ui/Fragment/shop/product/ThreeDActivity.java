@@ -12,8 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.R;
-import com.ayata.purvamart.node.DragTransformableNode;
-import com.google.ar.core.exceptions.CameraNotAvailableException;
+import com.ayata.purvamart.data.node.DragTransformableNode;
 import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.SceneView;
@@ -21,7 +20,6 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.FootprintSelectionVisualizer;
 import com.google.ar.sceneform.ux.TransformationSystem;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ThreeDActivity extends AppCompatActivity {

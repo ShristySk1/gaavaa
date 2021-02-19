@@ -1,7 +1,10 @@
 package com.ayata.purvamart;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayata.purvamart.data.Model.ModelCategory;
 import com.ayata.purvamart.data.network.ApiClient;
@@ -27,8 +31,11 @@ import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.shop.notification.NotificationActivity;
 import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.product.ThreeDFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -67,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setContentView(R.layout.activity_main);
         //for internet checking
         new ApiClient(new WeakReference<>(getApplicationContext()));
-
+//setupnotification
+        setUpNotification();
         toolbar = findViewById(R.id.appbar_main);
         toolbarType1 = toolbar.findViewById(R.id.appbar1);
         //image and badge
@@ -132,6 +140,45 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             changeFragment(0, FragmentShop.TAG, null, new FragmentShop());
         }
+    }
+
+    private void setUpNotification() {
+        //for orea>=
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("myNotification", "i m name", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        //set up topic
+        FirebaseMessaging.getInstance().subscribeToTopic("gaavaa")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<Void> task) {
+                                               String msg = "subscribed";
+                                               if (!task.isSuccessful()) {
+                                                   msg = "failed";
+                                               }
+//                                               Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                           }
+                                       }
+                );
+        //get token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        // Log and toast
+                        String msg = getString(R.string.fcm_token, token);
+                        Log.d(TAG, "Firebasetokenreceived" + token);
+//                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.ayata.purvamart.data.network.ApiClient;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
+import com.ayata.purvamart.ui.Adapter.ViewPagerAdapterProduct;
 import com.ayata.purvamart.ui.login.SignupActivity;
 import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;

@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.shop;
+package com.ayata.purvamart.ui.Adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelCategory;
+import com.ayata.purvamart.data.Model.ModelShop;
 import com.ayata.purvamart.data.Model.Stories;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.network.response.Slider;

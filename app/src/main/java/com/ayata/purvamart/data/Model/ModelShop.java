@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.shop;
+package com.ayata.purvamart.data.Model;
 
 public class ModelShop {
     public static final int TTTLE_TYPE = 0;

@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import android.widget.TextView;
 
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.Model.Stories;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -43,7 +43,9 @@ public class AdapterStories extends RecyclerView.Adapter<AdapterStories.modelVie
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
 
         holder.title.setText(listitem.get(position).getTitle());
-        Glide.with(context).load(listitem.get(position).getImageUrl()).centerCrop().placeholder(Constants.PLACEHOLDER).fallback(Constants.FALLBACKIMAGE).into(holder.image);
+        Glide.with(context).load(listitem.get(position).getImageUrl()).centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .fallback(Constants.FALLBACKIMAGE).into(holder.image);
         Log.d(TAG, "onBindViewHolder: " + listitem.get(position).getImageUrl());
 
     }

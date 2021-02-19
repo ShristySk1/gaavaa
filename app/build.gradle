@@ -100,6 +100,10 @@ dependencies {
     implementation 'com.google.ar.sceneform:assets:1.17.1'
 //    //viewpager cube transformer
 //    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
+    //firebase cloud messaging
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    // Add the SDK for Firebase Cloud Messaging
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
 
 }

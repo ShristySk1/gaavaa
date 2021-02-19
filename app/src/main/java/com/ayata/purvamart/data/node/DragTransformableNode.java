@@ -1,4 +1,4 @@
-package com.ayata.purvamart.node;
+package com.ayata.purvamart.data.node;
 
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.ar.sceneform.ux.TransformationSystem;

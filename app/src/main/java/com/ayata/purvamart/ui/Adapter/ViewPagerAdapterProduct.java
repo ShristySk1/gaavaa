@@ -1,4 +1,4 @@
-package com.ayata.purvamart.ui.Fragment.shop.product;
+package com.ayata.purvamart.ui.Adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;

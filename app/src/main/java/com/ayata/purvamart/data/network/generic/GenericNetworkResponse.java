@@ -1,5 +1,7 @@
 package com.ayata.purvamart.data.network.generic;
 
+import android.util.Log;
+
 import com.ayata.purvamart.data.network.exception.NoConnectivityException;
 
 import java.lang.ref.WeakReference;
@@ -19,7 +21,7 @@ public class GenericNetworkResponse<ResponseType> implements Callback<ResponseTy
 
     @Override
     public void onResponse(Call<ResponseType> call, retrofit2.Response<ResponseType> response) {
-
+        Log.d("generalresponse", "onResponse:received ");
         if (listener != null && listener.get() != null) {
             if (response.isSuccessful() && response != null) {
                 listener.get().onResponseReceived(response.body());

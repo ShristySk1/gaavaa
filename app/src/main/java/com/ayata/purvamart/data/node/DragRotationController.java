@@ -1,4 +1,4 @@
-package com.ayata.purvamart.node;
+package com.ayata.purvamart.data.node;
 
 import android.os.Handler;
 
