@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,9 +34,11 @@ import com.ayata.purvamart.ui.Fragment.shop.category.FragmentCategory;
 import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import com.ayata.purvamart.ui.Fragment.shop.search.SearchActivity;
 import com.ayata.purvamart.ui.Fragment.shop.stories.StoryActivity;
+import com.ayata.purvamart.utils.MyError;
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +70,8 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     //error
     TextView text_error;
     ProgressBar progress_error;
+    ImageView noWifi;
+    ImageView connectionTimeout;
     //pull refresh
     PullRefreshLayout pullRefreshLayout;
     //shimmer
@@ -125,6 +130,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         relativeLayout_main_view.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
 
+
         //setRecyclerview
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView_all.setLayoutManager(manager);
@@ -132,7 +138,7 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         adapterShop = new AdapterShop(getContext(), list_shop, this);
         recyclerView_all.setAdapter(adapterShop);
         //api
-        ((MainActivity)getActivity()).setItemCart();
+        ((MainActivity) getActivity()).setItemCart();
         getAllHomeList();
     }
 
@@ -203,6 +209,8 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         viewGroup.addView(inflatedLayout);
         text_error = view.findViewById(R.id.text_error);
         progress_error = view.findViewById(R.id.progress_error);
+        noWifi = view.findViewById(R.id.ivNoWifi);
+        connectionTimeout = view.findViewById(R.id.ivTimeout);
     }
 
     @Override
@@ -234,12 +242,12 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
         list_category = categories;
         list_madeforyou = productForYous;
         storiesList.clear();
-        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg","Gaava"));
-        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg","Gaava"));
-        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg","Gaava"));
-        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg","Gaava"));
-        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg","Gaava"));
-        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg","Gaava"));
+        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg", "Gaava"));
+        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg", "Gaava"));
+        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg", "Gaava"));
+        storiesList.add(new Stories("https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE.jpg", "Gaava"));
+        storiesList.add(new Stories("https://skinshare.sg/wp-content/uploads/2016/05/hooney.jpg", "Gaava"));
+        storiesList.add(new Stories("https://www.therahnuma.com/wp-content/uploads/2019/07/coffee.jpg", "Gaava"));
         list_shop.add(new ModelShop(ModelShop.STORY_TYPE, storiesList, this));
         list_shop.add(new ModelShop(ModelShop.AD_TYPE, ads, this));
         list_shop.add(new ModelShop(ModelShop.TTTLE_TYPE, "Categories", this));
@@ -260,9 +268,9 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
     public void onError(String message) {
         shimmerFrameLayout.setVisibility(View.GONE);
         if (isAdded()) {
-            inflateLayout();
-            progress_error.setVisibility(View.GONE);
-            text_error.setText(message);
+            MyError myError = new MyError();
+            myError.inflateLayout(view, new WeakReference<>(getContext()));
+            myError.showError(message);
         }
     }
 

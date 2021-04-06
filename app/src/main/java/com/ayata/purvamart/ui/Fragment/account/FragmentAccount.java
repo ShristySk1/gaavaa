@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelAccount;
+import com.ayata.purvamart.data.network.interceptor.NetworkConnectionInterceptor;
 import com.ayata.purvamart.data.permission.PermissionManager;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.ui.Adapter.AdapterAccount;
@@ -33,12 +34,12 @@ import com.ayata.purvamart.ui.Fragment.account.promos.FragmentPromos;
 import com.ayata.purvamart.ui.login.SignupActivity;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -157,6 +158,10 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                 break;
 
             case R.id.acc_btn_logout:
+                if (!(new NetworkConnectionInterceptor(new WeakReference<>(getContext())).isConnected())) {
+                    Toast.makeText(getContext(), "Please check your internet connection to continue", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Toast.makeText(getContext(), "User logged out", Toast.LENGTH_SHORT).show();
                 PreferenceHandler.logout(getContext());
                 break;
@@ -223,6 +228,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                     public void onNeedPermission() {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_MEDIA_READ_PERMISSION);
                     }
+
                     @Override
                     public void onPermissionPreviouslyDenied() {
                         new AlertDialog.Builder(getContext()).setTitle("Permission Denied").setMessage("Without this permission this app is unable to read photos. Are you sure you want to deny this permission.")
@@ -236,7 +242,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                                 .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_MEDIA_READ_PERMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_MEDIA_READ_PERMISSION);
                                         dialog.dismiss();
                                     }
                                 }).show();
@@ -256,7 +262,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "onRequestPermissionsResult: "+requestCode);
+        Log.d(TAG, "onRequestPermissionsResult: " + requestCode);
         switch (requestCode) {
             case REQUEST_MEDIA_READ_PERMISSION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

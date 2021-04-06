@@ -17,6 +17,9 @@ public class Constants {
     //default lat lon
     public static Double latitude = 27.7172;
     public static Double longitude = 85.3240;
+    //no internet connection
+    public static String NO_INTERNET_CONNECTION = "No Internet Connection";
+    public static String CONNECTION_TIMEOUT = "Connection Timeout";
 
 
 }

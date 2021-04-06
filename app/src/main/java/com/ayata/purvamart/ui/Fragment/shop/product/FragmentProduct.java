@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.rd.PageIndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
@@ -169,25 +171,48 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         apiService.addToCart(modelItem.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                String message = response.body().get("message").getAsString();
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body().get("message"));
                     if (response.body().get("code").getAsString().equals("200")) {
-
-                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
+                        showToast(message, true);
+//                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
-
+                        showToast(message, false);
+//                        Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
+                    showToast(message, false);
+//                    Toast.makeText(getContext(), response.body().get("message").getAsString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d(TAG, "onResponse: " + t.getMessage());
+                showToast(t.getMessage(), false);
             }
         });
+    }
+
+    private void showToast(String message, Boolean isSuccess) {
+        Toast toast = new Toast(getContext());
+        View view = LayoutInflater.from(getContext())
+                .inflate(R.layout.custom_toast, null);
+        TextView tvMessage = view.findViewById(R.id.tvMessage);
+        ImageView ivImage = view.findViewById(R.id.ivImage);
+        CardView cardView = view.findViewById(R.id.cardBackground);
+        tvMessage.setText(message);
+        if (isSuccess) {
+            cardView.setCardBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
+            ivImage.setImageResource(R.drawable.ic_success);
+        } else {
+            cardView.setCardBackgroundColor(getContext().getResources().getColor(R.color.colorPriceTag));
+            ivImage.setImageResource(R.drawable.ic_info);
+        }
+        toast.setView(view);
+        toast.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 0);
+        toast.show();
     }
 
     private void showDiscount() {

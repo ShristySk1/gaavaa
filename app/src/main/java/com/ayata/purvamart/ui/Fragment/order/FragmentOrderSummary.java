@@ -1,5 +1,6 @@
 package com.ayata.purvamart.ui.Fragment.order;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +24,14 @@ import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.data.repository.Repository;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderSummary;
+import com.ayata.purvamart.utils.MyError;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +57,7 @@ public class FragmentOrderSummary extends Fragment {
     String addressId;
     String paymentGateway;
     //error
-    TextView text_error;
-    ProgressBar progress_error;
+    MyError myError;
     //view to make gone until api gets data
     NestedScrollView scrollView;
 
@@ -68,7 +69,6 @@ public class FragmentOrderSummary extends Fragment {
         initAppbar();
         scrollView = view.findViewById(R.id.scrollview);
         scrollView.setVisibility(View.GONE);
-        inflateLayout(view);
         initView(view);
         initRecycler(view);
         return view;
@@ -166,7 +166,7 @@ public class FragmentOrderSummary extends Fragment {
 
                 @Override
                 public void onResponseReceived(BaseResponse<List<OrderSummaryDetail>> response) {
-                    progress_error.setVisibility(View.GONE);
+                    myError.hideProgress();
                     scrollView.setVisibility(View.VISIBLE);
                     if (response.getCode().toString().equals("200")) {
                         OrderSummaryDetail orderSummaryDetail = (OrderSummaryDetail) response.getDetails().get(0);
@@ -181,13 +181,14 @@ public class FragmentOrderSummary extends Fragment {
 
                 @Override
                 public void onLoading() {
-                    progress_error.setVisibility(View.VISIBLE);
+                    myError = new MyError();
+                    myError.inflateLayout(view, new WeakReference<Context>(getContext()));
+                    myError.showProgress();
                 }
 
                 @Override
                 public void onError(String message) {
-                    progress_error.setVisibility(View.GONE);
-                    text_error.setText(message);
+                    myError.showError(message);
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                 }
             }, ApiClient.getApiService()).requestMyOrderSummary(orderId, addressId, paymentGateway);
@@ -212,14 +213,5 @@ public class FragmentOrderSummary extends Fragment {
         }
     }
 
-    //inflate pullRefreshLayout for error and progressbar
-    void inflateLayout(View view) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
-        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
-        ViewGroup viewGroup = view.findViewById(R.id.root_main);
-        viewGroup.addView(inflatedLayout);
-        text_error = view.findViewById(R.id.text_error);
-        progress_error = view.findViewById(R.id.progress_error);
-    }
+
 }

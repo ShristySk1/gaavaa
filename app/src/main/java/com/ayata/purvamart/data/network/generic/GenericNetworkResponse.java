@@ -2,6 +2,7 @@ package com.ayata.purvamart.data.network.generic;
 
 import android.util.Log;
 
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.exception.NoConnectivityException;
 
 import java.lang.ref.WeakReference;
@@ -39,10 +40,12 @@ public class GenericNetworkResponse<ResponseType> implements Callback<ResponseTy
     @Override
     public void onFailure(@NonNull Call<ResponseType> call, @NonNull Throwable t) {
         if (t instanceof NoConnectivityException) {
-            listener.get().onError("No Internet Connection");
+            listener.get().onError(Constants.NO_INTERNET_CONNECTION);
         } else {
             if (listener != null && listener.get() != null) {
-                listener.get().onError(t.getMessage());
+//                listener.get().onError(t.getMessage());
+                listener.get().onError(Constants.CONNECTION_TIMEOUT);
+
             }
         }
     }

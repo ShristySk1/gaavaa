@@ -203,7 +203,6 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
                     Log.d(TAG, "onResponse: " + productDetail.getProductImage());
                     Log.d(TAG, "onResponse: " + productDetail.getTitle());
                 }
-
                 searchAdapter.setProductDetailList(SearchActivity.this, listitem);
                 searchAdapter.notifyDataSetChanged();
             }
@@ -215,8 +214,6 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.s
 
             @Override
             public void onError(String message) {
-//                progress_error.setVisibility(View.GONE);
-//                text_error.setText(t.getMessage());
                 Log.d(TAG, "onResponse:failed " + message);
             }
         }, ApiClient.getApiService()).requestAllProducts();

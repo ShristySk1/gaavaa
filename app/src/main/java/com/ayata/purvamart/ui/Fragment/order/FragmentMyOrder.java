@@ -1,13 +1,12 @@
 package com.ayata.purvamart.ui.Fragment.order;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayata.purvamart.MainActivity;
@@ -23,6 +22,7 @@ import com.ayata.purvamart.ui.Adapter.AdapterOrder;
 import com.ayata.purvamart.ui.Adapter.AdapterOrderDetails;
 import com.ayata.purvamart.ui.Adapter.ViewPagerMyOrderAdapter;
 import com.ayata.purvamart.ui.login.SignupActivity;
+import com.ayata.purvamart.utils.MyError;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public static String TAG = "FragmentMyOrder";
     public static final String empty_title = "EMPTY_TITLE";
     //error
-    TextView text_error;
-    ProgressBar progress_error;
+    MyError myError;
+    View view;
     //call
     Call<JsonObject> mCall;
     //for click listener
@@ -61,8 +62,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the pullRefreshLayout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_order, container, false);
-        inflateLayout(view);
+        view = inflater.inflate(R.layout.fragment_my_order, container, false);
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("My Order");
@@ -111,7 +111,7 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
 
     @Override
     public void onResponseReceived(JsonObject jsonObject) {
-        progress_error.setVisibility(View.GONE);
+        myError.hideProgress();
         if (jsonObject.get("code").toString().equals("200")) {
             if (jsonObject.get("message").getAsString().equals("empty cart")) {
                 //set empty view for all
@@ -167,29 +167,20 @@ public class FragmentMyOrder extends Fragment implements NetworkResponseListener
 
     @Override
     public void onLoading() {
-        progress_error.setVisibility(View.VISIBLE);
+        myError = new MyError();
+        myError.inflateLayout(view, new WeakReference<Context>(getContext()));
+        myError.showProgress();
     }
 
     @Override
     public void onError(String message) {
-        progress_error.setVisibility(View.GONE);
-        text_error.setText(message);
+        myError.showError(message);
         viewPagerMyOrderAdapter.setEmptyCompletedOrder(false);
         viewPagerMyOrderAdapter.setEmptyOnProgressOrder(false);
         viewPagerMyOrderAdapter.setEmptyCancelledOrder(false);
         viewPagerMyOrderAdapter.notifyDataSetChanged();
     }
 
-    //inflate pullRefreshLayout for error and progressbar
-    void inflateLayout(View view) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        //Avoid pass null in the root it ignores spaces in the child pullRefreshLayout
-        View inflatedLayout = inflater.inflate(R.layout.error_layout, (ViewGroup) view, false);
-        ViewGroup viewGroup = view.findViewById(R.id.root_main);
-        viewGroup.addView(inflatedLayout);
-        text_error = view.findViewById(R.id.text_error);
-        progress_error = view.findViewById(R.id.progress_error);
-    }
 
     /**
      * Go to order tracking Fragment when clicked on OnProgress order Tab

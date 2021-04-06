@@ -19,17 +19,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingVertical="@dimen/margin_16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_16dp">
 
 
         <TextView
             android:id="@+id/title_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
             android:layout_marginTop="8dp"
+            android:paddingHorizontal="24dp"
             android:text="Cancel Order!"
+            android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -41,28 +42,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="24dp"
-            android:text="Are you sure you want to cancel your order?" />
+            android:text="Are you sure you want to cancel your order?"
+            android:textAlignment="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cancel Order"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_top_border_gray"
+                android:text="Cancel Order"
                 android:textColor="@color/colorTextErrorRed" />
+
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="wrap_content"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/background_top_border_gray"
                 android:text="Keep Order" />
         </LinearLayout>
 
