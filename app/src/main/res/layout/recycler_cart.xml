@@ -88,7 +88,7 @@
                 android:id="@+id/imageButton_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:background="@drawable/background_cart_button_click"
                 app:srcCompat="@drawable/ic_minus" />
 
 
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/background_cart_button_click"
                 app:srcCompat="@drawable/ic_plus" />
 
 

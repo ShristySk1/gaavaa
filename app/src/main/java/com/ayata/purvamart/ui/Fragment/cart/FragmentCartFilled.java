@@ -31,6 +31,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartItemClickListener, NetworkResponseListener<JsonObject> {
     public static String TAG = "FragmentCartFilled";
@@ -120,6 +121,8 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         recyclerView.setLayoutManager(manager);
         adapterCart = new AdapterCart(getContext(), modelItemList, this);
         recyclerView.setAdapter(adapterCart);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
     }
 
     private void initView(View v) {
