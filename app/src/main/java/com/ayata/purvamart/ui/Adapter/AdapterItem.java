@@ -10,14 +10,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.Constants.Constants;
 import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -82,12 +84,13 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         OnItemClickListener onItemClickListener;
         ImageView image;
         TextView name, price, prev_price, discount, quantity;
+        CardView cardView;
 
 
         public modelViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             this.onItemClickListener = onItemClickListener;
-
+            cardView = itemView.findViewById(R.id.cardView);
             name = itemView.findViewById(R.id.text_name);
             price = itemView.findViewById(R.id.text_price);
             prev_price = itemView.findViewById(R.id.text_price_previous);
@@ -105,7 +108,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            onItemClickListener.onItemClick(listitem.get(getAdapterPosition()));
+            onItemClickListener.onItemClick(listitem.get(getAdapterPosition()), cardView);
         }
     }
 
@@ -118,11 +121,13 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
+
     private class EmptyViewHolder extends RecyclerView.ViewHolder {
         public EmptyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
+
     private void showLoadingView(LoadingViewHolder viewHolder, int position) {
         //ProgressBar would be displayed
 
@@ -148,12 +153,13 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.discount.setVisibility(View.GONE);
             holder.prev_price.setVisibility(View.GONE);
         }
-
+        //shared element
+        ViewCompat.setTransitionName(holder.cardView, listitem.get(position).getId().toString());
 
     }
 
     public interface OnItemClickListener {
-        void onItemClick(ProductDetail productDetail);
+        void onItemClick(ProductDetail productDetail, View image);
     }
 
 }

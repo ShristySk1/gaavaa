@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,7 +84,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
                             String orderId = response.getAsJsonObject("details").get("order_id").getAsString();
                             Log.d(TAG, "myOrderIdis: " + orderId);
                             PreferenceHandler.setOrderId(getContext(), orderId);
-                            ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, null,new FragmentDeliveryAddress());
+                            ((MainActivity) getActivity()).changeFragment(18, FragmentDeliveryAddress.TAG, null, new FragmentDeliveryAddress());
                         } else {
                             Toast.makeText(getContext(), response.get("message").getAsString(), Toast.LENGTH_LONG).show();
                         }
@@ -120,7 +122,14 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         adapterCart = new AdapterCart(getContext(), modelItemList, this);
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_left_to_right);
+        Log.d(TAG, "setUpRecyclerView: ");
+        recyclerView.setLayoutAnimation(controller);
+//        recyclerView.getAdapter().notifyDataSetChanged();
         recyclerView.setAdapter(adapterCart);
+        recyclerView.scheduleLayoutAnimation();
+        //dont flicker when changed
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
     }
@@ -226,7 +235,7 @@ public class FragmentCartFilled extends Fragment implements AdapterCart.OnCartIt
     }
 
     private void changeFragment(Fragment fragment) {
-        ((MainActivity) getActivity()).changeFragment(5, FragmentCart.TAG, null,new FragmentCart());
+        ((MainActivity) getActivity()).changeFragment(5, FragmentCart.TAG, null, new FragmentCart());
     }
 
     @Override

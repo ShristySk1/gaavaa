@@ -26,6 +26,7 @@ import com.ayata.purvamart.ui.Fragment.shop.product.FragmentProduct;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -119,7 +120,6 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                 }
                 populateData(toolbar_title);
                 adapterItem.notifyDataSetChanged();
-
             }
 
             @Override
@@ -170,12 +170,13 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
 
     //when clicked on products of that category
     @Override
-    public void onItemClick(ProductDetail productDetail) {
+    public void onItemClick(ProductDetail productDetail, View transitionView) {
 //        Toast.makeText(getContext(), "Item---" + filterlist.get(position).getName(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
+        bundle.putString(FragmentProduct.MODEL_TRANSITION_NAME, ViewCompat.getTransitionName(transitionView));
         Log.d(TAG, "onItemClick: " + productDetail.getProductImage());
-        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle, new FragmentProduct());
+        ((MainActivity) getActivity()).changeFragmentFromCatToProduct(FragmentProduct.TAG, bundle, new FragmentProduct(), transitionView);
     }
 
 
@@ -199,7 +200,7 @@ public class FragmentCategory extends Fragment implements AdapterItem.OnItemClic
                 recyclerView_category.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG, "run:scrollindex "+myCategoryIndex);
+                        Log.d(TAG, "run:scrollindex " + myCategoryIndex);
                         recyclerView_category.scrollToPosition(myCategoryIndex);
                         // Here adapter.getItemCount()== child count
                     }

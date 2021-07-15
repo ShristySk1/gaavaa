@@ -32,6 +32,7 @@ import com.ayata.purvamart.ui.Fragment.account.privacypolicy.FragmentPrivacyPoli
 import com.ayata.purvamart.ui.Fragment.account.profile.FragmentEditProfile;
 import com.ayata.purvamart.ui.Fragment.account.promos.FragmentPromos;
 import com.ayata.purvamart.ui.login.SignupActivity;
+import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -76,6 +77,7 @@ public class FragmentAccount extends Fragment implements View.OnClickListener, A
                              Bundle savedInstanceState) {
         // Inflate the pullRefreshLayout for this fragment
         view = inflater.inflate(R.layout.fragment_account, container, false);
+        setEnterTransition(new MaterialFadeThrough());
         //toolbar
         ((MainActivity) getActivity()).showToolbar();
         ((MainActivity) getActivity()).setToolbarType3("Account");

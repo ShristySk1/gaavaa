@@ -46,6 +46,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -338,6 +339,21 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             super.onBackPressed();
             isFromSearchView = false;
         } else {
+//            FragmentManager fm = getSupportFragmentManager();
+//            for (Fragment frag : fm.getFragments()) {
+//                if (frag.isVisible()) {
+//                    FragmentManager childFm = frag.getChildFragmentManager();
+//                    if (childFm.getBackStackEntryCount() > 0) {
+//                        for (Fragment childfragnested: childFm.getFragments()) {
+//                            FragmentManager childFmNestManager = childfragnested.getFragmentManager();
+//                            if(childfragnested.isVisible()) {
+//                                childFmNestManager.popBackStack();
+//                                return;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
             super.onBackPressed();
         }
     }
@@ -382,6 +398,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
                     .replace(R.id.main_fragment, fragment).addToBackStack(tag).commit();
         }
+    }
+    public void changeFragmentFromCatToProduct(String tag, Bundle bundle, Fragment fragment,View image){
+        if (bundle != null) {
+            fragment.setArguments(bundle);
+        }
+        getSupportFragmentManager().beginTransaction()
+//                .addSharedElement(name, ViewCompat.getTransitionName(name))
+                .addSharedElement(image, ViewCompat.getTransitionName(image))
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                .replace(R.id.main_fragment, fragment).addToBackStack(tag).commit();
+
     }
 
     public void changeFragmentThankyou(int fragmentIndex) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.ayata.purvamart.data.network.response.ProductDetail;
 import com.ayata.purvamart.data.preference.PreferenceHandler;
 import com.ayata.purvamart.ui.Adapter.ViewPagerAdapterProduct;
 import com.ayata.purvamart.ui.login.SignupActivity;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.transition.MaterialContainerTransform;
 import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;
 
@@ -29,7 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.viewpager2.widget.ViewPager2;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +46,7 @@ import retrofit2.Response;
 public class FragmentProduct extends Fragment implements View.OnClickListener {
     public static String TAG = "FragmentProduct";
     public static final String MODEL_ITEM = "param1";
+    public static final String MODEL_TRANSITION_NAME = "transition_view";
     private ProductDetail modelItem;
     //viewpager
     ViewPager2 mViewPager;
@@ -50,12 +56,20 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
     List<String> images;
     // Creating Object of ViewPagerAdapter
     ViewPagerAdapterProduct mViewPagerAdapter;
+    String transition_image;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             modelItem = (ProductDetail) getArguments().getSerializable(MODEL_ITEM);
+            transition_image = getArguments().getString(MODEL_TRANSITION_NAME);
+
+        }
+        //        postponeEnterTransition();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedElementEnterTransition(buildContainerTransform());
+            setSharedElementReturnTransition(buildContainerTransform());
         }
     }
 
@@ -81,7 +95,19 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private MaterialContainerTransform buildContainerTransform() {
+        MaterialContainerTransform materialContainerTransform = new MaterialContainerTransform();
+        materialContainerTransform.setInterpolator(new FastOutSlowInInterpolator());
+//        materialContainerTransform.setContainerColor(getResources().getColor(R.color.colorPriceTag));
+        materialContainerTransform.setDuration(300);
+        materialContainerTransform.setFadeMode(MaterialContainerTransform.FADE_MODE_OUT);
+        return materialContainerTransform;
+
+    }
+
     private void initView(View view) {
+        ConstraintLayout constraintLayout;
+        constraintLayout = view.findViewById(R.id.constraintLayout);
         btnAddToCart = view.findViewById(R.id.btn_add_to_cart);
         text_product_from = view.findViewById(R.id.text_product_from);
         iv360 = view.findViewById(R.id.iv360);
@@ -94,6 +120,9 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         textWeight = view.findViewById(R.id.text_product_weight);
         btnAddToCart.setOnClickListener(this);
         //setData-----
+        //transition_image
+        constraintLayout.setTransitionName(transition_image);
+
         //viewpager image
         images = new ArrayList<>();
         mViewPager = view.findViewById(R.id.viewPager2);
@@ -117,7 +146,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         tvStock.setText(modelItem.getStock());
         textProductNewPrice.setText(modelItem.getProductPrice().toString());
         textWeight.setText(modelItem.getUnit());
-        textProductDescription.setText(modelItem.getDescription());
+        textProductDescription.setText(Html.fromHtml(modelItem.getDescription()));
         thumb_text.setText(modelItem.getProductLikes().toString());
         text_product_from.setText(modelItem.getFrom());
         Log.d(TAG, "initView: " + modelItem.getFrom());
@@ -126,15 +155,17 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
         iv360.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    Intent intent = new Intent(getContext(), ThreeDActivity.class);
-//                    startActivity(intent);
-                    ((MainActivity) getActivity()).changeFragment3d();
-                } else {
-                    Toast.makeText(getContext(), "Sorry! Your device doesn't support 3D view", Toast.LENGTH_SHORT).show();
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+////                    Intent intent = new Intent(getContext(), ThreeDActivity.class);
+////                    startActivity(intent);
+//                    ((MainActivity) getActivity()).changeFragment3d();
+//                } else {
+//                    Toast.makeText(getContext(), "Sorry! Your device doesn't support 3D view", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
+
+
     }
 
     private void handleDiscount() {
@@ -211,7 +242,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener {
             ivImage.setImageResource(R.drawable.ic_info);
         }
         toast.setView(view);
-        toast.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 0);
+        toast.setGravity(Gravity.BOTTOM, 0, 150);
         toast.show();
     }
 

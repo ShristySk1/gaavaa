@@ -6,12 +6,17 @@ import android.util.Log;
 
 import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
+import com.ayata.purvamart.data.repository.NotificationRepository;
+import com.ayata.purvamart.ui.Fragment.shop.notification.ModelNotification;
 import com.ayata.purvamart.ui.Fragment.shop.notification.NotificationActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -39,12 +44,30 @@ public class MyNotificationService extends FirebaseMessagingService {
             String title = remoteMessage.getNotification().getTitle();
             String message = remoteMessage.getNotification().getBody();
             String click_action = remoteMessage.getNotification().getClickAction(); //get click_action
-
             Log.d(TAG, "Message Notification Title: " + title);
             Log.d(TAG, "Message Notification Body: " + message);
             Log.d(TAG, "Message Notification click_action: " + click_action);
+            insertNotificationToDatabase(title, message);
             showNotification(title, message, "NotificationActivity");
 
+        }
+    }
+
+    private void insertNotificationToDatabase(String title, String message) {
+        try {
+            Date mDate = new Date();
+            SimpleDateFormat formatterFullDate = new SimpleDateFormat("yyyy-MM-dd");
+            String date = formatterFullDate.format(mDate);
+            Log.e("Date ", date);
+            String mTime = null;
+            SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm a");
+            mTime = formatterTime.format(mDate);
+            Log.e("Time ", mTime);
+            new NotificationRepository(getApplicationContext()).insertNotification(new ModelNotification(R.drawable.button_green, title,
+                    message,
+                    date));
+        } catch (Exception e) {
+            Log.d(TAG, "exception" + e.getMessage());
         }
     }
 

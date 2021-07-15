@@ -5,7 +5,6 @@ import com.ayata.purvamart.data.Model.ModelRegister;
 import com.ayata.purvamart.data.network.ApiService;
 import com.ayata.purvamart.data.network.generic.GenericNetworkResponse;
 import com.ayata.purvamart.data.network.generic.NetworkResponseListener;
-import com.ayata.purvamart.data.network.response.RegisterDetail;
 
 public class Repository {
     private NetworkResponseListener listener;
@@ -71,4 +70,5 @@ public class Repository {
     public void requestAddAdress(ModelAddress modelAddress) {
         apiService.addAddress(modelAddress).enqueue(new GenericNetworkResponse<>(listener));
     }
+
 }

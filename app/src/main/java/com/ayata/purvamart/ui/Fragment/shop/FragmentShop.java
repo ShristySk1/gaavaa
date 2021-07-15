@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -156,10 +157,11 @@ public class FragmentShop extends Fragment implements AdapterCategory.OnCategory
      * @param productDetail
      */
     @Override
-    public void onItemClick(ProductDetail productDetail) {
+    public void onItemClick(ProductDetail productDetail, View transtionView) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentProduct.MODEL_ITEM, productDetail);
-        ((MainActivity) getActivity()).changeFragment(8, FragmentProduct.TAG, bundle, new FragmentProduct());
+        bundle.putString(FragmentProduct.MODEL_TRANSITION_NAME, ViewCompat.getTransitionName(transtionView));
+        ((MainActivity) getActivity()).changeFragmentFromCatToProduct(FragmentProduct.TAG, bundle, new FragmentProduct(), transtionView);
 
     }
 

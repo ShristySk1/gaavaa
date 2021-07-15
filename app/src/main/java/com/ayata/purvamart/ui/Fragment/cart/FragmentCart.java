@@ -104,7 +104,7 @@ public class FragmentCart extends Fragment implements NetworkResponseListener<Js
     }
 
     private void changeFragment(Fragment fragment, String tag) {
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_cart, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_cart, fragment).commit();
     }
 
     @Override

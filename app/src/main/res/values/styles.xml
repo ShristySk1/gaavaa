@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+
     </style>
 
     <style name="NavBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -52,6 +54,8 @@
 <!--    font for all numbers-->
     <style name="MyNumberFontFamily">
         <item name="fontFamily">@font/montserrat</item>
+<!--        <item name="fontFamily">@font/lato_regular</item>-->
+
     </style>
 
 <!--    not used yet-->

@@ -9,6 +9,7 @@ import com.ayata.purvamart.MainActivity;
 import com.ayata.purvamart.R;
 import com.ayata.purvamart.data.Model.ModelOrderList;
 import com.ayata.purvamart.ui.Adapter.AdapterOrder;
+import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
 
     /**
      * order clicked
+     *
      * @param position
      * @param modelOrderList
      */
@@ -89,7 +91,7 @@ public class FragmentListOrder extends Fragment implements AdapterOrder.OnItemCl
 //        Toast.makeText(getContext(), "List Clicked Item--"+position, Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable(order_item, modelOrderList);
-        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle,new FragmentTrackOrder());
+        ((MainActivity) getActivity()).changeFragment(10, FragmentTrackOrder.TAG, bundle, new FragmentTrackOrder());
 
     }
 }
